@@ -1,0 +1,91 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+   {{>style}}       
+</head> 
+
+<body> 
+  <div style="margin:100px;">
+    {{>header}}
+   <div class="jumbotron"  style="padding:40px;">  
+    
+    <div class="container" > 
+        <div class="row"> 
+        
+            <form action="/sign_up" method="post"> 
+                      
+            <h1> {{title}} </h1> 
+                              
+            <input class="box" type="text" name="first_name" id="first_name" 
+            placeholder="First Name"  required /><br> 
+
+            <input class="box" type="text" name="last_name" id="last_name" 
+            placeholder="Last Name"  required /><br> 
+
+            <input class="box" type="date" name="birthdate" id="birthdate" 
+            placeholder="Day/Month/Year"  required /><br> 
+                              
+            <input class="box" type="email" name="email" id="email" 
+            placeholder="E-Mail " required /><br> 
+                              
+            <input class="box" type="password" name="password" 
+            id="password" placeholder="Password" required/><br> 
+
+            <input class="box" type="number" name="weight" 
+            placeholder="Competition Weight" required/><br> 
+
+            <input class="box" type="text" name="school" 
+            placeholder="Your School Name" required/><br> 
+
+
+            <p>Select Your Gender:</p>
+            <select name="gender">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+            
+
+                              
+            <h2>NoGi Experience</h2>
+            <p>Select one from the dropdown list
+                (Count the time spent in any grappling sport):</p>
+            <select name="nogi">
+                    <option value="1200">Under 1 Year</option>
+                    <option value="1425">Between 1-2 Years</option>
+                    <option value="1650">Between 2-3 Years</option>
+                    <option value="1875">Between 3-5 Years</option>
+                    <option value="2100">Over 5 years</option>
+                    <option value=null>I will not compete in NoGi</option>
+                  </select>
+
+
+            <h2>Gi Experience</h2>
+            <p>Select one from the dropdown list:</p>
+            <select name="gi">
+                    <option value="1200">White</option>
+                    <option value="1425">Blue</option>
+                    <option value="1650">Purple</option>
+                    <option value="1875">Brown</option>
+                    <option value="2100">Black</option>
+                    <option value=null>I will not compete in Gi</option>
+                </select>
+                        <br> <br>
+
+
+            <input type="submit" id="submitDetails"  
+            name="submitDetails" value="Submit" /><br> 
+                      
+            </form> 
+                      
+       
+                  
+                  
+        <div class="col-md-3"> 
+        </div> 
+                  
+     </div> 
+    </div> 
+    </div> 
+  </div>
+</body> 
+</html>     
