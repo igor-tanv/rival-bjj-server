@@ -32,6 +32,15 @@ router.get('/challenge', async (req, res) => {
 
 })
 
+router.get('/rankings', async (req, res) => {
+    Player.find(function(err, rank) {
+        //sorts by nogiRank from high to low
+        rank.sort((a,b) => b.nogi - a.nogi)
+        res.render('rankings', { rankings: rank });
+    });
+
+})
+
 
 router.get('/register', async (req, res) => {
 

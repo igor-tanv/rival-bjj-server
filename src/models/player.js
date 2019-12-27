@@ -53,6 +53,21 @@ const playerSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    gender: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    nogi: {
+        type: Number,
+        required: true,
+        trim: true
+    },
+    gi: {
+        type: Number,
+        required: true,
+        trim: true
+    },
     tokens: [{
         token: {
             type: String,
