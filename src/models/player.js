@@ -5,17 +5,17 @@ const jwt = require('jsonwebtoken')
 const Contract = require('./contract')
 
 const playerSchema = new mongoose.Schema({
-    first_name: {
+    firstName: {
         type: String,
         required: true,
         trim: true
     },
-    last_name: {
+    lastName: {
         type: String,
         required: true,
         trim: true
     },
-    birthdate: {
+    birthDate: {
         type: String,
         required: true,
         trim: true
@@ -68,6 +68,10 @@ const playerSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    rating: {
+        type: Number,
+        default: 0
+    },
     tokens: [{
         token: {
             type: String,
@@ -112,7 +116,7 @@ playerSchema.statics.findByCredentials = async (email, password) => {
     const player = await Player.findOne({ email })
 
     if (!player) {
-        throw new Error('Unable to login')
+        throw new Error('Unable to find player')
     }
 
     const isMatch = await bcrypt.compare(password, player.password)

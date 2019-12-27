@@ -62,7 +62,7 @@ router.post('/sign_up', async (req, res) => {
         //sendWelcomeEmail(player.email, player.name)
         const token = await player.generateAuthToken()
         //res.status(201).send({ player, token })
-        res.render('signup_success', {
+        res.render('signupSuccess', {
             title: 'Welcome Aboard'
         })
     } catch (e) {
@@ -75,14 +75,22 @@ router.get('/login', async (req, res) => {
     res.render('login', {
         title: 'Login to Your Profile'
     })
-
 })
 
 router.post('/auth', async (req, res) => {
+    
     try {
         const player = await Player.findByCredentials(req.body.email, req.body.password)
         const token = await player.generateAuthToken()
-        res.send({ player, token })
+        //res.send({ player, token }) 
+        res.render('playerProfile', {
+            first: player.firstName,
+            last: player.lastName,
+            school: player.school,
+            gi: player.gi,
+            nogi: player.nogi,
+            weight: player.weight
+        })
     } catch (e) {
         res.status(400).send()
     }
@@ -100,6 +108,7 @@ router.post('/players/logout', auth, async (req, res) => {
         res.status(500).send()
     }
 })
+
 
 router.post('/players/logoutAll', auth, async (req, res) => {
     try {
