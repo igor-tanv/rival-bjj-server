@@ -9,7 +9,26 @@
       <h1>{{title}}</h1>
       <p>Challenge anyone to a grappling match in your area</p>
       <p><a class="btn btn-primary btn-lg" href="/about" role="button">Learn more</a></p>
+
+      <br>
+      
     </div>
+
+     <h3>Showing Top Ranked [Gi/NoGi] Opponents for Ho Chi Minh City</h3>
+    
+     {{# each rankings }}
+    <div class="jumbotron"  style="padding:20px;">
+      
+      <h3>Name: {{ this.firstName }} {{this.lastName}}</h3>
+      <h3>Weight: {{ this.weight }} </h3>
+      <h3>NoGi Rank: {{ this.nogi }} </h3>
+      <h3>Gi Rank: {{ this.gi }} </h3>
+      <p><a class="btn btn-primary btn-lg" href="/players/{{this._id}}" role="button">View Profile</a></p>
+      
+    <br>
+    </div>
+    {{/each}}
+  </div>
   </div>
 </body>
 </html>
