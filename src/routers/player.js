@@ -92,7 +92,7 @@ router.post('/auth', async (req, res) => {
             weight: player.weight
         })
     } catch (e) {
-        res.status(400).send()
+        res.redirect('/login')
     }
 })
 
