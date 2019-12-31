@@ -27,8 +27,8 @@ router.get('/about', async (req, res) => {
     })
 })
 
-router.get('/challenge', async (req, res) => {
-
+router.get('/challenge/:opponentId', async (req, res) => {
+    console.log(req.params.opponentId)
     res.render('challenge', {
         title: 'The Match Contract'
     })
@@ -74,6 +74,16 @@ router.get('/login', async (req, res) => {
         title: 'Login to Your Profile'
     })
 })
+
+// Login
+// router.post('/login', (req, res, next) => {
+//     passport.authenticate('local', {
+//       successRedirect: '/main',
+//       failureRedirect: '/login',
+//       failureFlash: true
+//     })(req, res, next);
+//   });
+
 
 router.post('/players/me', async (req, res) => {
     
