@@ -85,7 +85,7 @@ router.get('/login', async (req, res) => {
 //   });
 
 
-router.post('/players/me', async (req, res) => {
+router.post('/login', async (req, res) => {
     
     try {
         const player = await Player.findByCredentials(req.body.email, req.body.password)
