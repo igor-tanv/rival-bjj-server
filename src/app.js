@@ -1,7 +1,7 @@
 const express = require('express')
 require('./db/mongoose')
-const userRouter = require('./routers/player')
-const taskRouter = require('./routers/contract')
+const playerRouter = require('./routers/player')
+const contractRouter = require('./routers/contract')
 const bodyParser = require('body-parser');
 const hbs = require('hbs')
 const path = require('path')
@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
     extended: true
   }));
 app.use(express.json())
-app.use(userRouter)
-app.use(taskRouter)
+app.use(playerRouter)
+app.use(contractRouter)
 
 module.exports = app
