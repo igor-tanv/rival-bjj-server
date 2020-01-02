@@ -26,7 +26,7 @@ router.get('/about', async (req, res) => {
 })
 
 router.get('/register', async (req, res) => {
-    res.render('register.hbs', {
+    res.render('register.ejs', {
         title: 'Register Your BJJ Profile',
     })
 })
