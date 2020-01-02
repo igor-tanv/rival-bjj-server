@@ -103,3 +103,24 @@ router.get('/players/:id/avatar', async (req, res) => {
         res.status(404).send()
     }
 })
+
+
+router.post('/login',  async (req, res) => {
+    
+    try {
+        const player = await Player.findByCredentials(req.body.email, req.body.password)
+        const token = await player.generateAuthToken()
+        //res.send({ player, token }) 
+        res.render('playerProfile', {
+            id: player._id,
+            first: player.firstName,
+            last: player.lastName,
+            school: player.school,
+            gi: player.gi,
+            nogi: player.nogi,
+            weight: player.weight
+        })
+    } catch (e) {
+        res.redirect('/login')
+    }
+})

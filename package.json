@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "env-cmd -f ./config/dev.env nodemon src/index.js",
-    "test": "env-cmd -f ./config/test.env jest --watch --runInBand"
+    "test": "env-cmd -f ./config/test.env jest --watch --runInBand",
+    "lint:ejs": "ejslint src/templates/views/login"
   },
   "jest": {
     "testEnvironment": "node"
@@ -17,7 +18,9 @@
     "@sendgrid/mail": "^6.4.0",
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
+    "ejs": "^3.0.1",
     "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.0",
     "hbs": "^4.0.6",
     "jsonwebtoken": "^8.5.1",
@@ -30,6 +33,7 @@
     "validator": "^12.1.0"
   },
   "devDependencies": {
+    "ejs-lint": "^0.3.0",
     "env-cmd": "^10.0.1",
     "jest": "^24.9.0",
     "nodemon": "^2.0.2",
