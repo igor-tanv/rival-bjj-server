@@ -72,12 +72,12 @@ const playerSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    tokens: [{
-        token: {
-            type: String,
-            required: true
-        }
-    }],
+    // tokens: [{
+    //     token: {
+    //         type: String,
+    //         required: true
+    //     }
+    // }],
     avatar: {
         type: Buffer
     }
@@ -102,15 +102,15 @@ playerSchema.methods.toJSON = function () {
     return playerObject
 }
 
-playerSchema.methods.generateAuthToken = async function () {
-    const player = this
-    const token = jwt.sign({ _id: player._id.toString() }, process.env.JWT_SECRET)
+// playerSchema.methods.generateAuthToken = async function () {
+//     const player = this
+//     const token = jwt.sign({ _id: player._id.toString() }, process.env.JWT_SECRET)
 
-    player.tokens = player.tokens.concat({ token })
-    await player.save()
+//     player.tokens = player.tokens.concat({ token })
+//     await player.save()
 
-    return token
-}
+//     return token
+// }
 
 playerSchema.statics.findByCredentials = async (email, password) => {
     const player = await Player.findOne({ email })
@@ -139,7 +139,7 @@ playerSchema.pre('save', async function (next) {
     next()
 })
 
-// Delete player tasks when player is removed
+// Delete player contracts when player is removed
 playerSchema.pre('remove', async function (next) {
     const player = this
     await Contract.deleteMany({ owner: player._id })

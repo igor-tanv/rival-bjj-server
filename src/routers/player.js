@@ -7,7 +7,6 @@ const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const passport = require('passport');
 const router = new express.Router()
 
-
 router.get('/', async (req, res) => {
     Player.find(function (err, rank) {
         //sort by nogiRank from high to low
@@ -26,7 +25,7 @@ router.get('/about', async (req, res) => {
 })
 
 router.get('/register', async (req, res) => {
-    res.render('register.ejs', {
+    res.render('register.hbs', {
         title: 'Register Your BJJ Profile',
     })
 })
@@ -43,20 +42,27 @@ router.post('/register', async (req, res) => {
 })
 
 router.get('/login', async (req, res) => {
-    res.render('login.ejs', {
+    res.render('login.hbs', {
         title: 'Login to Your Profile'
     })
 })
 
-
 router.post('/login', async (req, res, next) => {
-    const player = await Player.findByCredentials(req.body.email, req.body.password)
-    passport.authenticate('local', {
-      successRedirect: '/players/' + player._id,
-      failureRedirect: '/login',
-      failureFlash: true
-    })(req, res, next);
-  });
+    // passport.authenticate('local', {
+    //     successRedirect: '/players/' + player._id,
+    //     failureRedirect: '/login',
+    //     failureFlash: true
+    // })(req, res, next);
+    //const player = await Player.findByCredentials(req.body.email, req.body.password)
+    Player.findByCredentials(req.body.email, req.body.password).then((player) => {
+        res.redirect('/players/' + player._id)
+    }).catch((error) => {
+        req.flash('error', 'Failed login')
+        res.render('login.hbs', {
+            title: 'Login to Your Profile'
+        })
+    })
+});
 
 //playerProfile
 router.get('/players/:id', async (req, res) => {
@@ -80,12 +86,10 @@ router.get('/players/opponent/:id', async (req, res) => {
 })
 
 router.get('/challenge/:opponentId', async (req, res) => {
-    console.log(req.params.opponentId)
     const opponent = await Player.findById(req.params.opponentId)
     res.render('challenge.hbs', {
         title: 'The Match Contract',
-        firstName: opponent.firstName,
-        lastName: opponent.lastName
+        opponent
     })
 })
 
