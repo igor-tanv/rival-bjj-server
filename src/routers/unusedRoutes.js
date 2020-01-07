@@ -124,3 +124,22 @@ router.post('/login',  async (req, res) => {
         res.redirect('/login')
     }
 })
+
+// Aternate login routes
+router.post('/login', async (req, res, next) => {
+
+    passport.authenticate('local', {
+        successRedirect: '/', 
+        failureRedirect: '/login',
+        failureFlash: true
+    })(req, res, next);
+    //const player = await Player.findByCredentials(req.body.email, req.body.password)
+    // Player.findByCredentials(req.body.email, req.body.password).then((player) => {
+    //     res.redirect('/players/' + player._id)
+    // }).catch((error) => {
+    //     req.flash('error', 'Failed login')
+    //     res.render('login.hbs', {
+    //         title: 'Login to Your Profile'
+    //     })
+    // })
+});

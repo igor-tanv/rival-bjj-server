@@ -2,7 +2,8 @@ const express = require('express')
 const multer = require('multer')
 const sharp = require('sharp')
 const Player = require('../models/player')
-const auth = require('../middleware/auth')
+//const auth = require('../middleware/auth')
+const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const passport = require('passport');
 const router = new express.Router()
@@ -47,22 +48,16 @@ router.get('/login', async (req, res) => {
     })
 })
 
-router.post('/login', async (req, res, next) => {
-    // passport.authenticate('local', {
-    //     successRedirect: '/players/' + player._id,
-    //     failureRedirect: '/login',
-    //     failureFlash: true
-    // })(req, res, next);
-    //const player = await Player.findByCredentials(req.body.email, req.body.password)
-    Player.findByCredentials(req.body.email, req.body.password).then((player) => {
-        res.redirect('/players/' + player._id)
-    }).catch((error) => {
-        req.flash('error', 'Failed login')
-        res.render('login.hbs', {
-            title: 'Login to Your Profile'
+router.post("/login", function (req, res, next) {
+    passport.authenticate("local", function (err, player, info) {
+        if (err) { return next(err); }
+        if (!player) { return res.render('login', { error: info.message }) }
+        req.logIn(player, function (err) {
+            if (err) { return next(err); }
+            return res.redirect('/players/' + player._id);
         })
-    })
-});
+    })(req, res, next)
+})
 
 //playerProfile
 router.get('/players/:id', async (req, res) => {
@@ -85,7 +80,7 @@ router.get('/players/opponent/:id', async (req, res) => {
     }
 })
 
-router.get('/challenge/:opponentId', async (req, res) => {
+router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
     const opponent = await Player.findById(req.params.opponentId)
     res.render('challenge.hbs', {
         title: 'The Match Contract',

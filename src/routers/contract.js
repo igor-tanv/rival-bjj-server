@@ -1,9 +1,10 @@
 const express = require('express')
 const Contract = require('../models/contract')
-const auth = require('../middleware/auth')
+//const auth = require('../middleware/auth')
+const { ensureAuthenticated } = require('../middleware/auth')
 const router = new express.Router()
 
-router.post('/contracts', auth, async (req, res) => {
+router.post('/contracts', ensureAuthenticated, async (req, res) => {
     const contract = new Contract({
         ...req.body,
         owner: req.player._id
@@ -20,7 +21,7 @@ router.post('/contracts', auth, async (req, res) => {
 // GET /contracts?completed=true
 // GET /contracts?limit=10&skip=20
 // GET /contracts?sortBy=createdAt:desc
-router.get('/contracts', auth, async (req, res) => {
+router.get('/contracts', ensureAuthenticated, async (req, res) => {
     const match = {}
     const sort = {}
 
@@ -49,7 +50,7 @@ router.get('/contracts', auth, async (req, res) => {
     }
 })
 
-router.get('/contracts/:id', auth, async (req, res) => {
+router.get('/contracts/:id', ensureAuthenticated, async (req, res) => {
     const _id = req.params.id
 
     try {
@@ -65,7 +66,7 @@ router.get('/contracts/:id', auth, async (req, res) => {
     }
 })
 
-router.patch('/contracts/:id', auth, async (req, res) => {
+router.patch('/contracts/:id', ensureAuthenticated, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['description', 'completed']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -89,7 +90,7 @@ router.patch('/contracts/:id', auth, async (req, res) => {
     }
 })
 
-router.delete('/contracts/:id', auth, async (req, res) => {
+router.delete('/contracts/:id', ensureAuthenticated, async (req, res) => {
     try {
         const contract = await Contract.findOneAndDelete({ _id: req.params.id, owner: req.player._id })
 
