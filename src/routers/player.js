@@ -42,6 +42,12 @@ router.post('/register', async (req, res) => {
     }
 })
 
+router.get('/logout', function(req, res){
+    req.flash('success_msg', 'You have logged out of your account');
+    req.logout();
+    res.redirect('/');
+  });
+
 router.get('/login', async (req, res) => {
     res.render('login.hbs', {
         title: 'Login to Your Profile'
