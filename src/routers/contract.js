@@ -4,17 +4,19 @@ const Contract = require('../models/contract')
 const { ensureAuthenticated } = require('../middleware/auth')
 const router = new express.Router()
 
-router.post('/contracts', ensureAuthenticated, async (req, res) => {
+
+router.post('/challenge', ensureAuthenticated, async (req, res) => {
     const contract = new Contract({
         ...req.body,
         owner: req.player._id
     })
-
     try {
         await contract.save()
-        res.status(201).send(contract)
+        req.flash('success_msg', 'Your challenge has been submitted!')
+        res.redirect('/')
     } catch (e) {
-        res.status(400).send(e)
+        req.flash('error', 'Something went wrong')
+        res.redirect('/')
     }
 })
 

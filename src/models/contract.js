@@ -1,14 +1,21 @@
 const mongoose = require('mongoose')
 
 const contractSchema = new mongoose.Schema({
-    description: {
+    
+    opponentFirstName: {
         type: String,
         required: true,
         trim: true
     },
-    completed: {
-        type: Boolean,
-        default: false
+    opponentLastName: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    matchRules: {
+        type: String,
+        required: true,
+        trim: true
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
