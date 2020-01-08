@@ -87,11 +87,10 @@ router.get('/players/opponent/:id', async (req, res) => {
 })
 
 //Match Contract
+//NEXT: Focus on challenge completion form 
 router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
-    //need the get the challenger
     const opponent = await Player.findById(req.params.opponentId)
     res.render('challenge.hbs', { opponent })
 })
-
 
 module.exports = router

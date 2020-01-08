@@ -8,7 +8,7 @@ const router = new express.Router()
 router.post('/challenge', ensureAuthenticated, async (req, res) => {
     const contract = new Contract({
         ...req.body,
-        owner: req.player._id
+        owner: req.user._id
     })
     try {
         await contract.save()

@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 
 const contractSchema = new mongoose.Schema({
     
-    opponentFirstName: {
+    firstName: {
         type: String,
         required: true,
         trim: true
     },
-    opponentLastName: {
+    lastName: {
         type: String,
         required: true,
         trim: true
