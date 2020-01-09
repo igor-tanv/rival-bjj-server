@@ -1,23 +1,32 @@
 const mongoose = require('mongoose')
 
 const contractSchema = new mongoose.Schema({
-    
-    firstName: {
+    rules: {
         type: String,
         required: true,
-        trim: true
     },
-    lastName: {
+    date: {
+        type: Date,
+        reuired: true
+    },
+    time: {
+        type: Number,
+        required: true
+    },
+    school: {
+        type: String,
+        required: true
+    },
+    comments: {
         type: String,
         required: true,
-        trim: true
+        maxlength: 200
     },
-    matchRules: {
-        type: String,
+    opponentId: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
-        trim: true
     },
-    owner: {
+    playerId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Player'

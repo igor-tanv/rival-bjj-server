@@ -2,38 +2,157 @@
 <html>
 
 <head>
-  {{>style}}
+    {{>style}}
 </head>
 
-<div style="margin:100px;">
-  {{>header}}
-  <div class="jumbotron" style="padding:40px;">
-    <div class="row mt-5">
-        <div class="card card-body">
-          <h1 class="text-center mb-3"><i class="fas fa-horse-head"></i> Match Contract</h1>
+<body>
+    <div style="margin:100px;">
+        {{>header}}
+        <div class="jumbotron" style="padding:40px;">
+            {{error}}
+            <div class="row mt-5">
+                <div class="card card-body">
+                    <h1 class="text-center mb-3"><i class="fas fa-horse-head"></i> Match Contract</h1>
+                    <h3>You are challenging {{opponent.firstName}} {{opponent.lastName}} to a match</h3>
+                    <br>
+                    <form action="/challenge" method="POST">
+                    <input type="hidden" id="opponentId" name="opponentId" value={{opponent._id}}>
+                        <div class="form-group">
+                            <label for="rules">Select Match Rules: </label>
+                            <select name="rules">
+                                <option value="gi">Gi</option>
+                                <option value="nogi">NoGi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate">Select Match Date: </label>
+                            <input type="date" id="date" name="date" placeholder="" value="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Select Match Time: </label>
+                            <input type="time" id="time" name="time" min="07:00" max="22:00">
+                        </div>
+                        <div class="form-group">
+                            <label for="school">Enter School Name: </label>
+                            <input type="text" id="school" name="school" placeholder="Name of School" value="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="referee">Enter Referee Name: </label>
+                            <input type="text" id="referee" name="referee" placeholder="First and Last Name" value="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="comments">Enter Comments: </label>
+                            <input type="text" id="comments" name="comments" class="form-control" placeholder="Any relevant comments such as how to find the school, floor number, etc." />
+                        </div>
+<p>
+    <h3>General Rules </h3>
+    
+    1) No unsportsmanlike conduct will be allowed.  You may be disqualified for unsportsmanlike
+    conduct. The
+    referee will be shown maximum respect at all times. 
+    Their decisions are final and will not be overturned.
+    <br>2) No striking, biting, eye gouging (includes chin to eye), head butting, small joint
+    manipulation
+    (finger or toe locks), hair pulling, grabbing the windpipe, or ear pulling will be
+    permitted.
+    <br>3) No slamming allowed. Illegal slamming will be defined as slamming your opponent to
+    escape
+    submissions and/or to pass the guard; or standing from the guard and/or jumping from a
+    standing position
+    to slam your opponent. Slamming will result in an automatic DQ.  Takedowns are NOT
+    considered slams, but
+    you must deliver your opponent safely to the mat.
+    <br>4) No infectious skin diseases (such as ringworm, staph, and MRSA) or open wounds will
+    be
+    permitted.  No lubricants, oils, or lotions of any kind will be permitted on any part of the
+    body or
+    clothing.
+    <br>5) Competitors will be allowed to continue grappling anywhere on the matted area,
+    provided they
+    don’t interfere with another match.  If the competitors near the edge of the mat, they will
+    be restarted
+    from the same position, unless the referee is unable to duplicate the position for any
+    reason.  In case
+    the referee is unable to duplicate the position, the competitors will restart from a
+    standing position.
+    <br>6) If a competitor flees the ring when a submission is locked in and the competitor is
+    obviously
+    fleeing to avoid submission, he or she will be automatically disqualified.
+    <br>7.) In the event two players of different belt levels compete, the Brazilian Jiu Jitsu
+    Gi Rules (see
+    below) will automatically default to the lower belt level.
+    <br>8.) In the event two players of different NoGi levels compete, the Submission Grappling
+    NoGi Rules
+    (see below)
+    will automatically default to the lower NoGi level.
+    <br> 9.) ALL matches are allowed to be recorded on video. 
+    <br> 10.) Every match must have AT LEAST 1 Referee and 1 Scorekeeper. This will be the respobsibility of 
+    the hosting school. 
+    <br> 11.) The visiting player is allowed to bring 1 Coach or Assistant to the match.
+    <br> 12.) The MATCH FEE for the visiting player will be decided by the hosting school.
+    As a general rule, if the number of matches at the hosting school is 5 or less per week, the match fee 
+    is recommeneded to be 0. If the visiting player wishes to join the a or open mat after match he or she will pay 
+    the normal mat fee. 
+    <br> 13.) The match can take place before, during or after class. The hosting student and their instructor will
+    make this decision. As a general rule, the best time for a match is during OPEN MAT or on the WEEKEND. 
+    <br> 14.) IT IS THE RESPONSIBILITY OF THE HOSTING PLAYER TO DISCUSS ALL RULES IN THIS FORM WITH HIS OR HER 
+    INSTRUCTOR BEFORE THE MATCH TAKES PLACE. IF EITHER PLAYER OR THEIR INSTRUCTOR BREAK ANY OF THE RULES 
+    MENTIONED IN THIS FORM THEY WILL RECEIVE AN AUTOMATIC MATCH DISQUALIFICATION. 
+</p>
 
-          <form action="/challenge" method="POST">
-            <div class="form-group">
-              <label for="firstName">Oppononet First Name</label>
-              <input type="name" id="firstName" name="firstName" class="form-control" placeholder={{opponent.firstName}}
-                value="{{opponent.firstName}}" </div> 
-            <div class="form-group">
-              <label for="lastName">Opponent Last Name</label>
-              <input type="name" id="lastName" name="lastName" class="form-control" placeholder={{opponent.lastName}}
-                value="{{opponent.lastName}}" />
-            <div class="form-group">
-              <label for="matchRules">Match Rules</label>
-              <input type="text" id="matchRules" name="matchRules" class="form-control" placeholder="Gi or NoGi"
-                value="" />
-            
+<p> <h3>Brazilian Jiu Jitsu (Gi) Rules</h3>
 
-            <button type="submit" class="btn btn-primary btn-block">
-              Submit Challenge
-            </button>
-          </form>
+    1) The only submissions below the waist that are legal for white, blue, and purple belts are
+    straight
+    ankle locks
+    (AKA straight footlock).
+    <br>2) Kneebars, figure-four toeholds, and compression locks (AKA “slicers”, “crushers”) are
+    legal in brown and black belt divisions only.
+    <br>3) Heel hooks, reaping the knee, twisting knee locks, “flying scissor” takedowns, and
+    neck cranks are never legal in gi matches.
+    <br>4) All competitors must compete using the belt awarded to them by their Brazilian Jiu
+    Jitsu instructor.
+    <br>6) All competitors must have a clean, properly fitted Jiu Jitsu or Judo Gi. Mouthpiece
+    and groin protection are optional, but recommended.
+    <br>7) Match Lengths: ALL GI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND
+    </p>
+
+<p>
+    <h3>Submission Grappling (No Gi) Rules</h3>
+    <h5>Definition of NoGi Levels by Score: </h5>
+    Novice: Under 1200 <br>
+    Beginner: 1200 - 1424 <br>
+    Intermediate: 1425 - 2100 <br>
+    Advanced: Over 2100 <br>
+    <br>1) The only submissions below the waist legal for novice, beginner and intermediate are
+    straight ankle locks (AKA straight footlock) and kneebars.
+    <br>2) ALL submissions are allowed in the Advanced division. Neck
+    cranks, spine locks, bicep/calf slicers (crushers), and flying scissors takedowns are legal ONLY in the Advanced
+    division.
+    <br>3) No grabbing of any clothing, including your own, will be permitted.
+    <br>4) Gis are optional for submission grappling divisions. Mouthpiece and groin protection are
+    optional, but recommended. All competitors must wear a tight-fitting T-shirt or rashguard.
+    <br>5) Match Lengths: ALL NOGI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND
+</p>
+<p>
+    <h3>Scoring</h3>
+    <h5>(The scoring table below applies to both Gi and NoGi)</h5>
+    The player must hold each position for a AT LEAST 3 seconds to get the points.
+        Takedown or Throw = 2 points
+    <br>Sweep = 2 points
+    <br>Pass opponent’s guard = 3 points
+    <br>Mounted position = 4 points
+    <br>Back Mount with Hooks in = 4 points
+    <br>Back Mount knees on ground, opponent flat on stomach = 4 points (Additional 4 points are
+    scored by putting the hooks in from this position)
+    <br>Body triangle from the back = 4 points
+    <br>Knee on stomach = 2 points
+</p>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-  </div>
-</div>
+</body>
 
 </html>

@@ -2,95 +2,38 @@
 <html>
 
 <head>
-    {{>style}}
+  {{>style}}
 </head>
 
-<body>
-    <div style="margin:100px;">
-        {{>header}}
-        <div class="jumbotron" style="padding:40px;">
-
-            <h1>{{title}}</h1>
-
-            <form>
-                <table>
-                    <tr>
-                        <td>
-                            Opponent: {{opponent.firstName}} {{opponent.lastName}}
-                        </td>
-
-                        <td>
-                            <input type=”text” placeholder='Opponent Name' name=”opponent”>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Rules:
-                        </td>
-
-                        <td>
-                            <input type=”text” placeholder=Gi/NoGi name=”rules”>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Date:
-                        </td>
-
-                        <td>
-                            <input type=”date” placeholder=Day/Month/Year name=”date”>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Time:
-                        </td>
-
-                        <td>
-                            <input type="time" placeholder="one oclock" name=”time”>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            School Name:
-                        </td>
-
-                        <td>
-                            <input type=”text” placeholder="Match Location" name=”school”>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            School Address:
-                        </td>
-
-                        <td>
-                            <input type=”text” placeholder="Enter Address" name=”address”>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Referee Name:
-                        </td>
-
-                        <td>
-                            <input type=”text” placeholder="Enter Name" name=”referee”>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Comments:
-                        </td>
-
-                        <td>
-                            <input type=”text” placeholder="Enter rule changes here" name=”comments”>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-
-            <p>General Rules <br>
+<div style="margin:100px;">
+  {{>header}}
+  <div class="jumbotron" style="padding:40px;">
+    <div class="row mt-5">
+      <div class="card card-body">
+        <h1 class="text-center mb-3"><i class="fas fa-horse-head"></i> Match Contract</h1>
+        <p>You are challenging {{opponent.firstName}} {{opponent.lastName}} to a match</p>
+        <form action="/challenge" method="POST">
+          <p>Select Match Rules: </p>
+          <select name="rules">
+            <option value="gi">Gi</option>
+            <option value="nogi">NoGi</option>
+          </select>
+            <br>
+            <br>
+          <div class="form-group">
+            <label for="birthDate">Match Date: </label>
+            <input type="date" id="date" name="date"  placeholder="" value="" />
+          </div>
+          <label for="time">Choose a time for your macth: </label>
+          <input type="time" id="time" name="time">
+          <br>
+          <div class="form-group">
+            <label for="school">Match Location: </label>
+            <input type="text" id="school" name="school"  placeholder="Enter School Name" value="" />
+          </div>
+            <br>
+            <br>
+          <p>General Rules <br>
                 (General Rules apply to every match and cannot be changed)<br>
                 1) No unsportsmanlike conduct will be allowed.  You may be disqualified for unsportsmanlike conduct. The
                 referee will be shown maximum respect at all times. 
@@ -121,23 +64,19 @@
 
                 <br>(This scoring table applies to both Gi and NoGi and Cannot Be Changed)
 
-                <br> Takedown or Throw = 2 points
-                <br> Sweep = 2 points
-                <br> Pass opponent’s guard = 3 points
-                <br> Mounted position = 4 points
-                <br> Back Mount with Hooks in = 4 points
-                <br> Back Mount knees on ground, opponent flat on stomach = 4 points (Additional 4 points are scored by
-                putting the
-                hooks in from this position)
-                <br> Body triangle from the back = 4 points
-                <br> Knee on stomach = 2 points</p>
+                <br>Takedown or Throw = 2 points
+                <br>Sweep = 2 points
+                <br>Pass opponent’s guard = 3 points
+                <br>Mounted position = 4 points
+                <br>Back Mount with Hooks in = 4 points
+                <br>Back Mount knees on ground, opponent flat on stomach = 4 points (Additional 4 points are scored by
+                putting the hooks in from this position)
+                <br>Body triangle from the back = 4 points
+                <br>Knee on stomach = 2 points</p>
 
             <p>Brazilian Jiu Jitsu (Gi) Rules<br>
 
-                (You may request changes to these rules in the comments section. Your opponent has the option to accept
-                or
-
-                reject these changes.)<br>
+                <br>
 
                 1) The only submission below the waist that is legal for white, blue, and purple belts are straight
                 ankle locks
@@ -153,19 +92,12 @@
                 <br>6) All competitors must have a clean, properly fitted Jiu Jitsu or Judo Gi. Mouthpiece and groin
                 protection are
                 optional, but recommended.
-                <br>Match Lengths:
-                <br> White Belt: 5 minutes
-                <br> Blue Belt: 6 minutes
-                <br> Purple Belt: 7 minutes
-                <br> Brown Belt: 8 minutes
-                <br> Black Belt: 10 minutes</p>
+                <br>Match Lengths: ALL GI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND
+                </p>
 
 
             <p>Submission Grappling (No Gi) Rules
-
-                <br>(You may request changes to these rules in the comments section.
-                Your opponent has the option to accept or reject these changes)
-
+                <br>
                 <br>1) The only submissions below the waist legal for novice, beginner, intermediate, are straight ankle
                 locks (AKA straight footlock) and kneebars.
                 <br>2) All submissions are allowed in Advanced Men’s and Women’s no-gi divisions. Neck cranks, spine
@@ -183,17 +115,15 @@
                 <br>6) Gis are optional for submission grappling divisions. Mouthpiece and groin protection are
                 optional, but
                 recommended. All competitors must wear a tight-fitting T-shirt or rashguard.
-                <br>Match Lengths:
-                <br> Novice: 4 minutes
-                <br> Beginner: 4 minutes
-                <br> Intermediate: 5 minutes
-                <br> Advanced: 6 minutes
-
-            </p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Submit</a></p>
-        </div>
-
+                <br>Match Length: ALL NOGI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND
+              </p>
+          <button type="submit" class="btn btn-primary">
+            Submit Challenge
+          </button>
+        </form>
+      </div>
     </div>
-</body>
+  </div>
+</div>
 
 </html>

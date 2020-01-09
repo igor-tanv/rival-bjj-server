@@ -72,23 +72,22 @@ const playerSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    // tokens: [{
-    //     token: {
-    //         type: String,
-    //         required: true
-    //     }
-    // }],
+    record: {
+        type: Number,
+        default: 0
+    },
     avatar: {
-        type: Buffer
+        type: Buffer,
+        required: true
     }
 }, {
     timestamps: true
 })
 
-playerSchema.virtual('tasks', {
+playerSchema.virtual('contract', {
     ref: 'Contract',
     localField: '_id',
-    foreignField: 'owner'
+    foreignField: 'playerId'
 })
 
 playerSchema.methods.toJSON = function () {
