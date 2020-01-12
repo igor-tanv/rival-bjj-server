@@ -5,11 +5,7 @@ const contractSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    date: {
-        type: Date,
-        reuired: true
-    },
-    time: {
+    datetime: {
         type: Number,
         required: true
     },
@@ -19,7 +15,6 @@ const contractSchema = new mongoose.Schema({
     },
     comments: {
         type: String,
-        required: true,
         maxlength: 200
     },
     opponentId: {
@@ -30,7 +25,16 @@ const contractSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Player'
+    },
+    result: {
+        type: String,
+        default: 'Pending'
+    },
+    completed: {
+        type: Boolean,
+        default: false
     }
+
 }, {
     timestamps: true
 })

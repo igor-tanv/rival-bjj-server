@@ -1,16 +1,28 @@
 const express = require('express')
 const Contract = require('../models/contract')
+const Player = require('../models/player')
 //const auth = require('../middleware/auth')
 const { ensureAuthenticated } = require('../middleware/auth')
 const router = new express.Router()
 
 
+//Match Contract
+router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
+    const opponent = await Player.findById(req.params.opponentId)
+    res.render('challenge.hbs', { opponent })
+})
+//do i need ensureAuth here since its verified on the get route
 router.post('/challenge', ensureAuthenticated, async (req, res) => {
-    const contract = new Contract({
-        ...req.body,
-        owner: req.user._id
-    })
+    
     try {
+        const contract = new Contract({
+            rules: req.body.rules,
+            datetime: (Date.parse(req.body.datetime))/1000,
+            school: req.body.school,
+            comments: req.body.comments,
+            playerId: req.user._id,
+            opponentId: req.body.opponentId
+        })
         await contract.save()
         req.flash('success_msg', 'Your challenge has been submitted!')
         res.redirect('/')
