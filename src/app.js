@@ -8,7 +8,6 @@ const path = require('path')
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
-//const expressLayouts = require('express-ejs-layouts');
 
 // Define paths for Express config
 const viewsPath = path.join(__dirname, '../templates/views')
@@ -23,12 +22,6 @@ require('./middleware/passport')(passport);
 app.set('view engine', 'hbs')
 app.set('views', viewsPath)
 hbs.registerPartials(partialsPath)
-
-//Set up EJS and viewsPath
-// app.use(expressLayouts);
-// app.set('view engine', 'ejs');
-// app.set('views', viewsPath)
-
 
 app.use(bodyParser.urlencoded({
     extended: true
