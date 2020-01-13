@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const Contract = require('./contract')
 
 const playerSchema = new mongoose.Schema({
@@ -78,7 +77,7 @@ const playerSchema = new mongoose.Schema({
     },
     avatar: {
         type: Buffer,
-        required: true
+        // required: true
     }
 }, {
     timestamps: true
@@ -100,16 +99,6 @@ playerSchema.methods.toJSON = function () {
 
     return playerObject
 }
-
-// playerSchema.methods.generateAuthToken = async function () {
-//     const player = this
-//     const token = jwt.sign({ _id: player._id.toString() }, process.env.JWT_SECRET)
-
-//     player.tokens = player.tokens.concat({ token })
-//     await player.save()
-
-//     return token
-// }
 
 playerSchema.statics.findByCredentials = async (email, password) => {
     const player = await Player.findOne({ email })
