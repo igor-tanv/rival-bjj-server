@@ -69,7 +69,7 @@ router.post("/login", function (req, res, next) {
 router.get('/players/:id', async (req, res) => {
     try {
         const player = await Player.findById(req.params.id)
-        res.render('playerProfile.hbs', { player })
+        res.render('player-profile.hbs', { player })
     } catch (e) {
         res.redirect('/login')
     }

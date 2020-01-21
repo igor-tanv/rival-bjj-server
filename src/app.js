@@ -3,7 +3,7 @@ require('./db/mongoose')
 const playerRouter = require('./routers/player')
 const contractRouter = require('./routers/contract')
 const bodyParser = require('body-parser');
-const hbs = require('hbs')
+const hbs = require('express-handlebars')
 const path = require('path')
 const passport = require('passport');
 const flash = require('connect-flash');
@@ -12,6 +12,7 @@ const session = require('express-session');
 // Define paths for Express config
 const viewsPath = path.join(__dirname, '../templates/views')
 const partialsPath = path.join(__dirname, '../templates/partials')
+const layoutPath = path.join(__dirname, '../templates/layouts')
 
 const app = express()
 
@@ -19,9 +20,17 @@ const app = express()
 require('./middleware/passport')(passport);
 
 //Setup handlebars engine and views location
+app.engine( 'hbs', hbs( { 
+  extname: 'hbs', 
+  defaultLayout: 'main', 
+  layoutsDir: layoutPath,
+  partialsDir: partialsPath,
+} ) );
+
+//app.engine('hbs', hbs({extname: '.hbs', defaultLayout: 'layout', layoutsDir: path.join(__dirname, '../templates/layouts')})); 
 app.set('view engine', 'hbs')
 app.set('views', viewsPath)
-hbs.registerPartials(partialsPath)
+
 
 app.use(bodyParser.urlencoded({
     extended: true
