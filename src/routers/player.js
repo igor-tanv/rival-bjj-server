@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
         const player = new Player(req.body)
         await player.save()
         //sendWelcomeEmail(player.email, player.name)
-        res.render('playerProfile.hbs', { player })
+        res.render('player-profile.hbs', { player })
     } catch (e) {
         res.status(400).send(e)
     }
@@ -80,7 +80,7 @@ router.get('/players/opponent/:id', async (req, res) => {
     try {
         const player = await Player.findById(req.params.id)
         if (!player) { throw new Error() }
-        res.render('opponentProfile.hbs', { player })
+        res.render('opponent-profile.hbs', { player })
     } catch (e) {
         res.status(404).send()
     }

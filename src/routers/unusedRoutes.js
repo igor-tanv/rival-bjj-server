@@ -111,7 +111,7 @@ router.post('/login',  async (req, res) => {
         const player = await Player.findByCredentials(req.body.email, req.body.password)
         const token = await player.generateAuthToken()
         //res.send({ player, token }) 
-        res.render('playerProfile', {
+        res.render('player-profile', {
             id: player._id,
             first: player.firstName,
             last: player.lastName,
