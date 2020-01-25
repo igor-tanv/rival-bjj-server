@@ -9,6 +9,12 @@ const router = new express.Router()
 //Match Contract
 router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
     const opponent = await Player.findById(req.params.opponentId)
+
+    if(req.user._id.equals(opponent._id)) {
+        req.flash('error', "You can't challenge yourself!")
+        return res.redirect('/')
+    }
+    //console.log(req.user._id, opponent._id)
     res.render('challenge.hbs', { opponent })
 })
 //do i need ensureAuth here since its verified on the get route
