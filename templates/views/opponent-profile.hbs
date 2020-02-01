@@ -12,12 +12,12 @@
             <div class="col-sm-12">
                 
                     <h2>{{player.firstName}} {{player.lastName}}</h2>
+                    <img src="data:image/png;base64,{{ player.avatar }}" width="150" height="150"/>
                     <p><strong>School: </strong> {{player.school}}</p>
                     <p><strong>Gi Rank: </strong> {{player.gi}}</p>
                     <p><strong>NoGi Rank: </strong> {{player.nogi}} </p>
                     <p><strong>Weight: </strong>{{player.weight}}</p>
                     <p><strong>Match History: </strong></p>
-                    
                     <br>
                     <p><a class="btn btn-primary btn-lg" href="/challenge/{{player._id}}" role="button">Challenge</a></p>  
                   

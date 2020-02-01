@@ -77,6 +77,7 @@ router.post("/login", function (req, res, next) {
 router.get('/players/:id', async (req, res) => {
     try {
         const player = await Player.findById(req.params.id)
+        player.avatar = player.avatar.toString('base64')
         res.render('player-profile.hbs', { player })
     } catch (e) {
         res.redirect('/login')
@@ -87,6 +88,7 @@ router.get('/players/:id', async (req, res) => {
 router.get('/players/opponent/:id', async (req, res) => {
     try {
         const player = await Player.findById(req.params.id)
+        player.avatar = player.avatar.toString('base64')
         if (!player) { throw new Error() }
         res.render('opponent-profile.hbs', { player })
     } catch (e) {
