@@ -1,7 +1,6 @@
 const express = require('express')
 const Contract = require('../models/contract')
 const Player = require('../models/player')
-//const auth = require('../middleware/auth')
 const { ensureAuthenticated } = require('../middleware/auth')
 const router = new express.Router()
 

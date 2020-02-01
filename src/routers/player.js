@@ -1,20 +1,23 @@
 const express = require('express')
-const multer = require('multer')
 const sharp = require('sharp')
 const Player = require('../models/player')
-//const auth = require('../middleware/auth')
 const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const passport = require('passport');
+const upload = require('../middleware/multer')
 const router = new express.Router()
 
+
 router.get('/', async (req, res) => {
-    Player.find(function (err, rank) {
+    Player.find(function (err, players) {
+       // Convert player avatar to base64 String
+       players.forEach((player) => {
+           player.avatar = player.avatar.toString('base64')
+       })
         //sort by nogiRank from high to low
-        rank.sort((a, b) => b.nogi - a.nogi)
+        players.sort((a, b) => b.nogi - a.nogi)
         res.render('main.hbs', {
-            title: 'Welcome to Rival',
-            rankings: rank
+            players,
         });
     });
 })
@@ -31,14 +34,19 @@ router.get('/register', async (req, res) => {
     })
 })
 
-router.post('/register', async (req, res) => {
+
+router.post('/register', upload.single('avatar'),  async (req, res) => {
+    
     try {
+        const buffer = await sharp(req.file.buffer).resize({ width: 150, height: 150 }).png().toBuffer()
+        req.body.avatar = buffer
         const player = new Player(req.body)
         await player.save()
         //sendWelcomeEmail(player.email, player.name)
         res.render('player-profile.hbs', { player })
     } catch (e) {
-        res.status(400).send(e)
+        req.flash('error', 'Something went wrong')
+        res.redirect('/')
     }
 })
 

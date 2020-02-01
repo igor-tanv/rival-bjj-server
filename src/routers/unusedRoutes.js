@@ -1,17 +1,4 @@
 
-//logout
-router.post('/players/logout', auth, async (req, res) => {
-    try {
-        req.player.tokens = req.player.tokens.filter((token) => {
-            return token.token !== req.token
-        })
-        await req.player.save()
-
-        res.send()
-    } catch (e) {
-        res.status(500).send()
-    }
-})
 
 //logout from all accounts
 router.post('/players/logoutAll', auth, async (req, res) => {
@@ -22,11 +9,6 @@ router.post('/players/logoutAll', auth, async (req, res) => {
     } catch (e) {
         res.status(500).send()
     }
-})
-
-//get player profile
-router.get('/players/me', auth, async (req, res) => {
-    res.send(req.player)
 })
 
 //update player profile
@@ -67,7 +49,6 @@ const upload = multer({
         if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
             return cb(new Error('Please upload an image'))
         }
-
         cb(undefined, true)
     }
 })

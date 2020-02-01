@@ -5,11 +5,14 @@
 <head>
   
 </head>
+<body>
+
 
 <div style="margin:100px;">
      {{# each rankings }}
     <div class="jumbotron"  style="padding:20px;">
-      
+      <img class="img-thumbnail" src="data:image/png;base64,{{this.avatar.toString('base64')}}"/>
+      <img class="img-thumbnail" src="data:image/png;base64,{{image}}"/>
       <h3>Name: {{ this.firstName }} {{this.lastName}}</h3>
       <h3>Weight: {{ this.weight }} </h3>
       <h3>NoGi Rank: {{ this.nogi }} </h3>
@@ -18,5 +21,6 @@
     </div>
     {{/each}}
   </div>
+  </body>
 
 </html>
