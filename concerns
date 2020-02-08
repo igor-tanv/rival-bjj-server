@@ -1,0 +1,5 @@
+NEXT: Logic for sending, accepting and rejecting challenges
+
+Player avatar must be displayed in player home page (code already implemented in main) DRY
+Move avatar so its side by side with other info 
+

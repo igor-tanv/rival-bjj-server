@@ -6,6 +6,7 @@ const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const passport = require('passport');
 const upload = require('../middleware/multer')
 const router = new express.Router()
+const multerParams = upload.single('avatar')
 
 
 router.get('/', async (req, res) => {
@@ -34,20 +35,30 @@ router.get('/register', async (req, res) => {
     })
 })
 
-
-router.post('/register', upload.single('avatar'),  async (req, res) => {
-    
-    try {
-        const buffer = await sharp(req.file.buffer).resize({ width: 150, height: 150 }).png().toBuffer()
-        req.body.avatar = buffer
-        const player = new Player(req.body)
-        await player.save()
-        //sendWelcomeEmail(player.email, player.name)
-        res.render('player-profile.hbs', { player })
-    } catch (e) {
-        req.flash('error', 'Something went wrong')
-        res.redirect('/')
-    }
+router.post('/register', async (req, res) => {
+    multerParams(req, res, async function (err) {
+        if(err) {
+            if (err.field === 'avatar') {
+                req.flash('error', 'Avatar size cannot exceed 1MB')
+                return res.redirect('/register')  
+            } else {
+                req.flash('error', err.message)
+                return res.redirect('/register') 
+            }
+        }
+        
+        try {
+            const buffer = await sharp(req.file.buffer).resize({ width: 150, height: 150 }).png().toBuffer()
+            req.body.avatar = buffer
+            const player = new Player(req.body)
+            await player.save()
+            //sendWelcomeEmail(player.email, player.name)
+            res.render('player-profile.hbs', { player })
+        } catch (e) {
+            req.flash('error', 'Something went wrong')
+            res.redirect('/register')
+        }
+    })
 })
 
 router.get('/logout', function(req, res){
@@ -95,7 +106,5 @@ router.get('/players/opponent/:id', async (req, res) => {
         res.status(404).send()
     }
 })
-
-
 
 module.exports = router
