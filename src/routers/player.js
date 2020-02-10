@@ -7,14 +7,15 @@ const passport = require('passport');
 const upload = require('../middleware/multer')
 const router = new express.Router()
 const multerParams = upload.single('avatar')
+var ObjectId = require('mongoose').Types.ObjectId;
 
 
 router.get('/', async (req, res) => {
     Player.find(function (err, players) {
-       // Convert player avatar to base64 String
-       players.forEach((player) => {
-           player.avatar = player.avatar.toString('base64')
-       })
+        // Convert player avatar to base64 String
+        players.forEach((player) => {
+            player.avatar = player.avatar.toString('base64')
+        })
         //sort by nogiRank from high to low
         players.sort((a, b) => b.nogi - a.nogi)
         res.render('main.hbs', {
@@ -37,16 +38,16 @@ router.get('/register', async (req, res) => {
 
 router.post('/register', async (req, res) => {
     multerParams(req, res, async function (err) {
-        if(err) {
+        if (err) {
             if (err.field === 'avatar') {
                 req.flash('error', 'Avatar size cannot exceed 1MB')
-                return res.redirect('/register')  
+                return res.redirect('/register')
             } else {
                 req.flash('error', err.message)
-                return res.redirect('/register') 
+                return res.redirect('/register')
             }
         }
-        
+
         try {
             const buffer = await sharp(req.file.buffer).resize({ width: 150, height: 150 }).png().toBuffer()
             req.body.avatar = buffer
@@ -61,11 +62,11 @@ router.post('/register', async (req, res) => {
     })
 })
 
-router.get('/logout', function(req, res){
+router.get('/logout', function (req, res) {
     req.flash('success_msg', 'You have logged out of your account');
     req.logout();
     res.redirect('/');
-  });
+});
 
 router.get('/login', async (req, res) => {
     res.render('login.hbs', {
@@ -87,10 +88,11 @@ router.post("/login", function (req, res, next) {
 //playerProfile
 router.get('/players/:id', async (req, res) => {
     try {
-        const player = await Player.findById(req.params.id)
+        let player = (req.params.id === ":id") ? await Player.findById(req.user.id) : await Player.findById(req.params.id)
         player.avatar = player.avatar.toString('base64')
         res.render('player-profile.hbs', { player })
     } catch (e) {
+        req.flash('error', 'Something went wrong')
         res.redirect('/login')
     }
 })
