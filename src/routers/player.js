@@ -92,7 +92,7 @@ router.get('/players/:id', async (req, res) => {
         player.avatar = player.avatar.toString('base64')
         res.render('player-profile.hbs', { player })
     } catch (e) {
-        req.flash('error', 'Something went wrong')
+        req.flash('error', 'Login to view your profile')
         res.redirect('/login')
     }
 })
