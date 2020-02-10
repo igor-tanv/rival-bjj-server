@@ -1,6 +1,6 @@
 
 NEXT: Pending challenges :
-    1. Create pendingChallenges page on playerProfile and render pending challenges there
+Create pendingChallenges page on playerProfile and render pending challenges there
     
     
 Move avatar so its side by side with other info 
@@ -12,7 +12,7 @@ Lessons Learned:
     The answer:  Placed entire try/catch block within the Multer function to gain access to err object
 
 2. MyProfile Page:
-    The problem: Did not think of alerternatives, too focused on one solution
+    The problem: Did not think of alternatives, too focused on one solution
                  Could not figure how to link two actions to the same route and stay DRY
     The answer: Used ternary operator to get the player object
 
