@@ -54,7 +54,6 @@ app.use(passport.session());
 app.use(flash());
 
 // Global variables
-// LOOK AT EJS TO SEE HOWS ITS CONNECTED
 app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');

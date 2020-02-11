@@ -18,9 +18,7 @@ router.get('/', async (req, res) => {
         })
         //sort by nogiRank from high to low
         players.sort((a, b) => b.nogi - a.nogi)
-        res.render('main.hbs', {
-            players,
-        });
+        res.render('main.hbs', { players });
     });
 })
 

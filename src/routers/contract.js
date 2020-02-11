@@ -9,20 +9,21 @@ const router = new express.Router()
 router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
     const opponent = await Player.findById(req.params.opponentId)
 
-    if(req.user._id.equals(opponent._id)) {
+    if (req.user._id.equals(opponent._id)) {
         req.flash('error', "You can't challenge yourself!")
         return res.redirect('/')
     }
     //console.log(req.user._id, opponent._id)
     res.render('challenge.hbs', { opponent })
 })
+
 //do i need ensureAuth here since its verified on the get route
 router.post('/challenge', ensureAuthenticated, async (req, res) => {
-    
+
     try {
         const contract = new Contract({
             rules: req.body.rules,
-            datetime: (Date.parse(req.body.datetime))/1000,
+            datetime: (Date.parse(req.body.datetime)) / 1000,
             school: req.body.school,
             comments: req.body.comments,
             playerId: req.user._id,
@@ -37,48 +38,20 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
     }
 })
 
-// GET /contracts?completed=true
-// GET /contracts?limit=10&skip=20
-// GET /contracts?sortBy=createdAt:desc
+//WORK HERE
 router.get('/contracts', ensureAuthenticated, async (req, res) => {
-    const match = {}
-    const sort = {}
-
-    if (req.query.completed) {
-        match.completed = req.query.completed === 'true'
-    }
-
-    if (req.query.sortBy) {
-        const parts = req.query.sortBy.split(':')
-        sort[parts[0]] = parts[1] === 'desc' ? -1 : 1
-    }
-
-    try {
-        await req.player.populate({
-            path: 'contracts',
-            match,
-            options: {
-                limit: parseInt(req.query.limit),
-                skip: parseInt(req.query.skip),
-                sort
-            }
-        }).execPopulate()
-        res.send(req.player.contracts)
-    } catch (e) {
-        res.status(500).send()
-    }
+    const contracts = await Contract.find({
+        $or: [{ playerId: req.user.id }, { opponentId: req.user.id }]
+    })
 })
 
 router.get('/contracts/:id', ensureAuthenticated, async (req, res) => {
     const _id = req.params.id
-
     try {
         const contract = await Contract.findOne({ _id, owner: req.player._id })
-
         if (!contract) {
             return res.status(404).send()
         }
-
         res.send(contract)
     } catch (e) {
         res.status(500).send()
@@ -95,7 +68,7 @@ router.patch('/contracts/:id', ensureAuthenticated, async (req, res) => {
     }
 
     try {
-        const contract = await Contract.findOne({ _id: req.params.id, owner: req.player._id})
+        const contract = await Contract.findOne({ _id: req.params.id, owner: req.player._id })
 
         if (!contract) {
             return res.status(404).send()

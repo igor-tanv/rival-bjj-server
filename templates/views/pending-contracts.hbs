@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <div>
+        <div style="margin:100px;">
+
+            <div class="jumbotron" style="padding:40px;">
+                <h1>Players You Challenged</h1>
+                {{# each outgoing }}
+                <h3>Style: {{ this.rules }} </h3>
+                <h3>Your Opponent: {{ this.opponenentId.firstName }}</h3>
+                <h3>Match Location: {{ this.school }} </h3>
+                <h3>Date and Time: {{ this.datetime }} </h3>
+                <br>
+            </div>
+            {{/each}}
+             <div class="jumbotron"  style="padding:40px;"></div>
+            <h1>Players Who Challenged You</h1>
+            {{# each incoming }}
+            <h3>Style: {{ this.rules }} </h3>
+            <h3>Your Opponent: {{ this.opponenentId.firstName }}</h3>
+            <h3>Match Location: {{ this.school }} </h3>
+            <h3>Date and Time: {{ this.datetime }} </h3>
+            <br>
+        </div>
+        {{/each}}
+    </div>
+    </div>
+    </div>
+</body>
+
+</html>
