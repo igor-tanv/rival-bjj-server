@@ -8,27 +8,19 @@
 <body>
     <div>
         <div style="margin:100px;">
-
-            <div class="jumbotron" style="padding:40px;">
-                <h1>Players You Challenged</h1>
-                {{# each outgoing }}
-                <h3>Style: {{ this.rules }} </h3>
-                <h3>Your Opponent: {{ this.opponenentId.firstName }}</h3>
+        <div class="jumbotron" style="padding:40px;">
+            <h1>Your Accepted Matches</h1>
+            {{# each contracts }}
+                <img src="data:image/png;base64,{{ this.opponent.avatar }}" width="150" height="150"/>
+                <h3>Opponent Name: {{ this.opponent.first }} {{ this.opponent.last }}</h3>
                 <h3>Match Location: {{ this.school }} </h3>
-                <h3>Date and Time: {{ this.datetime }} </h3>
+                <h3>Match Date: {{ this.date.month }} {{ this.date.day }}, {{ this.date.year }} at {{ this.date.hour }}:{{ this.date.minutes }} </h3>
+                <h3>Match Style: {{ this.rules }} </h3>
+                <h3>Match Referee: {{ this.referee }} </h3>
                 <br>
-            </div>
             {{/each}}
-             <div class="jumbotron"  style="padding:40px;"></div>
-            <h1>Players Who Challenged You</h1>
-            {{# each incoming }}
-            <h3>Style: {{ this.rules }} </h3>
-            <h3>Your Opponent: {{ this.opponenentId.firstName }}</h3>
-            <h3>Match Location: {{ this.school }} </h3>
-            <h3>Date and Time: {{ this.datetime }} </h3>
-            <br>
         </div>
-        {{/each}}
+            
     </div>
     </div>
     </div>

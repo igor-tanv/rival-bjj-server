@@ -17,9 +17,8 @@ router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
     res.render('challenge.hbs', { opponent })
 })
 
-//do i need ensureAuth here since its verified on the get route
-router.post('/challenge', ensureAuthenticated, async (req, res) => {
 
+router.post('/challenge', ensureAuthenticated, async (req, res) => {
     try {
         const contract = new Contract({
             rules: req.body.rules,
@@ -27,7 +26,8 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
             school: req.body.school,
             comments: req.body.comments,
             playerId: req.user._id,
-            opponentId: req.body.opponentId
+            opponentId: req.body.opponentId,
+            referee: req.body.referee
         })
         await contract.save()
         req.flash('success_msg', 'Your challenge has been submitted!')
@@ -38,11 +38,49 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
     }
 })
 
-//WORK HERE
+//Notes: belongsTo and hasMany in Mongoose / virtual fields 
 router.get('/contracts', ensureAuthenticated, async (req, res) => {
-    const contracts = await Contract.find({
-        $or: [{ playerId: req.user.id }, { opponentId: req.user.id }]
-    })
+
+    let contracts = await Promise.all(
+        (await Contract.find({ $or: [{ playerId: req.user.id }, { opponentId: req.user.id }] }))
+            .map(async (contract) => {
+                let opponent;
+                if (req.user.id == contract.playerId) {
+                    opponent = await Player.findById(contract.opponentId)
+                } else {
+                    opponent = await Player.findById(contract.playerId)
+                }
+
+                date = new Date(contract.datetime * 1000)
+                let month = date.getMonth()
+                let months = ["", "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"];
+                month = months[month]
+                let minutes = date.getMinutes()
+                if (minutes == 0) {
+                    minutes = '00'
+                }
+
+                contract['date'] = {
+                    "year": date.getFullYear(),
+                    month,
+                    "day": date.getDate(),
+                    "hour": date.getHours(),
+                    minutes
+                }
+
+                contract['opponent'] = {
+                    "avatar": opponent.avatar.toString('base64'),
+                    "first": opponent.firstName,
+                    "last": opponent.lastName,
+                    "school": opponent.school
+                }
+
+                return contract
+            }))
+
+
+    res.render('pending-contracts.hbs', { contracts })
 })
 
 router.get('/contracts/:id', ensureAuthenticated, async (req, res) => {

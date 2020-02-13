@@ -33,6 +33,10 @@ const contractSchema = new mongoose.Schema({
     completed: {
         type: Boolean,
         default: false
+    },
+    referee: {
+        type: String,
+        required: true
     }
 
 }, {
