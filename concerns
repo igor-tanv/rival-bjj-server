@@ -1,9 +1,8 @@
 
-NEXT: Pending challenges :
-Create pendingChallenges page on playerProfile and render pending challenges there
+NEXT: Display Pending and Accepted Matches, allow player to accept/reject a match :  
     
-    
-Move avatar so its side by side with other info 
+Move avatar so its side by side with other info
+-> This indicative of a need to change the front end structure. Begin porting to React 
 
 
 Lessons Learned: 
@@ -15,4 +14,10 @@ Lessons Learned:
     The problem: Did not think of alternatives, too focused on one solution
                  Could not figure how to link two actions to the same route and stay DRY
     The answer: Used ternary operator to get the player object
+
+3. Render Contract Async Function:
+    The problem: Could not understand why an added object attribute was not showing on 
+    console.log inside of async function 
+    The answer: There are different kind of objects and some will not display their propeties
+    with console.log
 

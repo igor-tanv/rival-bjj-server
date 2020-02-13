@@ -83,7 +83,7 @@ router.post("/login", function (req, res, next) {
     })(req, res, next)
 })
 
-//playerProfile
+//Player Profile
 router.get('/players/:id', async (req, res) => {
     try {
         let player = (req.params.id === ":id") ? await Player.findById(req.user.id) : await Player.findById(req.params.id)
