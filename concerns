@@ -1,7 +1,7 @@
 BIG PICTURE: Learn React and get some help to render this. Cannot continue with hbs for long
 
 NEXT: 
-Need to define properties for the following contract objects: pending, confirmed, declined
+Need to define properties for the following contract states: pending, confirmed, declined
 
 Pending Contract: {
     opponent avatar,
