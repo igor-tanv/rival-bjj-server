@@ -17,7 +17,7 @@ router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
     res.render('challenge.hbs', { opponent })
 })
 
-
+//Post challenge to the DB
 router.post('/challenge', ensureAuthenticated, async (req, res) => {
     try {
         const contract = new Contract({
@@ -39,7 +39,8 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
 })
 
 //Notes: belongsTo and hasMany in Mongoose / virtual fields 
-router.get('/contracts', ensureAuthenticated, async (req, res) => {
+//Render all player contracts 
+router.get('/confirmed', ensureAuthenticated, async (req, res) => {
 
     let contracts = await Promise.all(
         (await Contract.find({ $or: [{ playerId: req.user.id }, { opponentId: req.user.id }] }))
@@ -75,63 +76,19 @@ router.get('/contracts', ensureAuthenticated, async (req, res) => {
                     "last": opponent.lastName,
                     "school": opponent.school
                 }
-
+                console.log(contract)
                 return contract
             }))
 
-
-    res.render('pending-contracts.hbs', { contracts })
+    res.render('contracts', {
+        title: 'Confirmed Upcoming Matches',
+        contracts
+    })
 })
 
-router.get('/contracts/:id', ensureAuthenticated, async (req, res) => {
-    const _id = req.params.id
-    try {
-        const contract = await Contract.findOne({ _id, owner: req.player._id })
-        if (!contract) {
-            return res.status(404).send()
-        }
-        res.send(contract)
-    } catch (e) {
-        res.status(500).send()
-    }
-})
+// router.get('/pending', ensureAuthenticated, async (req, res) => {
+    
+// })
 
-router.patch('/contracts/:id', ensureAuthenticated, async (req, res) => {
-    const updates = Object.keys(req.body)
-    const allowedUpdates = ['description', 'completed']
-    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
-
-    if (!isValidOperation) {
-        return res.status(400).send({ error: 'Invalid updates!' })
-    }
-
-    try {
-        const contract = await Contract.findOne({ _id: req.params.id, owner: req.player._id })
-
-        if (!contract) {
-            return res.status(404).send()
-        }
-
-        updates.forEach((update) => contract[update] = req.body[update])
-        await contract.save()
-        res.send(contract)
-    } catch (e) {
-        res.status(400).send(e)
-    }
-})
-
-router.delete('/contracts/:id', ensureAuthenticated, async (req, res) => {
-    try {
-        const contract = await Contract.findOneAndDelete({ _id: req.params.id, owner: req.player._id })
-
-        if (!contract) {
-            res.status(404).send()
-        }
-
-        res.send(contract)
-    } catch (e) {
-        res.status(500).send()
-    }
-})
 
 module.exports = router

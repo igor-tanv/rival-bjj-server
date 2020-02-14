@@ -1,5 +1,65 @@
+BIG PICTURE: Learn React and get some help to render this. Cannot continue with hbs for long
 
-NEXT: Display Pending and Accepted Matches, allow player to accept/reject a match :  
+NEXT: 
+Need to define properties for the following contract objects: pending, confirmed, declined
+
+Pending Contract: {
+    opponent avatar,
+    opponent name,
+    match location, 
+    match date,
+    match style,
+    match referee,
+    comments
+    *status*
+}
+*status* - If player is being challenged -> display Accept/Decline logic 
+         - Else: show string "Pending" 
+Alternative: split Pending Contracts into incoming and outgoing 
+but that would require another hbs page
+
+----------------------
+
+Confirmed Contract: {
+    opponent avatar,
+    opponent name,
+    match location, 
+    match date,
+    match style,
+    match referee,
+    comments,
+    RESULT
+}
+
+---------------------
+
+Declined/Canceled Contract: {
+    opponent avatar,
+    opponent name,
+    match location, 
+    match date,
+    match style,
+    match referee,
+    comments,
+    canceled by,
+    reason,
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 Move avatar so its side by side with other info
 -> This indicative of a need to change the front end structure. Begin porting to React 

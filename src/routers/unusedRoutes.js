@@ -180,3 +180,54 @@ router.get('/contracts', ensureAuthenticated, async (req, res) => {
     
     res.render('pending-contracts.hbs', {incoming, outgoing} )
 })
+
+router.patch('/contracts/:id', ensureAuthenticated, async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['description', 'completed']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Invalid updates!' })
+    }
+
+    try {
+        const contract = await Contract.findOne({ _id: req.params.id, owner: req.player._id })
+
+        if (!contract) {
+            return res.status(404).send()
+        }
+
+        updates.forEach((update) => contract[update] = req.body[update])
+        await contract.save()
+        res.send(contract)
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
+
+router.delete('/contracts/:id', ensureAuthenticated, async (req, res) => {
+    try {
+        const contract = await Contract.findOneAndDelete({ _id: req.params.id, owner: req.player._id })
+
+        if (!contract) {
+            res.status(404).send()
+        }
+
+        res.send(contract)
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
+router.get('/contracts/:id', ensureAuthenticated, async (req, res) => {
+    const _id = req.params.id
+    try {
+        const contract = await Contract.findOne({ _id, owner: req.player._id })
+        if (!contract) {
+            return res.status(404).send()
+        }
+        res.send(contract)
+    } catch (e) {
+        res.status(500).send()
+    }
+})
