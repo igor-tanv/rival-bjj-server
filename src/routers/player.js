@@ -8,9 +8,12 @@ const upload = require('../middleware/multer')
 const router = new express.Router()
 const multerParams = upload.single('avatar')
 var ObjectId = require('mongoose').Types.ObjectId;
+//import playersService from '../services/players' 
+const playersService = require('../services/players')
 
 
 router.get('/', async (req, res) => {
+    console.log(req.body)
     Player.find(function (err, players) {
         // Convert player avatar to base64 String
         players.forEach((player) => {
@@ -19,8 +22,11 @@ router.get('/', async (req, res) => {
         //sort by nogiRank from high to low
         players.sort((a, b) => b.nogi - a.nogi)
         res.render('main.hbs', { players });
+        
     });
 })
+
+router.get('/players', playersService.getPlayers)
 
 router.get('/about', async (req, res) => {
     res.render('about.hbs', {

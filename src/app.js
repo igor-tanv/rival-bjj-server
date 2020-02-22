@@ -53,6 +53,14 @@ app.use(passport.session());
 // Connect flash
 app.use(flash());
 
+app.all('*', (req, res, next) => {           
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("X-Powered-By", "zloy.best");
+  next();
+});
+
 // Global variables
 app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');

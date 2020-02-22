@@ -76,7 +76,6 @@ router.get('/confirmed', ensureAuthenticated, async (req, res) => {
                     "last": opponent.lastName,
                     "school": opponent.school
                 }
-                console.log(contract)
                 return contract
             }))
 

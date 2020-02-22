@@ -1,4 +1,4 @@
-BIG PICTURE: Learn React and get some help to render this. Cannot continue with hbs for long
+BIG PICTURE: Learn React and get some help . Cannot continue with hbs for long
 
 --Look at Reclub's stack--
 
@@ -29,8 +29,7 @@ Confirmed Contract: {
     match date,
     match style,
     match referee,
-    comments,
-    RESULT
+    match comments,
 }
 
 ---------------------
@@ -42,9 +41,9 @@ Declined/Canceled Contract: {
     match date,
     match style,
     match referee,
-    comments,
+    match comments,
     canceled by,
-    reason,
+    reason for canceling,
 }
 
 
