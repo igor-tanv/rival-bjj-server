@@ -10,21 +10,26 @@ const multerParams = upload.single('avatar')
 var ObjectId = require('mongoose').Types.ObjectId;
 //import playersService from '../services/players' 
 const playersService = require('../services/players')
+let multipart = require('connect-multiparty')
+const path = require('../path')
 
+router.use('/players/avatars', express.static(path.PUBLIC.AVATAR_PICTURES))
 
-router.get('/', async (req, res) => {
-    console.log(req.body)
-    Player.find(function (err, players) {
+// router.get('/', async (req, res) => {
+//     console.log(req.body)
+//     Player.find(function (err, players) {
         // Convert player avatar to base64 String
-        players.forEach((player) => {
-            player.avatar = player.avatar.toString('base64')
-        })
-        //sort by nogiRank from high to low
-        players.sort((a, b) => b.nogi - a.nogi)
-        res.render('main.hbs', { players });
+        // players.forEach((player) => {
+        //     console.log(player.avatar.toString('base64'))
+        //    player.avatar = player.avatar.toString('base64')
+        // })
         
-    });
-})
+        //sort by nogiRank from high to low
+//         players.sort((a, b) => b.nogi - a.nogi)
+//         res.render('main.hbs', { players });
+        
+//     });
+// })
 
 router.get('/players', playersService.getPlayers)
 
@@ -35,36 +40,13 @@ router.get('/about', async (req, res) => {
 })
 
 router.get('/register', async (req, res) => {
+    console.log('GET ROUTE')
     res.render('register.hbs', {
         title: 'Register Your BJJ Profile',
     })
 })
 
-router.post('/register', async (req, res) => {
-    multerParams(req, res, async function (err) {
-        if (err) {
-            if (err.field === 'avatar') {
-                req.flash('error', 'Avatar size cannot exceed 1MB')
-                return res.redirect('/register')
-            } else {
-                req.flash('error', err.message)
-                return res.redirect('/register')
-            }
-        }
-
-        try {
-            const buffer = await sharp(req.file.buffer).resize({ width: 150, height: 150 }).png().toBuffer()
-            req.body.avatar = buffer
-            const player = new Player(req.body)
-            await player.save()
-            //sendWelcomeEmail(player.email, player.name)
-            res.render('player-profile.hbs', { player })
-        } catch (e) {
-            req.flash('error', 'Something went wrong')
-            res.redirect('/register')
-        }
-    })
-})
+router.post('/register', multipart({uploadDir:path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 *1024}), playersService.registerPlayer)
 
 router.get('/logout', function (req, res) {
     req.flash('success_msg', 'You have logged out of your account');

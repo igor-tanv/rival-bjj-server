@@ -14,7 +14,7 @@ const playerSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    birthDate: {
+    DOB: {
         type: String,
         required: true,
         trim: true
@@ -34,7 +34,6 @@ const playerSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minlength: 7,
         trim: true,
         validate(value) {
             if (value.toLowerCase().includes('password')) {
@@ -71,12 +70,20 @@ const playerSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    record: {
+    wins: {
+        type: Number,
+        default: 0
+    },
+    losses: {
+        type: Number,
+        default: 0
+    },
+    draws: {
         type: Number,
         default: 0
     },
     avatar: {
-        type: Buffer,
+        type: String,
         required: true
     }
 }, {
@@ -94,8 +101,7 @@ playerSchema.methods.toJSON = function () {
     const playerObject = player.toObject()
 
     delete playerObject.password
-    delete playerObject.tokens
-    delete playerObject.avatar
+    // delete playerObject.avatar
 
     return playerObject
 }

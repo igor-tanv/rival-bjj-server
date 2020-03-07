@@ -8,6 +8,7 @@ const path = require('path')
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+let cors = require('cors')
 
 // Define paths for Express config
 const viewsPath = path.join(__dirname, '../templates/views')
@@ -53,8 +54,11 @@ app.use(passport.session());
 // Connect flash
 app.use(flash());
 
-app.all('*', (req, res, next) => {           
+app.use(cors({credentials: true, origin: true}))
+
+app.all('*', (req, res, next) => {   
   res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Methods", 'POST, GET, PUT, DELETE, OPTIONS')
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("X-Powered-By", "zloy.best");

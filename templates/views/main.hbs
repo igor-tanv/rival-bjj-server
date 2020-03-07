@@ -3,31 +3,24 @@
 </head>
 <body>
   <div style="margin:100px;">
-    
     <div class="jumbotron"  style="padding:40px;">
       {{success_msg}}
       <h5>{{error}}</h5>
       <h1>Welcome to Rival</h1>
       <p>Challenge anyone to a grappling match in your area</p>
       <p><a class="btn btn-primary btn-lg" href="/about" role="button">Learn more</a></p>
-
       <br>
-      
     </div>
-
      <h3>Showing Top Ranked [Gi/NoGi] Opponents for Ho Chi Minh City</h3>
-     
      {{# each players }}
-    <div class="jumbotron"  style="padding:20px;">
-     
+    <div class="jumbotron"  style="padding:20px;"> 
       <img src="data:image/png;base64,{{ this.avatar }}" width="150" height="150"/>
       <h3>Name: {{ this.firstName }} {{this.lastName}}</h3>
       <h3>School: {{ this.school }} </h3>
       <h3>Weight: {{ this.weight }} </h3>
       <h3>NoGi Rank: {{ this.nogi }} </h3>
       <h3>Gi Rank: {{ this.gi }} </h3>
-      <p><a class="btn btn-primary btn-lg" href="/players/opponent/{{this._id}}" role="button">View Profile</a></p>
-      
+      <p><a class="btn btn-primary btn-lg" href="/players/opponent/{{this._id}}" role="button">View Profile</a></p>   
     <br>
     </div>
     {{/each}}
