@@ -15,21 +15,21 @@ const path = require('../path')
 
 router.use('/players/avatars', express.static(path.PUBLIC.AVATAR_PICTURES))
 
-// router.get('/', async (req, res) => {
-//     console.log(req.body)
-//     Player.find(function (err, players) {
-        // Convert player avatar to base64 String
+router.get('/', async (req, res) => {
+    console.log(req.body)
+    Player.find(function (err, players) {
+        //Convert player avatar to base64 String
         // players.forEach((player) => {
         //     console.log(player.avatar.toString('base64'))
         //    player.avatar = player.avatar.toString('base64')
         // })
         
-        //sort by nogiRank from high to low
-//         players.sort((a, b) => b.nogi - a.nogi)
-//         res.render('main.hbs', { players });
+       // sort by nogiRank from high to low
+        players.sort((a, b) => b.nogi - a.nogi)
+        res.render('main.hbs', { players });
         
-//     });
-// })
+    });
+})
 
 router.get('/players', playersService.getPlayers)
 
