@@ -2,9 +2,7 @@ const Player = require('../../models/player')
 
 module.exports = async (req, res) => {
   let players = await Player.find()
-  
   players.sort((a, b) => b.nogi - a.nogi)
-  console.log(players)
   return res.json({ status: 200, data: players })
 }
 

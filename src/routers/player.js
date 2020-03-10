@@ -1,22 +1,21 @@
 const express = require('express')
 const sharp = require('sharp')
-const Player = require('../models/player')
-const { ensureAuthenticated } = require('../middleware/auth')
-const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const passport = require('passport');
-const upload = require('../middleware/multer')
-const router = new express.Router()
-const multerParams = upload.single('avatar')
 var ObjectId = require('mongoose').Types.ObjectId;
-//import playersService from '../services/players' 
+const upload = require('../middleware/multer')
+const multerParams = upload.single('avatar')
+
 const playersService = require('../services/players')
 let multipart = require('connect-multiparty')
 const path = require('../path')
+const Player = require('../models/player')
+const { ensureAuthenticated } = require('../middleware/auth')
+const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 
+const router = new express.Router()
 router.use('/players/avatars', express.static(path.PUBLIC.AVATAR_PICTURES))
 
 router.get('/', async (req, res) => {
-    console.log(req.body)
     Player.find(function (err, players) {
         //Convert player avatar to base64 String
         // players.forEach((player) => {
@@ -40,7 +39,6 @@ router.get('/about', async (req, res) => {
 })
 
 router.get('/register', async (req, res) => {
-    console.log('GET ROUTE')
     res.render('register.hbs', {
         title: 'Register Your BJJ Profile',
     })
@@ -60,13 +58,36 @@ router.get('/login', async (req, res) => {
     })
 })
 
+// router.post("/login", function (req, res, next) {
+//     console.log('HELLO')
+//     passport.authenticate("local", function (err, player, info) {
+//         if (err) { return next(err); }
+//         if (!player) { return res.render('login', { error: info.message }) }
+//         req.logIn(player, function (err) {
+//             if (err) { return next(err); }
+//             return res.redirect('/players/' + player._id);
+//         })
+//     })(req, res, next)
+// })
+
 router.post("/login", function (req, res, next) {
+    console.log(req.body)
     passport.authenticate("local", function (err, player, info) {
-        if (err) { return next(err); }
-        if (!player) { return res.render('login', { error: info.message }) }
+        console.log(0)
+        if (err) { 
+            console.log("Error0", errs)
+            return res.json({err}); 
+        }
+        if (!player) { 
+            console.log("Error1",info.message)
+            return res.json({error: info.message }) }
         req.logIn(player, function (err) {
-            if (err) { return next(err); }
-            return res.redirect('/players/' + player._id);
+            console.log(player)
+            if (err) { 
+                console.log("Error2",err)
+                return next(err); 
+            }
+            return res.json({player});
         })
     })(req, res, next)
 })

@@ -1,7 +1,4 @@
 const express = require('express')
-require('./db/mongoose')
-const playerRouter = require('./routers/player')
-const contractRouter = require('./routers/contract')
 const bodyParser = require('body-parser');
 const hbs = require('express-handlebars')
 const path = require('path')
@@ -10,10 +7,15 @@ const flash = require('connect-flash');
 const session = require('express-session');
 let cors = require('cors')
 
+require('./db/mongoose')
+const playerRouter = require('./routers/player')
+const contractRouter = require('./routers/contract')
+
 // Define paths for Express config
 const viewsPath = path.join(__dirname, '../templates/views')
 const partialsPath = path.join(__dirname, '../templates/partials')
 const layoutPath = path.join(__dirname, '../templates/layouts')
+
 
 const app = express()
 
