@@ -26,11 +26,11 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
     if (matchDate) {
         if (timestamp > matchDate) {
             req.flash('error', 'Date of Match cannot be in the past')
-            res.redirect('/challenge/' + opponentId)
+            return res.redirect('/challenge/' + opponentId)
         }
         if (diff > threeMonths) {
             req.flash('error', 'Cannot set a match more than 3 months out')
-            res.redirect('/challenge/' + opponentId)
+            return res.redirect('/challenge/' + opponentId)
         }
     }
     try {
