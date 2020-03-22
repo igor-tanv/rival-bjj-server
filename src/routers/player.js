@@ -45,14 +45,20 @@ router.post('/register', async (req, res) => {
                 return res.redirect('/register')
             }
         }
-
         try {
             const buffer = await sharp(req.file.buffer).resize({ width: 150, height: 150 }).png().toBuffer()
             req.body.avatar = buffer
             const player = new Player(req.body)
             await player.save()
-            //sendWelcomeEmail(player.email, player.name)
-            res.render('player-profile.hbs', { player })
+            player.avatar = player.avatar.toString('base64')
+            req.logIn(player, function(err){
+                if(err) {
+                    req.flash('error', 'Registration Error')
+                    return res.redirect('/register')
+                }
+                res.render('player-profile.hbs', { player })
+            })
+            
         } catch (e) {
             req.flash('error', 'Something went wrong')
             res.redirect('/register')
@@ -73,6 +79,7 @@ router.get('/login', async (req, res) => {
 })
 
 router.post("/login", function (req, res, next) {
+    console.log(req.body)
     passport.authenticate("local", function (err, player, info) {
         if (err) { return next(err); }
         if (!player) { return res.render('login', { error: info.message }) }
@@ -80,11 +87,11 @@ router.post("/login", function (req, res, next) {
             if (err) { return next(err); }
             return res.redirect('/players/' + player._id);
         })
-    })(req, res, next)
+    })
 })
 
 //Player Profile
-router.get('/players/:id', async (req, res) => {
+router.get('/players/:id', ensureAuthenticated, async (req, res) => {
     try {
         let player = (req.params.id === ":id") ? await Player.findById(req.user.id) : await Player.findById(req.params.id)
         player.avatar = player.avatar.toString('base64')
