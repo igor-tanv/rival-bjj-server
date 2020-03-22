@@ -79,7 +79,6 @@ router.get('/login', async (req, res) => {
 })
 
 router.post("/login", function (req, res, next) {
-    console.log(req.body)
     passport.authenticate("local", function (err, player, info) {
         if (err) { return next(err); }
         if (!player) { return res.render('login', { error: info.message }) }
@@ -87,7 +86,7 @@ router.post("/login", function (req, res, next) {
             if (err) { return next(err); }
             return res.redirect('/players/' + player._id);
         })
-    })
+    })(req, res, next)
 })
 
 //Player Profile

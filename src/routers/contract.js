@@ -4,7 +4,6 @@ const Player = require('../models/player')
 const { ensureAuthenticated } = require('../middleware/auth')
 const router = new express.Router()
 
-
 //Match Contract
 router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
     const opponent = await Player.findById(req.params.opponentId)
@@ -17,13 +16,23 @@ router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
     res.render('challenge.hbs', { opponent })
 })
 
-
 router.post('/challenge', ensureAuthenticated, async (req, res) => {
+    opponentId = req.body.opponentId
     var date = new Date();
-    var timestamp = date.getTime();
-    let matchDate = (Date.parse(req.body.datetime))
-    console.log(timestamp,matchDate)
-    
+    var timestamp = Math.round((date.getTime()) / 1000)
+    let matchDate = (Date.parse(req.body.datetime)) / 1000
+    let diff = (matchDate - timestamp)
+    let threeMonths = 7776000
+    if (matchDate) {
+        if (timestamp > matchDate) {
+            req.flash('error', 'Date of Match cannot be in the past')
+            res.redirect('/challenge/' + opponentId)
+        }
+        if (diff > threeMonths) {
+            req.flash('error', 'Cannot set a match more than 3 months out')
+            res.redirect('/challenge/' + opponentId)
+        }
+    }
     try {
         const contract = new Contract({
             rules: req.body.rules,
@@ -45,7 +54,6 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
 
 //Notes: belongsTo and hasMany in Mongoose / virtual fields 
 router.get('/contracts', ensureAuthenticated, async (req, res) => {
-
     let contracts = await Promise.all(
         (await Contract.find({ $or: [{ playerId: req.user.id }, { opponentId: req.user.id }] }))
             .map(async (contract) => {
