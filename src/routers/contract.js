@@ -19,6 +19,11 @@ router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
 
 
 router.post('/challenge', ensureAuthenticated, async (req, res) => {
+    var date = new Date();
+    var timestamp = date.getTime();
+    let matchDate = (Date.parse(req.body.datetime))
+    console.log(timestamp,matchDate)
+    
     try {
         const contract = new Contract({
             rules: req.body.rules,
