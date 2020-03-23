@@ -10,16 +10,12 @@ const multerParams = upload.single('avatar')
 var ObjectId = require('mongoose').Types.ObjectId;
 
 
+//new structure
+const Players = require('../services/player/getPlayers')
+
 router.get('/', async (req, res) => {
-    Player.find(function (err, players) {
-        // Convert player avatar to base64 String
-        players.forEach((player) => {
-            player.avatar = player.avatar.toString('base64')
-        })
-        //sort by nogiRank from high to low
-        players.sort((a, b) => b.nogi - a.nogi)
-        res.render('main.hbs', { players });
-    });
+    let players = await Players.getPlayers()
+    res.render('main.hbs', { players });
 })
 
 router.get('/about', async (req, res) => {
