@@ -1,10 +1,22 @@
 const PlayersData = require('../../data/PlayerData')
 const sharp = require('sharp')
+const Player = require('../../models/player')
 
-const registerPlayer = async (buffer, newPlayer) => {
-    newPlayer.avatar = await sharp(buffer).resize({ width: 150, height: 150 }).png().toBuffer()
-    console.log('SERVICE',newPlayer)
-    return await PlayersData.registerPlayer(newPlayer)
+const registerPlayer = async (req, res) => {
+  try {
+    player = new Player(req.body)
+    if (req.files.file) {
+      const arrFile = req.files.file.path.split('/')
+      player.avatar = arrFile[arrFile.length - 1]
+    }
+    await PlayersData.registerPlayer(player)
+    
+    return res.json({ status: 200, data: player })
+  } 
+  catch (err) {
+    console.log('ERROR',err)
+    return res.json({ status: 400, data: err })
+  }
 }
 module.exports = {
   registerPlayer

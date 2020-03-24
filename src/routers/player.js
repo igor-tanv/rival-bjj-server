@@ -15,54 +15,48 @@ const registerPlayer = require('../services/player/registerPlayer')
 let multipart = require('connect-multiparty')
 const path = require('../path')
 
-router.post('/register', async (req, res) => {
-    console.log('BODY',req)
-    console.log('FILE',req.file)
-    const buffer = req.file.buffer
-    const newPlayer = req.body
+router.post('/register', multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }), registerPlayer.registerPlayer)
 
-    const player = await registerPlayer.registerPlayer(buffer, newPlayer)
-    console.log('API PLAYER', player)
+// router.post('/register', async (req, res) => {
+//     console.log('BODY',req)
+//     console.log('FILE',req.file)
+//     const buffer = req.file.buffer
+//     const newPlayer = req.body
 
-    req.logIn(player, function(err){
-        console.log('API', err)
-        if(err) {
-            req.flash('error', 'Registration Error')
-            return res.redirect('/register')
-        }
-        res.render('player-profile.hbs', { player })
-    })
+//     const player = await registerPlayer.registerPlayer(buffer, newPlayer)
+//     console.log('API PLAYER', player)
 
-    // multerParams(req, res, async function (err) {
-    //     if (err) {
-    //         if (err.field === 'avatar') {
-    //             req.flash('error', 'Avatar size cannot exceed 1MB')
-    //             return res.redirect('/register')
-    //         } else {
-    //             req.flash('error', err.message)
-    //             return res.redirect('/register')
-    //         }
-    //     }
-    //     try {
-    //         const buffer = await sharp(req.file.buffer).resize({ width: 150, height: 150 }).png().toBuffer()
-    //         req.body.avatar = buffer
-    //         const player = new Player(req.body)
-    //         await player.save()
-    //         player.avatar = player.avatar.toString('base64')
-            // req.logIn(player, function(err){
-            //     if(err) {
-            //         req.flash('error', 'Registration Error')
-            //         return res.redirect('/register')
-            //     }
-            //     res.render('player-profile.hbs', { player })
-            // })
-            
-    //     } catch (e) {
-    //         req.flash('error', 'Something went wrong')
-    //         res.redirect('/register')
-    //     }
-    // })
-})
+
+// multerParams(req, res, async function (err) {
+//     if (err) {
+//         if (err.field === 'avatar') {
+//             req.flash('error', 'Avatar size cannot exceed 1MB')
+//             return res.redirect('/register')
+//         } else {
+//             req.flash('error', err.message)
+//             return res.redirect('/register')
+//         }
+//     }
+//     try {
+//         const buffer = await sharp(req.file.buffer).resize({ width: 150, height: 150 }).png().toBuffer()
+//         req.body.avatar = buffer
+//         const player = new Player(req.body)
+//         await player.save()
+//         player.avatar = player.avatar.toString('base64')
+// req.logIn(player, function(err){
+//     if(err) {
+//         req.flash('error', 'Registration Error')
+//         return res.redirect('/register')
+//     }
+//     res.render('player-profile.hbs', { player })
+// })
+
+//     } catch (e) {
+//         req.flash('error', 'Something went wrong')
+//         res.redirect('/register')
+//     }
+// })
+//})
 
 
 router.get('/', async (req, res) => {
