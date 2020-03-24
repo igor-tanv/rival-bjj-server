@@ -15,24 +15,6 @@ const registerPlayer = require('../services/player/registerPlayer')
 let multipart = require('connect-multiparty')
 const path = require('../path')
 
-
-router.get('/', async (req, res) => {
-    let players = await getPlayers.getPlayers()
-    res.render('main.hbs', { players });
-})
-
-router.get('/about', async (req, res) => {
-    res.render('about.hbs', {
-        title: 'About Rival',
-    })
-})
-
-router.get('/register', async (req, res) => {
-    res.render('register.hbs', {
-        title: 'Register Your BJJ Profile',
-    })
-})
-
 router.post('/register', async (req, res) => {
     console.log('BODY',req)
     console.log('FILE',req.file)
@@ -81,6 +63,26 @@ router.post('/register', async (req, res) => {
     //     }
     // })
 })
+
+
+router.get('/', async (req, res) => {
+    let players = await getPlayers.getPlayers()
+    res.render('main.hbs', { players });
+})
+
+router.get('/about', async (req, res) => {
+    res.render('about.hbs', {
+        title: 'About Rival',
+    })
+})
+
+router.get('/register', async (req, res) => {
+    res.render('register.hbs', {
+        title: 'Register Your BJJ Profile',
+    })
+})
+
+
 
 router.get('/logout', function (req, res) {
     req.flash('success_msg', 'You have logged out of your account');
