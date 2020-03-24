@@ -13,7 +13,15 @@ const getAllPlayers = async () => {
   })
 }
 
+const registerPlayer = async (newPlayer) => {
+  const player = new Player(newPlayer)
+  console.log('DATA', player)
+  await player.save()
+  return player
+}
+
 module.exports = {
-  getAllPlayers
+  getAllPlayers,
+  registerPlayer
 }
 

@@ -1,5 +1,4 @@
 const express = require('express')
-const sharp = require('sharp')
 const Player = require('../models/player')
 const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
@@ -11,10 +10,12 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 
 //new structure
-const Players = require('../services/player/getPlayers')
+const getPlayers = require('../services/player/getPlayers')
+const registerPlayer = require('../services/player/registerPlayer')
+
 
 router.get('/', async (req, res) => {
-    let players = await Players.getPlayers()
+    let players = await getPlayers.getPlayers()
     res.render('main.hbs', { players });
 })
 
@@ -31,35 +32,52 @@ router.get('/register', async (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
-    multerParams(req, res, async function (err) {
-        if (err) {
-            if (err.field === 'avatar') {
-                req.flash('error', 'Avatar size cannot exceed 1MB')
-                return res.redirect('/register')
-            } else {
-                req.flash('error', err.message)
-                return res.redirect('/register')
-            }
+    console.log('BODY',req)
+    console.log('FILE',req.file)
+    const buffer = req.file.buffer
+    const newPlayer = req.body
+
+    const player = await registerPlayer.registerPlayer(buffer, newPlayer)
+    console.log('API PLAYER', player)
+
+    req.logIn(player, function(err){
+        console.log('API', err)
+        if(err) {
+            req.flash('error', 'Registration Error')
+            return res.redirect('/register')
         }
-        try {
-            const buffer = await sharp(req.file.buffer).resize({ width: 150, height: 150 }).png().toBuffer()
-            req.body.avatar = buffer
-            const player = new Player(req.body)
-            await player.save()
-            player.avatar = player.avatar.toString('base64')
-            req.logIn(player, function(err){
-                if(err) {
-                    req.flash('error', 'Registration Error')
-                    return res.redirect('/register')
-                }
-                res.render('player-profile.hbs', { player })
-            })
-            
-        } catch (e) {
-            req.flash('error', 'Something went wrong')
-            res.redirect('/register')
-        }
+        res.render('player-profile.hbs', { player })
     })
+
+    // multerParams(req, res, async function (err) {
+    //     if (err) {
+    //         if (err.field === 'avatar') {
+    //             req.flash('error', 'Avatar size cannot exceed 1MB')
+    //             return res.redirect('/register')
+    //         } else {
+    //             req.flash('error', err.message)
+    //             return res.redirect('/register')
+    //         }
+    //     }
+    //     try {
+    //         const buffer = await sharp(req.file.buffer).resize({ width: 150, height: 150 }).png().toBuffer()
+    //         req.body.avatar = buffer
+    //         const player = new Player(req.body)
+    //         await player.save()
+    //         player.avatar = player.avatar.toString('base64')
+            // req.logIn(player, function(err){
+            //     if(err) {
+            //         req.flash('error', 'Registration Error')
+            //         return res.redirect('/register')
+            //     }
+            //     res.render('player-profile.hbs', { player })
+            // })
+            
+    //     } catch (e) {
+    //         req.flash('error', 'Something went wrong')
+    //         res.redirect('/register')
+    //     }
+    // })
 })
 
 router.get('/logout', function (req, res) {
