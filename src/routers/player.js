@@ -12,6 +12,8 @@ var ObjectId = require('mongoose').Types.ObjectId;
 //new structure
 const getPlayers = require('../services/player/getPlayers')
 const registerPlayer = require('../services/player/registerPlayer')
+let multipart = require('connect-multiparty')
+const path = require('../path')
 
 
 router.get('/', async (req, res) => {
