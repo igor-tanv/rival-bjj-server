@@ -3,11 +3,12 @@ const Player = require('../models/player')
 const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const passport = require('passport');
-const upload = require('../middleware/multer')
+//const upload = require('../middleware/multer')
 const router = new express.Router()
 const path = require('../path')
 router.use('/players/avatars', express.static(path.PUBLIC.AVATAR_PICTURES))
-const multerParams = upload.single('avatar')
+
+//const multerParams = upload.single('avatar')
 var ObjectId = require('mongoose').Types.ObjectId;
 
 
@@ -15,24 +16,8 @@ var ObjectId = require('mongoose').Types.ObjectId;
 const getPlayers = require('../services/player/getPlayers')
 const registerPlayer = require('../services/player/registerPlayer')
 let multipart = require('connect-multiparty')
-
-
-// router.post('/register', async (req, res) => {
-//     console.log('REQ.BODY', req.body)
-//     console.log('REQ.FILES', req.files)
-//     //need req.body and req.avatar
-//     multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 })
-//     const player = await registerPlayer.registerPlayer(req.body, req.files)
-//     console.log('API', player)
-//     if (player.status != 200) {
-//         req.flash('error', 'Registration Error')
-//         return res.redirect('/register')
-//     }
-// })
-
-router.post('/register', async (req,res) => {
-    console.log(req.body)
-})
+const multer = require('multer');
+const upload = multer();
 
 
 router.get('/', async (req, res) => {
@@ -40,6 +25,17 @@ router.get('/', async (req, res) => {
     res.render('main.hbs', { players });
 })
 
+router.post("/register", upload.single('avatar'), async (req, res) => {
+    try{
+        const registerData = await registerPlayer.registerPlayer(req.body, req.file)
+        console.log('API',registerData)
+        return res.render("player-profile", { player: registerData.player })
+    } catch (e) {
+        console.log(e)
+        return res.render("/register", { error: e })
+    }
+    
+})
 router.get('/about', async (req, res) => {
     res.render('about.hbs', {
         title: 'About Rival',
@@ -47,9 +43,7 @@ router.get('/about', async (req, res) => {
 })
 
 router.get('/register', async (req, res) => {
-    res.render('register.hbs', {
-        title: 'Register Your BJJ Profile',
-    })
+    res.render('register.hbs')
 })
 
 
@@ -67,6 +61,7 @@ router.get('/login', async (req, res) => {
 })
 
 router.post("/login", function (req, res, next) {
+    console.log('LOGIN', req.headers)
     passport.authenticate("local", function (err, player, info) {
         if (err) { return next(err); }
         if (!player) { return res.render('login', { error: info.message }) }
