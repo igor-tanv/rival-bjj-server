@@ -3,20 +3,16 @@ const sharp = require('sharp')
 const Player = require('../../models/player')
 
 const registerPlayer = async (registration, avatar) => {
-  
   try {
-    
-    // if (avatar) {
-    //   const arrFile = avatar.path.split('/')
-    //   player.avatar = arrFile[arrFile.length - 1]
-    // }
-    const player = await PlayersData.registerPlayer((new Player(registration)))
-    console.log('SERVICE',player)
-    return res.json({ status: 200, data: player })
-
+    let player = new Player(registration)
+    if (avatar) {
+      const arrFile = avatar.path.split('/')
+      player.avatar = arrFile[arrFile.length - 1]
+    }
+    const newPlayer = await PlayersData.registerPlayer(player)
+    return ({ status: 200, data: newPlayer })
   }
   catch (err) {
-    console.log('ERROR', err)
     return ({ status: 400, data: err })
   }
 }

@@ -15,7 +15,6 @@ const getAllPlayers = async () => {
 
 const registerPlayer = async (newPlayer) => {
   let player = await newPlayer.save()
-  console.log('DATA', player)
   return player
 }
 

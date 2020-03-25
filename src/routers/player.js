@@ -16,8 +16,6 @@ var ObjectId = require('mongoose').Types.ObjectId;
 const getPlayers = require('../services/player/getPlayers')
 const registerPlayer = require('../services/player/registerPlayer')
 let multipart = require('connect-multiparty')
-const multer = require('multer');
-const upload = multer();
 
 
 router.get('/', async (req, res) => {
@@ -25,17 +23,14 @@ router.get('/', async (req, res) => {
     res.render('main.hbs', { players });
 })
 
-router.post("/register", upload.single('avatar'), async (req, res) => {
-    try{
-        const registerData = await registerPlayer.registerPlayer(req.body, req.file)
-        console.log('API',registerData)
-        return res.render("player-profile", { player: registerData.player })
-    } catch (e) {
-        console.log(e)
-        return res.render("/register", { error: e })
+router.post("/register", multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }), async (req, res) => {
+    const registerData = await registerPlayer.registerPlayer(req.body, req.files.avatar)
+    if (registerData.status != 200) {
+        return res.render("register", { error: registerData.data })
     }
-    
+    return res.render("player-profile", { player: registerData.data }) //HERE
 })
+
 router.get('/about', async (req, res) => {
     res.render('about.hbs', {
         title: 'About Rival',
