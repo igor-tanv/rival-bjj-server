@@ -1,25 +1,32 @@
 const express = require('express')
-const sharp = require('sharp')
 const Player = require('../models/player')
 const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const passport = require('passport');
-const upload = require('../middleware/multer')
+//const upload = require('../middleware/multer')
 const router = new express.Router()
-const multerParams = upload.single('avatar')
+
+const path = require('../path')
+router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
 var ObjectId = require('mongoose').Types.ObjectId;
 
 
+//new structure
+const getPlayers = require('../services/player/getPlayers')
+const registerPlayer = require('../services/player/registerPlayer')
+let multipart = require('connect-multiparty')
+
 router.get('/', async (req, res) => {
-    Player.find(function (err, players) {
-        // Convert player avatar to base64 String
-        players.forEach((player) => {
-            player.avatar = player.avatar.toString('base64')
-        })
-        //sort by nogiRank from high to low
-        players.sort((a, b) => b.nogi - a.nogi)
-        res.render('main.hbs', { players });
-    });
+    let players = await getPlayers.getPlayers()
+    res.render('main', { players });
+})
+
+router.post("/register", multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }), async (req, res) => {
+    const registerData = await registerPlayer.registerPlayer(req.body, req.files.avatar)
+    if (registerData.status != 200) {
+        return res.render("register", { error: registerData.data })
+    }
+    return res.render("player-profile", { player: registerData.data }) 
 })
 
 router.get('/about', async (req, res) => {
@@ -29,41 +36,7 @@ router.get('/about', async (req, res) => {
 })
 
 router.get('/register', async (req, res) => {
-    res.render('register.hbs', {
-        title: 'Register Your BJJ Profile',
-    })
-})
-
-router.post('/register', async (req, res) => {
-    multerParams(req, res, async function (err) {
-        if (err) {
-            if (err.field === 'avatar') {
-                req.flash('error', 'Avatar size cannot exceed 1MB')
-                return res.redirect('/register')
-            } else {
-                req.flash('error', err.message)
-                return res.redirect('/register')
-            }
-        }
-        try {
-            const buffer = await sharp(req.file.buffer).resize({ width: 150, height: 150 }).png().toBuffer()
-            req.body.avatar = buffer
-            const player = new Player(req.body)
-            await player.save()
-            player.avatar = player.avatar.toString('base64')
-            req.logIn(player, function(err){
-                if(err) {
-                    req.flash('error', 'Registration Error')
-                    return res.redirect('/register')
-                }
-                res.render('player-profile.hbs', { player })
-            })
-            
-        } catch (e) {
-            req.flash('error', 'Something went wrong')
-            res.redirect('/register')
-        }
-    })
+    res.render('register.hbs')
 })
 
 router.get('/logout', function (req, res) {
@@ -93,7 +66,6 @@ router.post("/login", function (req, res, next) {
 router.get('/players/:id', ensureAuthenticated, async (req, res) => {
     try {
         let player = (req.params.id === ":id") ? await Player.findById(req.user.id) : await Player.findById(req.params.id)
-        player.avatar = player.avatar.toString('base64')
         res.render('player-profile.hbs', { player })
     } catch (e) {
         req.flash('error', 'Login to view your profile')
@@ -105,7 +77,6 @@ router.get('/players/:id', ensureAuthenticated, async (req, res) => {
 router.get('/players/opponent/:id', async (req, res) => {
     try {
         const player = await Player.findById(req.params.id)
-        player.avatar = player.avatar.toString('base64')
         if (!player) { throw new Error() }
         res.render('opponent-profile.hbs', { player })
     } catch (e) {

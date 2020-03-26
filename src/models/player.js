@@ -76,7 +76,7 @@ const playerSchema = new mongoose.Schema({
         default: 0
     },
     avatar: {
-        type: Buffer,
+        type: String,
         required: true
     }
 }, {
