@@ -5,10 +5,9 @@ const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const passport = require('passport');
 //const upload = require('../middleware/multer')
 const router = new express.Router()
-const path = require('../path')
-router.use('/players/avatars', express.static(path.PUBLIC.AVATAR_PICTURES))
 
-//const multerParams = upload.single('avatar')
+const path = require('../path')
+router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
 var ObjectId = require('mongoose').Types.ObjectId;
 
 
@@ -17,10 +16,9 @@ const getPlayers = require('../services/player/getPlayers')
 const registerPlayer = require('../services/player/registerPlayer')
 let multipart = require('connect-multiparty')
 
-
 router.get('/', async (req, res) => {
     let players = await getPlayers.getPlayers()
-    res.render('main.hbs', { players });
+    res.render('main', { players });
 })
 
 router.post("/register", multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }), async (req, res) => {
