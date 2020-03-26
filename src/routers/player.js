@@ -26,7 +26,12 @@ router.post("/register", multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, max
     if (registerData.status != 200) {
         return res.render("register", { error: registerData.data })
     }
-    return res.render("player-profile", { player: registerData.data }) 
+    let player = registerData.data
+    //factor out this code and the same in the post login 
+    req.logIn(player, function (err) {
+        if (err) { return next(err); }
+        return res.redirect('/players/' + player._id);
+    })
 })
 
 router.get('/about', async (req, res) => {
