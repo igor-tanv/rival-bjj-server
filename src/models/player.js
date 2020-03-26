@@ -60,12 +60,10 @@ const playerSchema = new mongoose.Schema({
     nogi: {
         type: Number,
         required: true,
-        trim: true
     },
     gi: {
         type: Number,
         required: true,
-        trim: true
     },
     rating: {
         type: Number,
