@@ -70,22 +70,26 @@ router.post("/login", function (req, res, next) {
 //Player Profile
 router.get('/players/:id', ensureAuthenticated, async (req, res) => {
     try {
-        let player = (req.params.id === ":id") ? await Player.findById(req.user.id) : await Player.findById(req.params.id)
-        res.render('player-profile.hbs', { player })
+        let player = (req.params.id === ":id") ? await getPlayers.getPlayer(req.user.id) : await getPlayers.getPlayer(req.params.id)
+        res.render('player-profile', { player })
     } catch (e) {
         req.flash('error', 'Login to view your profile')
-        res.redirect('/login')
+        res.redirect('login')
     }
 })
 
 //Opponent Profile
 router.get('/players/opponent/:id', async (req, res) => {
     try {
-        const player = await Player.findById(req.params.id)
-        if (!player) { throw new Error() }
+        const player = await getPlayers.getPlayer(req.params.id)
+        if (!player) { 
+            req.flash('error', 'That player does not exist')
+            return res.redirect('/')
+         }
         res.render('opponent-profile.hbs', { player })
     } catch (e) {
-        res.status(404).send()
+        req.flash('error', 'Something went wrong')
+        res.redirect('/')
     }
 })
 

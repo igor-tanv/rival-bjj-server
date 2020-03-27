@@ -20,6 +20,7 @@ const registerPlayer = async (newPlayer) => {
 
 module.exports = {
   getAllPlayers,
-  registerPlayer
+  registerPlayer,
+  getPlayerById
 }
 
