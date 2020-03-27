@@ -1,18 +1,16 @@
 const express = require('express')
 const Contract = require('../models/contract')
 const Player = require('../models/player')
+const getPlayers = require('../services/player/getPlayers')
 const { ensureAuthenticated } = require('../middleware/auth')
 const router = new express.Router()
 
-//Match Contract
 router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
-    const opponent = await Player.findById(req.params.opponentId)
-
+    const opponent = await getPlayers.getPlayer(req.params.opponentId)
     if (req.user._id.equals(opponent._id)) {
         req.flash('error', "You can't challenge yourself!")
         return res.redirect('/')
     }
-    //console.log(req.user._id, opponent._id)
     res.render('challenge.hbs', { opponent })
 })
 
