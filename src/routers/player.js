@@ -1,20 +1,16 @@
 const express = require('express')
-const Player = require('../models/player')
+const path = require('../path')
+const passport = require('passport');
+const multipart = require('connect-multiparty')
+
+
 const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
-const passport = require('passport');
-//const upload = require('../middleware/multer')
-const router = new express.Router()
-
-const path = require('../path')
-router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
-var ObjectId = require('mongoose').Types.ObjectId;
-
-
-//new structure
 const getPlayers = require('../services/player/getPlayers')
 const registerPlayer = require('../services/player/registerPlayer')
-let multipart = require('connect-multiparty')
+
+const router = new express.Router()
+router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
 
 router.get('/', async (req, res) => {
     let players = await getPlayers.getPlayers()
@@ -35,9 +31,7 @@ router.post("/register", multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, max
 })
 
 router.get('/about', async (req, res) => {
-    res.render('about.hbs', {
-        title: 'About Rival',
-    })
+    res.render('about.hbs')
 })
 
 router.get('/register', async (req, res) => {
@@ -51,9 +45,7 @@ router.get('/logout', function (req, res) {
 });
 
 router.get('/login', async (req, res) => {
-    res.render('login.hbs', {
-        title: 'Login to Your Profile'
-    })
+    res.render('login.hbs')
 })
 
 router.post("/login", function (req, res, next) {
@@ -67,7 +59,6 @@ router.post("/login", function (req, res, next) {
     })(req, res, next)
 })
 
-//Player Profile
 router.get('/players/:id', ensureAuthenticated, async (req, res) => {
     try {
         let player = (req.params.id === ":id") ? await getPlayers.getPlayer(req.user.id) : await getPlayers.getPlayer(req.params.id)
@@ -78,7 +69,6 @@ router.get('/players/:id', ensureAuthenticated, async (req, res) => {
     }
 })
 
-//Opponent Profile
 router.get('/players/opponent/:id', async (req, res) => {
     try {
         const player = await getPlayers.getPlayer(req.params.id)
