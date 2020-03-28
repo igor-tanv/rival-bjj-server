@@ -1,26 +1,43 @@
-const Contract = require('./models/contract')
-const Player = require('./models/player')
+const Contract = require('../models/contract')
 
-export const ContractStatus = {
-  Review = 1,
-  Accepted = 2,
-  Rejected = 3,
-  Cancelled = 4,
-  Completed = 5
+const getContractById = async (contractId) => {
+  return Contract.findById(contractId)
 }
 
-export class ContractData {
+const getContractsByPlayerId = async (playerId) => {
+  return Contract.find({ 'player_id': playerId })
+}
 
-  export static getContractById(contractId) {
-    return Contract.findById(contractId)
+const getContractsByOpponentId = async (opponentId) => {
+  return Contract.find({ 'opponent_id': opponentId })
+}
+
+const registerContract = async (contract, playerId) => {
+  const requiredFields = ['rules','datetime','school','referee']
+  try {
+      let newContract = new Contract({
+        rules: contract.rules,
+        datetime: (Date.parse(contract.datetime)) / 1000,
+        school: contract.school,
+        comments: contract.comments,
+        playerId,
+        opponentId: contract.opponentId,
+        referee: contract.referee
+      })
+      let result = await newContract.save()
+      return ({ status: 200, data: result })
+  } catch (e) {
+      let errArray = requiredFields.map((field) =>{
+        if(e.errors[field] != undefined){
+          return e.errors[field].path
+        }
+      }).filter((path)=>{
+        return path != undefined
+      })
+      return ({ status: 400, data: 'Missing fields: '+ errArray })
   }
+}
 
-  export static getContractsByPlayerId(playerId) {
-    return Contract.find({'player_id':playerId})
-  }
-
-  export static getContractsByOpponentId(opponentId) {
-    return Contract.find({'opponent_id':opponentId})
-  }
-
+module.exports = {
+  registerContract
 }

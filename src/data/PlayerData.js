@@ -14,8 +14,7 @@ const getAllPlayers = async () => {
 }
 
 const registerPlayer = async (newPlayer) => {
-  let player = await newPlayer.save()
-  return player
+  return await newPlayer.save()
 }
 
 module.exports = {

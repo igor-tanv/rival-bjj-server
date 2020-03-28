@@ -2,8 +2,11 @@ const express = require('express')
 const Contract = require('../models/contract')
 const Player = require('../models/player')
 const getPlayers = require('../services/player/getPlayers')
+const registerContract = require('../services/contract/registerContract')
 const { ensureAuthenticated } = require('../middleware/auth')
 const router = new express.Router()
+
+
 
 router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
     const opponent = await getPlayers.getPlayer(req.params.opponentId)
@@ -16,38 +19,50 @@ router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
 
 router.post('/challenge', ensureAuthenticated, async (req, res) => {
     opponentId = req.body.opponentId
-    var date = new Date();
-    var timestamp = Math.round((date.getTime()) / 1000)
-    let matchDate = (Date.parse(req.body.datetime)) / 1000
-    let diff = (matchDate - timestamp)
-    let threeMonths = 7776000
-    if (matchDate) {
-        if (timestamp > matchDate) {
-            req.flash('error', 'Date of Match cannot be in the past')
-            return res.redirect('/challenge/' + opponentId)
-        }
-        if (diff > threeMonths) {
-            req.flash('error', 'Cannot set a match more than 3 months out')
-            return res.redirect('/challenge/' + opponentId)
-        }
+    let contract = req.body
+    let playerId = req.user.id
+    let newContract = await registerContract.registerContract(contract,playerId)
+    //console.log('API',newContract)
+    if(newContract.status != 200) {
+        // if (newContract.data.ValidationError) {
+        //     newContract.data =  newContract.data.ValidationError
+        // }
+        req.flash('error', newContract.data)
+        return res.redirect('/challenge/' + opponentId)
     }
-    try {
-        const contract = new Contract({
-            rules: req.body.rules,
-            datetime: (Date.parse(req.body.datetime)) / 1000,
-            school: req.body.school,
-            comments: req.body.comments,
-            playerId: req.user._id,
-            opponentId: req.body.opponentId,
-            referee: req.body.referee
-        })
-        await contract.save()
-        req.flash('success_msg', 'Your challenge has been submitted!')
-        res.redirect('/')
-    } catch (e) {
-        req.flash('error', 'Something went wrong')
-        res.redirect('/')
-    }
+
+    // var date = new Date();
+    // var timestamp = Math.round((date.getTime()) / 1000)
+    // let matchDate = (Date.parse(req.body.datetime)) / 1000
+    // let diff = (matchDate - timestamp)
+    // let threeMonths = 7776000
+    // if (matchDate) {
+    //     if (timestamp > matchDate) {
+            // req.flash('error', 'Date of Match cannot be in the past')
+            // return res.redirect('/challenge/' + opponentId)
+    //     }
+    //     if (diff > threeMonths) {
+    //         req.flash('error', 'Cannot set a match more than 3 months out')
+    //         return res.redirect('/challenge/' + opponentId)
+    //     }
+    // }
+    // try {
+    //     const contract = new Contract({
+    //         rules: req.body.rules,
+    //         datetime: (Date.parse(req.body.datetime)) / 1000,
+    //         school: req.body.school,
+    //         comments: req.body.comments,
+    //         playerId: req.user._id,
+    //         opponentId: req.body.opponentId,
+    //         referee: req.body.referee
+    //     })
+    //     await contract.save()
+    //     req.flash('success_msg', 'Your challenge has been submitted!')
+    //     res.redirect('/')
+    // } catch (e) {
+    //     req.flash('error', 'Something went wrong')
+    //     res.redirect('/')
+    // }
 })
 
 //Notes: belongsTo and hasMany in Mongoose / virtual fields 
