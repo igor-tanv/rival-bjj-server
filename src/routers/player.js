@@ -8,6 +8,7 @@ const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const getPlayers = require('../services/player/getPlayers')
 const registerPlayer = require('../services/player/registerPlayer')
+const deletePlayer = require('../services/player/deletePlayer')
 
 const router = new express.Router()
 router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
@@ -81,6 +82,16 @@ router.get('/players/opponent/:id', async (req, res) => {
         req.flash('error', 'Something went wrong')
         res.redirect('/')
     }
+})
+
+router.post('/player/delete/:id', ensureAuthenticated, async (req, res) => {
+    let delPlayer = await deletePlayer.deletePlayerById(req.params.id)
+    if(delPlayer.status === 200){
+        req.flash('success_msg', delPlayer.data);
+        return res.redirect('/')
+    }
+    req.flash('error', delPlayer.data)
+    res.redirect('/')   
 })
 
 module.exports = router
