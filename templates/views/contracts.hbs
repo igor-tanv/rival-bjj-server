@@ -9,10 +9,9 @@
     <div>
         <div style="margin:100px;">
             <div class="jumbotron" style="padding:40px;">
-                <h1>{{title}}</h1>
-                <br>
+                <h1>All Pending Matches</h1>
                 {{# each contracts }}
-                <img src="data:image/png;base64,{{ this.opponent.avatar }}" width="150" height="150" />
+                <img src='/avatar-pictures/{{ this.opponent.avatar }}' width="150" height="150" />
                 <h3>Opponent Name: {{ this.opponent.first }} {{ this.opponent.last }}</h3>
                 <h3>Match Location: {{ this.school }} </h3>
                 <h3>Match Date: {{ this.date.month }} {{ this.date.day }},

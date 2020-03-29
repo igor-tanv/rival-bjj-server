@@ -1,50 +1,43 @@
 const express = require('express')
-const sharp = require('sharp')
-const passport = require('passport');
-var ObjectId = require('mongoose').Types.ObjectId;
-const upload = require('../middleware/multer')
-const multerParams = upload.single('avatar')
-
-const playersService = require('../services/players')
-let multipart = require('connect-multiparty')
 const path = require('../path')
-const Player = require('../models/player')
+const passport = require('passport');
+const multipart = require('connect-multiparty')
+
+
 const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
+const getPlayers = require('../services/player/getPlayers')
+const registerPlayer = require('../services/player/registerPlayer')
+const deletePlayer = require('../services/player/deletePlayer')
 
 const router = new express.Router()
-router.use('/players/avatars', express.static(path.PUBLIC.AVATAR_PICTURES))
+router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
 
 router.get('/', async (req, res) => {
-    Player.find(function (err, players) {
-        //Convert player avatar to base64 String
-        // players.forEach((player) => {
-        //     console.log(player.avatar.toString('base64'))
-        //    player.avatar = player.avatar.toString('base64')
-        // })
-        
-       // sort by nogiRank from high to low
-        players.sort((a, b) => b.nogi - a.nogi)
-        res.render('main.hbs', { players });
-        
-    });
+    let players = await getPlayers.getPlayers()
+    res.render('main', { players });
 })
 
-router.get('/players', playersService.getPlayers)
+router.post("/register", multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }), async (req, res) => {
+    const registerData = await registerPlayer.registerPlayer(req.body, req.files.avatar)
+    if (registerData.status != 200) {
+        return res.render("register", { error: registerData.data })
+    }
+    let player = registerData.data
+    //factor out this code and the same in the post login 
+    req.logIn(player, function (err) {
+        if (err) { return next(err); }
+        return res.redirect('/players/' + player._id);
+    })
+})
 
 router.get('/about', async (req, res) => {
-    res.render('about.hbs', {
-        title: 'About Rival',
-    })
+    res.render('about.hbs')
 })
 
 router.get('/register', async (req, res) => {
-    res.render('register.hbs', {
-        title: 'Register Your BJJ Profile',
-    })
+    res.render('register.hbs')
 })
-
-router.post('/register', multipart({uploadDir:path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 *1024}), playersService.registerPlayer)
 
 router.get('/logout', function (req, res) {
     req.flash('success_msg', 'You have logged out of your account');
@@ -53,9 +46,7 @@ router.get('/logout', function (req, res) {
 });
 
 router.get('/login', async (req, res) => {
-    res.render('login.hbs', {
-        title: 'Login to Your Profile'
-    })
+    res.render('login.hbs')
 })
 
 // router.post("/login", function (req, res, next) {
@@ -92,28 +83,38 @@ router.post("/login", function (req, res, next) {
     })(req, res, next)
 })
 
-//Player Profile
-router.get('/players/:id', async (req, res) => {
+router.get('/players/:id', ensureAuthenticated, async (req, res) => {
     try {
-        let player = (req.params.id === ":id") ? await Player.findById(req.user.id) : await Player.findById(req.params.id)
-        player.avatar = player.avatar.toString('base64')
-        res.render('player-profile.hbs', { player })
+        let player = (req.params.id === ":id") ? await getPlayers.getPlayer(req.user.id) : await getPlayers.getPlayer(req.params.id)
+        res.render('player-profile', { player })
     } catch (e) {
         req.flash('error', 'Login to view your profile')
-        res.redirect('/login')
+        res.redirect('login')
     }
 })
 
-//Opponent Profile
 router.get('/players/opponent/:id', async (req, res) => {
     try {
-        const player = await Player.findById(req.params.id)
-        player.avatar = player.avatar.toString('base64')
-        if (!player) { throw new Error() }
+        const player = await getPlayers.getPlayer(req.params.id)
+        if (!player) { 
+            req.flash('error', 'That player does not exist')
+            return res.redirect('/')
+         }
         res.render('opponent-profile.hbs', { player })
     } catch (e) {
-        res.status(404).send()
+        req.flash('error', 'Something went wrong')
+        res.redirect('/')
     }
+})
+
+router.post('/player/delete/:id', ensureAuthenticated, async (req, res) => {
+    let delPlayer = await deletePlayer.deletePlayerById(req.params.id)
+    if(delPlayer.status === 200){
+        req.flash('success_msg', delPlayer.data);
+        return res.redirect('/')
+    }
+    req.flash('error', delPlayer.data)
+    res.redirect('/')   
 })
 
 module.exports = router
