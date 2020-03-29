@@ -1,18 +1,21 @@
 const express = require('express')
-require('./db/mongoose')
-const playerRouter = require('./routers/player')
-const contractRouter = require('./routers/contract')
 const bodyParser = require('body-parser');
 const hbs = require('express-handlebars')
 const path = require('path')
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+let cors = require('cors')
+
+require('./db/mongoose')
+const playerRouter = require('./routers/player')
+const contractRouter = require('./routers/contract')
 
 // Define paths for Express config
 const viewsPath = path.join(__dirname, '../templates/views')
 const partialsPath = path.join(__dirname, '../templates/partials')
 const layoutPath = path.join(__dirname, '../templates/layouts')
+
 
 const app = express()
 
@@ -50,6 +53,17 @@ app.use(passport.session());
 
 // Connect flash
 app.use(flash());
+
+app.use(cors({credentials: true, origin: true}))
+
+app.all('*', (req, res, next) => {   
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Methods", 'POST, GET, PUT, DELETE, OPTIONS')
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("X-Powered-By", "zloy.best");
+  next();
+});
 
 // Global variables
 app.use(function (req, res, next) {

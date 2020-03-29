@@ -37,6 +37,10 @@ const contractSchema = new mongoose.Schema({
     referee: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        default: 'Pending'
     }
 
 }, {

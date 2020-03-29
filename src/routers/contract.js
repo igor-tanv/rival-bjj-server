@@ -18,6 +18,7 @@ router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
     res.render('challenge.hbs', { opponent })
 })
 
+//Post challenge to the DB
 router.post('/challenge', ensureAuthenticated, async (req, res) => {
     opponentId = req.body.opponentId
     let contract = req.body

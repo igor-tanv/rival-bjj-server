@@ -49,13 +49,36 @@ router.get('/login', async (req, res) => {
     res.render('login.hbs')
 })
 
+// router.post("/login", function (req, res, next) {
+//     console.log('HELLO')
+//     passport.authenticate("local", function (err, player, info) {
+//         if (err) { return next(err); }
+//         if (!player) { return res.render('login', { error: info.message }) }
+//         req.logIn(player, function (err) {
+//             if (err) { return next(err); }
+//             return res.redirect('/players/' + player._id);
+//         })
+//     })(req, res, next)
+// })
+
 router.post("/login", function (req, res, next) {
+    console.log(req.body)
     passport.authenticate("local", function (err, player, info) {
-        if (err) { return next(err); }
-        if (!player) { return res.render('login', { error: info.message }) }
+        console.log(0)
+        if (err) { 
+            console.log("Error0", errs)
+            return res.json({err}); 
+        }
+        if (!player) { 
+            console.log("Error1",info.message)
+            return res.json({error: info.message }) }
         req.logIn(player, function (err) {
-            if (err) { return next(err); }
-            return res.redirect('/players/' + player._id);
+            console.log(player)
+            if (err) { 
+                console.log("Error2",err)
+                return next(err); 
+            }
+            return res.json({player});
         })
     })(req, res, next)
 })
