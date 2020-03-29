@@ -42,10 +42,9 @@ const playerSchema = new mongoose.Schema({
             }
         }
     },
-    weight: {
-        type: Number,
+    weightClass: {
+        type: String,
         required: true,
-        trim: true
     },
     school: {
         type: String,
