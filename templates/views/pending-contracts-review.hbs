@@ -18,6 +18,7 @@
             <input type="hidden" id="contractId" name="contractId" value={{contract._id}}>
             Match Details
             Type of Match: {{contract.rules}}
+            Weight Class: {{contract.weightClass}}
             When: {{contract.datetime}}
             Where: {{contract.school}}
             Referee: {{contract.referee}}
@@ -26,7 +27,7 @@
             Your Opponent 
             <img src='/avatar-pictures/{{ opponent.avatar }}' width="150" height="150" />
             Name: {{opponent.firstName}} {{opponent.lastName}}
-            Weight: {{opponent.weight}}
+            Weight: {{opponent.weightClass}}
             School: {{opponent.school}}
             Gi Rank: {{opponent.gi}}
             NoGi Rank: {{opponent.nogi}}
