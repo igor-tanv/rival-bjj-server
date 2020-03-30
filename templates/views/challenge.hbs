@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    
+
 </head>
 
 <body>
@@ -12,22 +12,20 @@
             <div class="row mt-5">
                 <div class="card card-body">
                     <h1 class="text-center mb-3"><i class="fas fa-horse-head"></i> Match Contract</h1>
-                    
+
                     <h3>You are challenging {{opponent.firstName}} {{opponent.lastName}} to a match</h3>
                     <br>
                     <form action="/challenge" method="POST">
-                    <input type="hidden" id="opponentId" name="opponentId" value={{opponent._id}}>
+                        <input type="hidden" id="opponentId" name="opponentId" value={{opponent._id}}>
                         <div class="form-group">
                             <label for="rules">Match Rules: </label>
                             <select name="rules">
                                 <option value="gi">Gi</option>
-                                <option value="nogi">NoGi</option> 
+                                <option value="nogi">NoGi</option>
                             </select>
-                            <p>The weight numbers are the weight limit of each class</p>
                         </div>
                         <div class="form-group">
-                            <label for="weightClass">Weight Class:</label>
-                            <p>Note: If you compete in a Gi match, you must weigh-in wearing your Gi</p>
+                            <label for="weightClass">Match Weight Class:</label>
                             <select name="weightClass">
                                 <option value="Flyweight">Flyweight – 57.5 kg (126.5 lbs)</option>
                                 <option value="Featherweight">Featherweight – 64 kg (141 lbs)</option>
@@ -38,9 +36,10 @@
                                 <option value="Heavyweight">Heavyweight – 100.5 kg (221.0 lbs)</option>
                                 <option value="Absolute">Open Weight Match</option>
                             </select>
+                            <p>*If you compete in a Gi match, you must weigh-in wearing your Gi</p>
                         </div>
                         <div class="form-group">
-                             <label for="datetime">Match Date and Time (Month/Day/Year/Time) :</label>
+                            <label for="datetime">Match Date and Starting Time (Month/Day/Year/Time) :</label>
                             <input id="datetime" type="datetime-local" max="12-31-2299" name="datetime" value="">
                         </div>
                         <div class="form-group">
@@ -52,122 +51,162 @@
                             <input type="text" id="referee" name="referee" placeholder="Full Name" value="" />
                         </div>
                         <div class="form-group">
-                            <label for="comments">Enter Comments: </label>
-                            <input type="text" id="comments" name="comments" class="form-control" placeholder="Relevant comments such as fees, school address, parking instructions, etc." />
+                            <label for="comments">Comments: </label>
+                            <input type="text" id="comments" name="comments" class="form-control"
+                                placeholder="Relevant comments such as match fee, school address, parking instructions, phone number etc." />
                         </div>
-<p>
-    <h3>General Rules </h3>
-    Note: It is recommended that competitors, coaches, scorekeepers and referees should arrive at least 15 minutes before the match starts
-    in order to weigh-in, warm up and discuss the rules of this contract to make sure everyone
-    has the same understanding of how the match will be conducted.
-    
-    1) No unsportsmanlike conduct will be allowed.  You may be disqualified for unsportsmanlike
-    conduct. The
-    referee will be shown maximum respect at all times. 
-    <br>2) No striking, biting, eye gouging (includes chin to eye), head butting, small joint
-    manipulation
-    (finger or toe locks), hair pulling, grabbing the windpipe, or ear pulling will be
-    permitted.
-    <br>3) No slamming allowed. Illegal slamming will be defined as slamming your opponent to
-    escape
-    submissions and/or to pass the guard; or standing from the guard and/or jumping from a
-    standing position
-    to slam your opponent. Slamming will result in an automatic DQ.  Takedowns are NOT
-    considered slams, but
-    you must deliver your opponent safely to the mat.
-    <br>4) No infectious skin diseases (such as ringworm, staph, and MRSA) or open wounds will
-    be
-    permitted.  No lubricants, oils, or lotions of any kind will be permitted on any part of the
-    body or
-    clothing.
-    <br>5) Competitors will be allowed to continue grappling anywhere on the matted area,
-    provided they
-    don’t interfere with another match.  If the competitors near the edge of the mat, they will
-    be restarted
-    from the same position, unless the referee is unable to duplicate the position for any
-    reason.  In case
-    the referee is unable to duplicate the position, the competitors will restart from a
-    standing position.
-    <br>6) If a competitor flees the ring when a submission is locked in and the competitor is
-    obviously
-    fleeing to avoid submission, he or she will be automatically disqualified.
-    <br> 7) ALL matches are allowed to be recorded on video.
-    <br> 8) Every match must have AT LEAST 1 Referee and 1 Scorekeeper. This is the responsibility of 
-    the hosting school. 
-    <br> 9) The visiting competitor is allowed to bring 1 Coach or Assistant to the match.
-    <br> 10) The MATCH FEE for the visiting competitor will be decided by the hosting school.
-    As a general recommendation, if the number of matches at the hosting school is 7 or less per week, the match fee 
-    should be 0. If the visiting competitor wishes to join the class or open mat after match he or she will pay 
-    the normal mat fee. 
-    <br> 11) The match can take place before, during or after class. The hosting student and their instructor will
-    make this decision. As a general rule, the best time for a match is during OPEN MAT or on the WEEKEND. 
-    <br> 12) It is the responsibility of the hosting competitor (hosting competitor means the match will take place at your school / training facility) to discuss all rules and conditions of this contract with his or her 
-    instructor <u>before sending or accepting the match contract</u>. 
-    <br> 13) Both competitors must weigh-in before the match starts. It is the responsibility of
-    the hosting school to provide a working scale and failure to do so will result in a DQ for the host competitor. Either the visiting competitor or his coach/assitant may 
-    request the scales to be verified by placing a known-weight on the scale. 
-    <br> 14) If a competitor does not make the weight outlined in this contract the other competitor
-    has the option to reject the match and accept a win by DQ or continue with the match. 
-    <br> 15) If a competitor arrives to the match 5 or more minutes past the scheduled starting time, the other competitor 
-    has the option to reject the match and accept a win by DQ or continue with the match.
-    <br> 16) <u>IF EITHER THE COMPETITOR OR HIS INSTRUCTOR FAIL TO HONOR ANY OF THE RULES 
-    IN THIS CONTRACT THAT COMPETITOR WILL RECEIVE AN AUTOMATIC MATCH DISQUALIFICATION.
-    (This includes changing the referee of the match). </u>
-</p>
+                        <p>
+                            <h3>General Rules </h3>
+                            Note: Competitors, coaches, scorekeepers and referees should all be present least 15 minutes
+                            before the match starts
+                            in order to weigh-in, warm up and discuss the rules of this contract to make sure everyone
+                            has the same understanding of how the match will be conducted.<br><br>
 
-<p> <h3>Brazilian Jiu Jitsu (Gi) Rules</h3>
-    NOTE: If two competitors of different belt levels compete the Brazilian Jiu Jitsu
-    (Gi) Rules will automatically default to the lower belt level.
-    <br>
-   <br> 1) The only submissions below the waist that are legal for white, blue, and purple belts are
-    straight
-    ankle locks
-    (AKA straight footlock).
-    <br>2) Kneebars, figure-four toeholds, and compression locks (AKA “slicers”, “crushers”) are
-    legal in brown and black belt divisions only.
-    <br>3) Heel hooks, reaping the knee, twisting knee locks, “flying scissor” takedowns, and
-    neck cranks are never legal in Gi matches.
-    <br>4) All competitors must compete using the belt awarded to them by their Brazilian Jiu
-    Jitsu instructor.
-    <br>6) All competitors must have a clean, properly fitted Jiu Jitsu or Judo Gi. Mouthpiece
-    and groin protection are optional, but recommended.
-    <br>7) Match Lengths: ALL GI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND
-    </p>
+                            <ol>
+                                <li> No unsportsmanlike conduct will be allowed.  You may be disqualified for
+                                    unsportsmanlike
+                                    conduct. The
+                                    referee will be shown maximum respect at all times. </li>
+                                <li> No striking, biting, eye gouging (includes chin to eye), head butting, small joint
+                                    manipulation
+                                    (finger or toe locks), hair pulling, grabbing the windpipe, or ear pulling will be
+                                    permitted.</li>
+                                <li> No slamming allowed. Illegal slamming will be defined as slamming your opponent to
+                                    escape
+                                    submissions and/or to pass the guard; or standing from the guard and/or jumping from
+                                    a
+                                    standing position
+                                    to slam your opponent. Slamming will result in an automatic DQ.  Takedowns are NOT
+                                    considered slams, but
+                                    you must deliver your opponent safely to the mat.</li>
+                                <li> No infectious skin diseases (such as ringworm, staph, and MRSA) or open wounds will
+                                    be
+                                    permitted.  No lubricants, oils, or lotions of any kind will be permitted on any
+                                    part of the
+                                    body or
+                                    clothing.</li>
+                                <li> Competitors will be allowed to continue grappling anywhere on the matted area,
+                                    provided they
+                                    don’t interfere with another match.  If the competitors near the edge of the mat,
+                                    they will
+                                    be restarted
+                                    from the same position, unless the referee is unable to duplicate the position for
+                                    any
+                                    reason.  In case
+                                    the referee is unable to duplicate the position, the competitors will restart from a
+                                    standing position.</li>
+                                <li> If a competitor flees the ring when a submission is locked in and the competitor is
+                                    obviously
+                                    fleeing to avoid submission, he or she will be automatically disqualified. </li>
+                                <li> <u>All matches are allowed to be recorded on video</u> for the purpose of
+                                    resolving any disputes about the outcome of the match. If either competitor or coach
+                                    attempts to interfere with this rule their side will receive an automatic DQ.
+                                </li>
+                                <li> Every match must have 1 Referee and 1 Scorekeeper. This is the responsibility of
+                                    the hosting school. </li>
+                                <li> The visiting competitor is allowed to bring 1 Coach or Assistant to the match.</li>
+                                <li> The MATCH FEE for the visiting competitor will be decided by the hosting school.
+                                    As a general recommendation, if the number of matches at the hosting school is 7 or
+                                    less per week, the match fee
+                                    should be 0. If the visiting competitor wishes to join the class or open mat after
+                                    match he or she will pay
+                                    the normal mat fee. </li>
+                                <li> The match can take place before, during or after class. The hosting student and
+                                    their instructor will
+                                    make this decision. As a general rule, the best time for a match is during OPEN MAT
+                                    or on the WEEKEND.</li>
+                                <li> It is the responsibility of the hosting competitor to discuss all rules and
+                                    conditions of this contract with his or her
+                                    instructor <u>before sending or accepting the match contract</u>. </li>
+                                <li> Both competitors must weigh-in before the match starts. It is the responsibility of
+                                    the hosting school to provide a working scale and failure to do so will result in a
+                                    DQ for the host competitor. Either the visiting competitor or his coach/assitant may
+                                    request the scales to be verified by placing a known-weight on the scale. </li>
+                                <li> If a competitor does not make the weight outlined in this contract the other
+                                    competitor
+                                    has the option to reject the match and accept a win by DQ or continue with the
+                                    match. </li>
+                                <li> If a competitor arrives to the match 5 minutes or more past the Match Starting
+                                    Time, the other competitor
+                                    has the option to reject the match and accept a win by DQ or continue with the
+                                    match. </li>
+                                <li>IF EITHER THE COMPETITOR OR HIS INSTRUCTOR FAIL TO HONOR ANY OF THE RULES
+                                    IN THIS CONTRACT THAT COMPETITOR WILL RECEIVE AN AUTOMATIC MATCH
+                                    DISQUALIFICATION.
+                                    THIS INCLUDES CHANGING THE REFEREE OF THE MATCH. </li>
+                            </ol>
+                        </p>
 
-<p>
-    <h3>Submission Grappling (NoGi) Rules</h3>
-    NOTE: If two competitors of different NoGi levels compete the Submission Grappling (NoGi) Rules will automatically default to the lower NoGi level.
-    <br><br>
-    <h5>Definition of NoGi Levels by Competitor Score: </h5>
-    Novice: Under 1200 <br>
-    Beginner: 1200 - 1424 <br>
-    Intermediate: 1425 - 2100 <br>
-    Advanced: Over 2100 <br>
-    <br>1) The only submissions below the waist legal for novice, beginner and intermediate are
-    straight ankle locks (AKA straight footlock) and kneebars.
-    <br>2) ALL submissions are allowed in the Advanced division. Neck
-    cranks, spine locks, bicep/calf slicers (crushers), and flying scissors takedowns are legal ONLY in the Advanced
-    division.
-    <br>3) No grabbing of any clothing, including your own, will be permitted.
-    <br>4) Gis are optional for submission grappling divisions. Mouthpiece and groin protection are
-    optional, but recommended. All competitors must wear a tight-fitting T-shirt or rashguard.
-    <br>5) Match Lengths: ALL NOGI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND
-</p>
-<p>
-    <h3>Scoring- This table applies to both Gi and NoGi</h3>
-    NOTE: A competitor must hold each position for a AT LEAST 3 seconds to get the points.
-    <br>
-    <br>Takedown or Throw = 2 points
-    <br>Sweep = 2 points
-    <br>Pass opponent’s guard = 3 points
-    <br>Mounted position = 4 points
-    <br>Back Mount with Hooks in = 4 points
-    <br>Back Mount knees on ground, opponent flat on stomach = 4 points (Additional 4 points are
-    scored by putting the hooks in from this position)
-    <br>Body triangle from the back = 4 points
-    <br>Knee on stomach = 2 points
-</p>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <p>
+                            <h3>Brazilian Jiu Jitsu (Gi) Rules</h3>
+                            NOTE: If two competitors of different belt levels compete the Brazilian Jiu Jitsu
+                            (Gi) Rules will automatically default to the lower belt level.<br>
+                            <br>
+                            <ol>
+                                <li> The only submissions below the waist that are legal for white, blue, and purple
+                                    belts are
+                                    straight
+                                    ankle locks
+                                    (AKA straight footlock).</li>
+                                <li>Kneebars, figure-four toeholds, and compression locks (AKA “slicers”, “crushers”)
+                                    are
+                                    legal in brown and black belt divisions only.</li>
+                                <li> Heel hooks, reaping the knee, twisting knee locks, “flying scissor” takedowns, and
+                                    neck cranks are never legal in Gi matches.</li>
+                                <li> All competitors must compete using the belt awarded to them by their Brazilian Jiu
+                                    Jitsu instructor.</li>
+                                <li> All competitors must have a clean, properly fitted Jiu Jitsu or Judo Gi. Mouthpiece
+                                    and groin protection are optional, but recommended.</li>
+                                <li> Match Lengths: ALL GI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND</li>
+                            </ol>
+                        </p>
+
+                        <p>
+                            <h3>Submission Grappling (NoGi) Rules</h3>
+                            NOTE: If two competitors of different NoGi levels compete the Submission Grappling (NoGi)
+                            Rules will automatically default to the lower NoGi level.
+                            <br><br>
+                            <h5>Definition of NoGi Levels by Competitor Score: </h5>
+                            <ul>
+                                <li> Novice: Under 1200 </li>
+                                <li>Beginner: 1200 - 1424 </li>
+                                <li>Intermediate: 1425 - 2000</li>
+                                <li>Advanced: Over 2000 </li>
+                            </ul>
+                            <ol>
+                                 <li>The only submissions below the waist legal for novice, beginner and intermediate
+                                    are
+                                    straight ankle locks (AKA straight footlock) and kneebars.</li>
+                                <li>ALL submissions are allowed in the Advanced division. Neck
+                                    cranks, spine locks, bicep/calf slicers (crushers), and flying scissors takedowns
+                                    are legal
+                                    ONLY in the Advanced
+                                    division.</li>
+                                <li>No grabbing of any clothing, including your own, will be permitted.</li>
+                                <li>Gis are optional for submission grappling divisions. Mouthpiece and groin protection
+                                    are optional, but recommended. All competitors must wear a tight-fitting T-shirt or
+                                    rashguard.</li>
+                                <li>Match Lengths: ALL NOGI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND</li>
+                            </ol>
+                        </p>
+                        <p>
+                            <h3>Scoring- This table applies to Gi and NoGi</h3>
+                            NOTE: A competitor must hold each position for a AT LEAST 3 seconds to get the points.
+                            <br>
+                            <ul>
+                                <li>Takedown or Throw = 2 points</li>
+                                <li>Sweep = 2 points</li>
+                                <li>Pass opponent’s guard = 3 points</li>
+                                <li>Mounted position = 4 points</li>
+                                <li>Back Mount with Hooks in = 4 points</li>
+                                <li>Back Mount knees on ground, opponent flat on stomach = 4 points (Additional 4 points
+                                    are
+                                    scored by putting the hooks in from this position)</li>
+                                <li>Body triangle from the back = 4 points</li>
+                                <li>Knee on stomach = 2 points</li>
+                            </ul>
+                        </p>
+                        <button type="submit" class="btn btn-primary">Submit Contract</button>
                     </form>
                 </div>
             </div>

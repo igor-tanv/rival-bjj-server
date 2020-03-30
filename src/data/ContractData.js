@@ -31,6 +31,7 @@ const registerContract = async (contract, playerId) => {
     let newContract = new Contract({
       rules: contract.rules,
       datetime: (Date.parse(contract.datetime)) / 1000,
+      weightClass: contract.weightClass,
       school: contract.school,
       comments: contract.comments,
       playerId,
