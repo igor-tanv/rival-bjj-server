@@ -21,8 +21,8 @@ const registerPlayer = async (newPlayer) => {
 const deletePlayerById = async (id) => {
   try{
     await ContractData.deleteContractsByPlayerOrOpponentId(id) 
-    await Player.findByIdAndDelete({_id: id})
-    return ({ status: 200, data: 'Your account has been deleted' })
+    const player = await Player.findByIdAndDelete({_id: id})
+    return ({ status: 200, data: player })
 
   } catch(e) {
     return ({ status: 400, data: e })

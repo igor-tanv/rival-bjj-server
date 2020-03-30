@@ -2,13 +2,14 @@ const express = require('express')
 const path = require('../path')
 const passport = require('passport');
 const multipart = require('connect-multiparty')
+const fs = require('fs')
 
 
 const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const getPlayers = require('../services/player/getPlayers')
 const registerPlayer = require('../services/player/registerPlayer')
-const deletePlayer = require('../services/player/deletePlayer')
+const deletePlayerById = require('../services/player/deletePlayerById')
 
 const router = new express.Router()
 router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
@@ -73,10 +74,10 @@ router.get('/players/:id', ensureAuthenticated, async (req, res) => {
 router.get('/players/opponent/:id', async (req, res) => {
     try {
         const player = await getPlayers.getPlayer(req.params.id)
-        if (!player) { 
+        if (!player) {
             req.flash('error', 'That player does not exist')
             return res.redirect('/')
-         }
+        }
         res.render('opponent-profile.hbs', { player })
     } catch (e) {
         req.flash('error', 'Something went wrong')
@@ -85,13 +86,21 @@ router.get('/players/opponent/:id', async (req, res) => {
 })
 
 router.post('/player/delete/:id', ensureAuthenticated, async (req, res) => {
-    let delPlayer = await deletePlayer.deletePlayerById(req.params.id)
-    if(delPlayer.status === 200){
-        req.flash('success_msg', delPlayer.data);
-        return res.redirect('/')
+    try {
+        let player = await deletePlayerById.deletePlayerById(req.params.id)
+        fs.unlink(path.PUBLIC.AVATAR_PICTURES + '/' + player.data.avatar, function (err) {
+            if (err) throw err
+        })
+        if (player.status === 200) {
+            req.flash('success_msg', 'Your account has been deleted');
+            return res.redirect('/')
+        }
+    } catch (e) {
+        req.flash('error', 'Error while deleting profile')
+        res.redirect('/')
     }
-    req.flash('error', delPlayer.data)
-    res.redirect('/')   
+
+   
 })
 
 module.exports = router
