@@ -27,27 +27,33 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
         req.flash('error', newContract.data)
         return res.redirect('/challenge/' + opponentId, )
     }
-    req.flash('success_msg', 'Your challenge has been submitted!')
+    req.flash('success_msg', 'Your challenge has been submitted to your opponent for review')
     res.redirect('/')
 
 })
 
 //Notes: belongsTo and hasMany in Mongoose / virtual fields 
-router.get('/contracts', ensureAuthenticated, async (req, res) => {
-    let contracts = await Promise.all(await getContracts.getContracts(req.user.id))
-    res.render('pending-contracts.hbs', { contracts })
+router.get('/contracts/sent', ensureAuthenticated, async (req, res) => {
+    let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
+    let contracts = allContracts.filter((contract) =>{
+        return contract.playerId == req.user.id
+    })
+    res.render('pending-contracts.hbs', { title: 'Outgoing Match Contracts', contracts })
+})
+
+router.get('/contracts/received', ensureAuthenticated, async (req, res) => {
+    let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
+    let contracts = allContracts.filter((contract) =>{
+        return contract.playerId != req.user.id
+    })
+    res.render('pending-contracts', { title: 'Incoming Match Contracts', contracts })
 })
 
 router.get('/contracts/:id', ensureAuthenticated, async (req, res) => {
-    const _id = req.params.id
-    try {
-        const contract = await Contract.findOne({ _id, owner: req.player._id })
-        if (!contract) {
-            return res.status(404).send()
-        }
-        res.send(contract)
-    } catch (e) {
-        res.status(500).send()
+    
+    let contract = await Promise.all(await getContracts.getContract(req.params.id))
+    if(contract.status === 200){
+        res.render('contract', { contract })
     }
 })
 

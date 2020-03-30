@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <div>
+        <div style="margin:100px;">
+            <div class="jumbotron" style="padding:40px;">
+                <form action="/contract/{{contract._id}}" method="POST">
+                <img src='/avatar-pictures/{{ contract.opponent.avatar }}' width="150" height="150" />
+                <h3>Opponent Name: {{ contract.opponent.first }} {{ contract.opponent.last }}</h3>
+                <h3>Match Status: {{contract.result}}</h3>
+                <h3>Match Location: {{ contract.school }} </h3>
+                <h3>Match Date: {{ contract.date.month }} {{ contract.date.day }}, {{ contract.date.year }} at
+                    {{ contract.date.hour }}:{{ contract.date.minutes }} </h3>
+                <h3>Match Style: {{ contract.rules }} </h3>
+                <h3>Match Referee: {{ contract.referee }} </h3>
+                <p><a class="btn btn-primary btn-lg" href="/pending-contracts" role="button">Match Details</a></p>
+                <div class="form-group">
+                  <label for="result">Accept/Decline: </label>
+                  <select name="rules">
+                      <option value="accept">I Accept This Match</option>
+                      <option value="decline">I Decline This Match</option>
+                  </select>
+                  </div>
+                </form>
+                <br>
+            </div>
+
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

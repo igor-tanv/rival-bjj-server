@@ -2,7 +2,6 @@ const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
 
 const getContracts = async (id) => {
-  //HERE
   let contracts = await ContractData.getContractsByPlayerOrOpponentId(id)
   const processedContracts = contracts.map(async (contract) => {
       let opponent;
@@ -40,6 +39,19 @@ const getContracts = async (id) => {
   return processedContracts
 }
 
+const getContract = async (contractId) =>{
+  let contract = await ContractData.getContractsByContractId(contractId)
+  console.log('SERVICE CONTRACT', contract)
+  if (contract.status === 200) {
+    //integrate the opponent and date logic from getContracts here
+    // separate incoming and outgoing here
+    return ({ status: 200, data: contract })
+  }
+  return ({ status: 400, data: contract })
+
+}
+
 module.exports = {
-  getContracts
+  getContracts,
+  getContract
 }
