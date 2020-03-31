@@ -84,15 +84,10 @@ router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
     let contractId = req.params.id
     let status = req.body
     let updated = await updateContract.updateContractStatus(contractId, status)
+
     if (updated.status == 200) {
-        if (updated.data.status == 'Accepted'){
-            req.flash('success_msg', 'Congratulations! Your Match Has Been Booked. You can view it in Upcoming Matches')
-            return res.redirect('/')
-        } else if (updated.data.status == 'Declined'){
-            req.flash('success_msg', 'Match declined. You can view it in Cancelled/Declined Matches')
-            return res.redirect('/')
-        }
-            
+        req.flash('success_msg', 'Match has been ' + updated.data.status)
+        return res.redirect('/')
     }
     req.flash('error', updated.data)
     return res.redirect('/')
