@@ -28,6 +28,10 @@ const contractSchema = new mongoose.Schema({
     },
     result: {
         type: String,
+        default: 'TBD'
+    },
+    status: {
+        type: String,
         default: 'Pending'
     },
     completed: {

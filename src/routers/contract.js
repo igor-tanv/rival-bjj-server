@@ -53,9 +53,9 @@ router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
     let contract = await getContracts.getContract(req.params.id)
     if (contract.status === 200) {
         contract = contract.data
-        if(contract.opponentId == req.user.id) {
+        if (contract.opponentId == req.user.id) {
             let opponent = await getPlayers.getPlayer(contract.playerId)
-            contract['opponent']= opponent
+            contract['opponent'] = opponent
             return res.render('contract-incoming', { contract })
         }
         return res.render('contract-outgoing', { contract })
@@ -64,26 +64,11 @@ router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
     return res.redirect('/')
 })
 
-router.patch('/contracts/:id', ensureAuthenticated, async (req, res) => {
-    const updates = Object.keys(req.body)
-    const allowedUpdates = ['description', 'completed']
-    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
-
-    if (!isValidOperation) {
-        return res.status(400).send({ error: 'Invalid updates!' })
-    }
-
-    try {
-        const contract = await Contract.findOne({ _id: req.params.id, owner: req.player._id })
-        if (!contract) {
-            return res.status(404).send()
-        }
-        updates.forEach((update) => contract[update] = req.body[update])
-        await contract.save()
-        res.send(contract)
-    } catch (e) {
-        res.status(400).send(e)
-    }
+router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
+    const status = Object.keys(req.body)
+    const contract = await getContracts.getContract(req.params.id)
+    contract[status] = req.body[status]
+    req.flash('success_msg', 'Congratulations! Your Match Has Been Booked. You can view it in Upcoming Matches')
 })
 
 router.delete('/contracts/:id', ensureAuthenticated, async (req, res) => {
