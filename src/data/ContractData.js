@@ -57,11 +57,21 @@ const registerContract = async (contract, playerId) => {
   }
 }
 
+const updateContract = async (contractId, updates) => {
+  try {
+    const updated = await Contract.findOneAndUpdate({ _id: contractId }, updates, { new: true })
+    return ({ status: 200, data: updated })
+  }catch(e){
+    return ({ status: 400, data: e })
+  }
+}
+
 module.exports = {
   registerContract,
   getContractsByOpponentId,
   getContractsByPlayerId,
   getContractsByPlayerOrOpponentId,
   deleteContractsByPlayerOrOpponentId,
-  getContractByContractId
+  getContractByContractId,
+  updateContract
 }

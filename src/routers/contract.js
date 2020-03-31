@@ -4,6 +4,7 @@ const Player = require('../models/player')
 const getPlayers = require('../services/player/getPlayers')
 const getContracts = require('../services/contract/getContracts')
 const registerContract = require('../services/contract/registerContract')
+const updateContract = require('../services/contract/updateContract')
 const { ensureAuthenticated } = require('../middleware/auth')
 const router = new express.Router()
 
@@ -32,21 +33,36 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
 
 })
 
-//Notes: belongsTo and hasMany in Mongoose / virtual fields 
 router.get('/contracts/outgoing', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
     let contracts = allContracts.filter((contract) => {
-        return contract.playerId == req.user.id
+        return (contract.playerId == req.user.id && contract.status == 'Pending')
     })
-    res.render('pending-contracts', { title: 'Outgoing Match Contracts', contracts })
+    res.render('pending-contracts', { title: 'Pending: Outgoing', contracts })
 })
 
 router.get('/contracts/incoming', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
     let contracts = allContracts.filter((contract) => {
-        return contract.playerId != req.user.id
+        return (contract.playerId != req.user.id && contract.status == 'Pending')
     })
-    res.render('pending-contracts', { title: 'Incoming Match Contracts', contracts })
+    res.render('pending-contracts', { title: 'Pending: Incoming', contracts })
+})
+
+router.get('/contracts/upcoming', ensureAuthenticated, async (req, res) => {
+    let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
+    let contracts = allContracts.filter((contract) => {
+        return contract.status == 'Accepted'
+    })
+    res.render('pending-contracts', { title: 'All Upcoming Matches', contracts })
+})
+
+router.get('/contracts/cancelled-declined', ensureAuthenticated, async (req, res) => {
+    let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
+    let contracts = allContracts.filter((contract) => {
+        return (contract.status == 'Declined' || contract.status == 'Cancelled')
+    })
+    res.render('pending-contracts', { title: 'Cancelled / Declined Matches', contracts })
 })
 
 router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
@@ -65,10 +81,21 @@ router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
 })
 
 router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
-    const status = Object.keys(req.body)
-    const contract = await getContracts.getContract(req.params.id)
-    contract[status] = req.body[status]
-    req.flash('success_msg', 'Congratulations! Your Match Has Been Booked. You can view it in Upcoming Matches')
+    let contractId = req.params.id
+    let status = req.body
+    let updated = await updateContract.updateContractStatus(contractId, status)
+    if (updated.status == 200) {
+        if (updated.data.status == 'Accepted'){
+            req.flash('success_msg', 'Congratulations! Your Match Has Been Booked. You can view it in Upcoming Matches')
+            return res.redirect('/')
+        } else if (updated.data.status == 'Declined'){
+            req.flash('success_msg', 'Match declined. You can view it in Cancelled/Declined Matches')
+            return res.redirect('/')
+        }
+            
+    }
+    req.flash('error', updated.data)
+    return res.redirect('/')
 })
 
 router.delete('/contracts/:id', ensureAuthenticated, async (req, res) => {
