@@ -9,9 +9,11 @@
     <div>
         <div style="margin:100px;">
             <div class="jumbotron" style="padding:40px;">
+                <h1>Contract Details</h1>
+                <br>
                     <img src='/avatar-pictures/{{ contract.opponent.avatar }}' width="150" height="150" />
                     <h3>Opponent Name: {{ contract.opponent.firstName }} {{ contract.opponent.lastName }}</h3>
-                    <h3>Match Status: {{contract.result}}</h3>
+                    <h3>Match Status: {{contract.status}}</h3>
                     <h3>Match Location: {{ contract.school }} </h3>
                     <h3>Match Date: {{ contract.date.month }} {{ contract.date.day }}, {{ contract.date.year }} at
                         {{ contract.date.hour }}:{{ contract.date.minutes }} </h3>
@@ -19,7 +21,6 @@
                     <h3>Match Referee: {{ contract.referee }} </h3>
                     <h3>Match Comments: {{ contract.comments }} </h3>
                     <br>
-               
                 <br>
             </div>
 

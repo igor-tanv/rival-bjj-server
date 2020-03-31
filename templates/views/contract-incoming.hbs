@@ -9,10 +9,12 @@
     <div>
         <div style="margin:100px;">
             <div class="jumbotron" style="padding:40px;">
-                <form action="/contract/{{contract._id}}" method="PATCH">
+                <form action="/contract/status/{{contract._id}}" method="POST">
+                <h1>Contract Details</h1>
+                <br>
                     <img src='/avatar-pictures/{{ contract.opponent.avatar }}' width="150" height="150" />
                     <h3>Opponent Name: {{ contract.opponent.firstName }} {{ contract.opponent.lastName }}</h3>
-                    <h3>Match Status: {{contract.result}}</h3>
+                    <h3>Match Status: {{contract.status}}</h3>
                     <h3>Match Location: {{ contract.school }} </h3>
                     <h3>Match Date: {{ contract.date.month }} {{ contract.date.day }}, {{ contract.date.year }} at
                         {{ contract.date.hour }}:{{ contract.date.minutes }} </h3>
@@ -21,11 +23,12 @@
                     <h3>Match Comments: {{ contract.comments }} </h3>
                     <br>
                     <div class="form-group">
-                        <label for="result">Accept/Decline: </label>
-                        <select name="result">
+                        <label for="status">Accept/Decline: </label>
+                        <select name="status">
                             <option value="Accepted">I Accept This Match</option>
                             <option value="Declined">I Decline This Match</option>
                         </select>
+                         * Careful: Once a match is accepted it cannot be declined or changed in any way. 
                     </div>
                      <button type="submit" class="btn btn-primary">Submit</button>
                 </form>

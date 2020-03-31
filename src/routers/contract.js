@@ -4,6 +4,7 @@ const Player = require('../models/player')
 const getPlayers = require('../services/player/getPlayers')
 const getContracts = require('../services/contract/getContracts')
 const registerContract = require('../services/contract/registerContract')
+const updateContract = require('../services/contract/updateContract')
 const { ensureAuthenticated } = require('../middleware/auth')
 const router = new express.Router()
 
@@ -32,30 +33,45 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
 
 })
 
-//Notes: belongsTo and hasMany in Mongoose / virtual fields 
 router.get('/contracts/outgoing', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
     let contracts = allContracts.filter((contract) => {
-        return contract.playerId == req.user.id
+        return (contract.playerId == req.user.id && contract.status == 'Pending')
     })
-    res.render('pending-contracts', { title: 'Outgoing Match Contracts', contracts })
+    res.render('pending-contracts', { title: 'Pending: Outgoing', contracts })
 })
 
 router.get('/contracts/incoming', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
     let contracts = allContracts.filter((contract) => {
-        return contract.playerId != req.user.id
+        return (contract.playerId != req.user.id && contract.status == 'Pending')
     })
-    res.render('pending-contracts', { title: 'Incoming Match Contracts', contracts })
+    res.render('pending-contracts', { title: 'Pending: Incoming', contracts })
+})
+
+router.get('/contracts/upcoming', ensureAuthenticated, async (req, res) => {
+    let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
+    let contracts = allContracts.filter((contract) => {
+        return contract.status == 'Accepted'
+    })
+    res.render('pending-contracts', { title: 'All Upcoming Matches', contracts })
+})
+
+router.get('/contracts/cancelled-declined', ensureAuthenticated, async (req, res) => {
+    let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
+    let contracts = allContracts.filter((contract) => {
+        return (contract.status == 'Declined' || contract.status == 'Cancelled')
+    })
+    res.render('pending-contracts', { title: 'Cancelled / Declined Matches', contracts })
 })
 
 router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
     let contract = await getContracts.getContract(req.params.id)
     if (contract.status === 200) {
         contract = contract.data
-        if(contract.opponentId == req.user.id) {
+        if (contract.opponentId == req.user.id) {
             let opponent = await getPlayers.getPlayer(contract.playerId)
-            contract['opponent']= opponent
+            contract['opponent'] = opponent
             return res.render('contract-incoming', { contract })
         }
         return res.render('contract-outgoing', { contract })
@@ -64,26 +80,17 @@ router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
     return res.redirect('/')
 })
 
-router.patch('/contracts/:id', ensureAuthenticated, async (req, res) => {
-    const updates = Object.keys(req.body)
-    const allowedUpdates = ['description', 'completed']
-    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
+    let contractId = req.params.id
+    let status = req.body
+    let updated = await updateContract.updateContractStatus(contractId, status)
 
-    if (!isValidOperation) {
-        return res.status(400).send({ error: 'Invalid updates!' })
+    if (updated.status == 200) {
+        req.flash('success_msg', 'Match has been ' + updated.data.status)
+        return res.redirect('/')
     }
-
-    try {
-        const contract = await Contract.findOne({ _id: req.params.id, owner: req.player._id })
-        if (!contract) {
-            return res.status(404).send()
-        }
-        updates.forEach((update) => contract[update] = req.body[update])
-        await contract.save()
-        res.send(contract)
-    } catch (e) {
-        res.status(400).send(e)
-    }
+    req.flash('error', updated.data)
+    return res.redirect('/')
 })
 
 router.delete('/contracts/:id', ensureAuthenticated, async (req, res) => {
