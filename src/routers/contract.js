@@ -25,30 +25,43 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
     let newContract = await registerContract.registerContract(contract, playerId)
     if (newContract.status != 200) {
         req.flash('error', newContract.data)
-        return res.redirect('/challenge/' + opponentId, )
+        return res.redirect('/challenge/' + opponentId)
     }
-    req.flash('success_msg', 'Your challenge has been submitted!')
+    req.flash('success_msg', 'Your challenge has been submitted to your opponent for review')
     res.redirect('/')
 
 })
 
 //Notes: belongsTo and hasMany in Mongoose / virtual fields 
-router.get('/contracts', ensureAuthenticated, async (req, res) => {
-    let contracts = await Promise.all(await getContracts.getContracts(req.user.id))
-    res.render('pending-contracts.hbs', { contracts })
+router.get('/contracts/outgoing', ensureAuthenticated, async (req, res) => {
+    let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
+    let contracts = allContracts.filter((contract) => {
+        return contract.playerId == req.user.id
+    })
+    res.render('pending-contracts', { title: 'Outgoing Match Contracts', contracts })
 })
 
-router.get('/contracts/:id', ensureAuthenticated, async (req, res) => {
-    const _id = req.params.id
-    try {
-        const contract = await Contract.findOne({ _id, owner: req.player._id })
-        if (!contract) {
-            return res.status(404).send()
+router.get('/contracts/incoming', ensureAuthenticated, async (req, res) => {
+    let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
+    let contracts = allContracts.filter((contract) => {
+        return contract.playerId != req.user.id
+    })
+    res.render('pending-contracts', { title: 'Incoming Match Contracts', contracts })
+})
+
+router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
+    let contract = await getContracts.getContract(req.params.id)
+    if (contract.status === 200) {
+        contract = contract.data
+        if(contract.opponentId == req.user.id) {
+            let opponent = await getPlayers.getPlayer(contract.playerId)
+            contract['opponent']= opponent
+            return res.render('contract-incoming', { contract })
         }
-        res.send(contract)
-    } catch (e) {
-        res.status(500).send()
+        return res.render('contract-outgoing', { contract })
     }
+    req.flash('error', 'Something went wrong')
+    return res.redirect('/')
 })
 
 router.patch('/contracts/:id', ensureAuthenticated, async (req, res) => {

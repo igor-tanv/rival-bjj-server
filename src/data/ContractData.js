@@ -1,7 +1,12 @@
 const Contract = require('../models/contract')
 
 const getContractByContractId = async (contractId) => {
-  return await Contract.findById(contractId)
+  try {
+    const contract = await Contract.findById(contractId)
+    return ({ status: 200, data: contract })
+  } catch (e) {
+    return ({ status: 400, data: e })
+  }
 }
 
 const getContractsByPlayerId = async (playerId) => {
@@ -57,5 +62,6 @@ module.exports = {
   getContractsByOpponentId,
   getContractsByPlayerId,
   getContractsByPlayerOrOpponentId,
-  deleteContractsByPlayerOrOpponentId
+  deleteContractsByPlayerOrOpponentId,
+  getContractByContractId
 }
