@@ -4,7 +4,6 @@ const getContractByContractId = async (contractId) => {
   try {
     const contract = await Contract.findById(contractId)
     return ({ status: 200, data: contract })
-
   } catch (e) {
     return ({ status: 400, data: e })
   }

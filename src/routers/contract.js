@@ -25,7 +25,7 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
     let newContract = await registerContract.registerContract(contract, playerId)
     if (newContract.status != 200) {
         req.flash('error', newContract.data)
-        return res.redirect('/challenge/' + opponentId, )
+        return res.redirect('/challenge/' + opponentId)
     }
     req.flash('success_msg', 'Your challenge has been submitted to your opponent for review')
     res.redirect('/')
@@ -33,28 +33,35 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
 })
 
 //Notes: belongsTo and hasMany in Mongoose / virtual fields 
-router.get('/contracts/sent', ensureAuthenticated, async (req, res) => {
+router.get('/contracts/outgoing', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
-    let contracts = allContracts.filter((contract) =>{
+    let contracts = allContracts.filter((contract) => {
         return contract.playerId == req.user.id
     })
-    res.render('pending-contracts.hbs', { title: 'Outgoing Match Contracts', contracts })
+    res.render('pending-contracts', { title: 'Outgoing Match Contracts', contracts })
 })
 
-router.get('/contracts/received', ensureAuthenticated, async (req, res) => {
+router.get('/contracts/incoming', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await getContracts.getContracts(req.user.id))
-    let contracts = allContracts.filter((contract) =>{
+    let contracts = allContracts.filter((contract) => {
         return contract.playerId != req.user.id
     })
     res.render('pending-contracts', { title: 'Incoming Match Contracts', contracts })
 })
 
-router.get('/contracts/:id', ensureAuthenticated, async (req, res) => {
-    
-    let contract = await Promise.all(await getContracts.getContract(req.params.id))
-    if(contract.status === 200){
-        res.render('contract', { contract })
+router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
+    let contract = await getContracts.getContract(req.params.id)
+    if (contract.status === 200) {
+        contract = contract.data
+        if(contract.opponentId == req.user.id) {
+            let opponent = await getPlayers.getPlayer(contract.playerId)
+            contract['opponent']= opponent
+            return res.render('contract-incoming', { contract })
+        }
+        return res.render('contract-outgoing', { contract })
     }
+    req.flash('error', 'Something went wrong')
+    return res.redirect('/')
 })
 
 router.patch('/contracts/:id', ensureAuthenticated, async (req, res) => {
