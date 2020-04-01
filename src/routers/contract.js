@@ -65,15 +65,7 @@ router.get('/contracts/cancelled-declined', ensureAuthenticated, async (req, res
     res.render('pending-contracts', { title: 'Cancelled / Declined Matches', contracts })
 })
 
-// let opponent = await getPlayers.getPlayer(contract.playerId)
-        // if (contract.opponentId == req.user.id ) {
-        //     contract['opponent'] = opponent
-        //     return res.render('contract-upcoming', { contract })
-//         } else if (contract.opponentId == req.user.id) {
-//             contract['opponent'] = opponent
-//             return res.render('contract-incoming', { contract })
-//         }
-//         return res.render('contract-outgoing', { contract })
+
 
 router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
     let contract = await getContracts.getContract(req.params.id)
