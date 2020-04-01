@@ -65,16 +65,30 @@ router.get('/contracts/cancelled-declined', ensureAuthenticated, async (req, res
     res.render('pending-contracts', { title: 'Cancelled / Declined Matches', contracts })
 })
 
+
+
 router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
     let contract = await getContracts.getContract(req.params.id)
+     // pending, accepted, declined
     if (contract.status === 200) {
         contract = contract.data
-        if (contract.opponentId == req.user.id) {
-            let opponent = await getPlayers.getPlayer(contract.playerId)
-            contract['opponent'] = opponent
-            return res.render('contract-incoming', { contract })
+        if (contract.opponentId == req.user.id ) {
+            opponent = await getPlayers.getPlayer(contract.playerId)
+            contract['opponent'] = opponent    
         }
-        return res.render('contract-outgoing', { contract })
+        if(contract.status=='Accepted'){
+            return res.render('contracts-upcoming', { contract })
+        }
+        if(contract.status == 'Pending' && contract.opponentId == req.user.id) {  
+            return res.render('contracts-incoming', { contract })    
+        } 
+        if(contract.status == 'Pending' && contract.opponentId != req.user.id){
+            return res.render('contracts-outgoing', { contract }) 
+        }
+        if(contract.status == 'Declined') {
+           // same page as outgoing because structure of web page is similar
+            return res.render('contracts-outgoing', {  contract })
+        }        
     }
     req.flash('error', 'Something went wrong')
     return res.redirect('/')
