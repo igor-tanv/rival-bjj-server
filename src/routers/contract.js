@@ -1,4 +1,7 @@
 const express = require('express')
+const puppeteer = require('puppeteer');
+
+
 const Contract = require('../models/contract')
 const Player = require('../models/player')
 const getPlayers = require('../services/player/getPlayers')
@@ -94,6 +97,12 @@ router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
     return res.redirect('/')
 })
 
+//PRINT THE PDF CONTRACT
+router.get('/contract-print/:id', ensureAuthenticated, async (req, res) =>{
+
+
+})
+
 router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
     let contractId = req.params.id
     let status = req.body
@@ -107,16 +116,6 @@ router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
     return res.redirect('/')
 })
 
-router.delete('/contracts/:id', ensureAuthenticated, async (req, res) => {
-    try {
-        const contract = await Contract.findOneAndDelete({ _id: req.params.id, owner: req.player._id })
-        if (!contract) {
-            res.status(404).send()
-        }
-        res.send(contract)
-    } catch (e) {
-        res.status(500).send()
-    }
-})
+
 
 module.exports = router
