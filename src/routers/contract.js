@@ -2,8 +2,6 @@ const express = require('express')
 const puppeteer = require('puppeteer');
 
 
-const Contract = require('../models/contract')
-const Player = require('../models/player')
 const getPlayers = require('../services/player/getPlayers')
 const getContracts = require('../services/contract/getContracts')
 const registerContract = require('../services/contract/registerContract')
@@ -23,7 +21,7 @@ router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
 })
 
 router.post('/challenge', ensureAuthenticated, async (req, res) => {
-    opponentId = req.body.opponentId
+    let opponentId = req.body.opponentId
     let contract = req.body
     let playerId = req.user.id
     let newContract = await registerContract.registerContract(contract, playerId)
@@ -72,33 +70,33 @@ router.get('/contracts/cancelled-declined', ensureAuthenticated, async (req, res
 
 router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
     let contract = await getContracts.getContract(req.params.id)
-     // pending, accepted, declined
     if (contract.status === 200) {
         contract = contract.data
-        if (contract.opponentId == req.user.id ) {
+        if (contract.opponentId == req.user.id) {
             opponent = await getPlayers.getPlayer(contract.playerId)
-            contract['opponent'] = opponent    
+            contract['opponent'] = opponent
         }
-        if(contract.status=='Accepted'){
+        if (contract.status == 'Accepted') {
             return res.render('contracts-upcoming', { contract })
         }
-        if(contract.status == 'Pending' && contract.opponentId == req.user.id) {  
-            return res.render('contracts-incoming', { contract })    
-        } 
-        if(contract.status == 'Pending' && contract.opponentId != req.user.id){
-            return res.render('contracts-outgoing', { contract }) 
+        if (contract.status == 'Pending' && contract.opponentId == req.user.id) {
+            return res.render('contracts-incoming', { contract })
         }
-        if(contract.status == 'Declined') {
-           // same page as outgoing because structure of web page is similar
-            return res.render('contracts-outgoing', {  contract })
-        }        
+        if (contract.status == 'Pending' && contract.opponentId != req.user.id) {
+            return res.render('contracts-outgoing', { contract })
+        }
+        if (contract.status == 'Declined') {
+            // same page as outgoing because structure of web page is similar
+            return res.render('contracts-outgoing', { contract })
+        }
     }
     req.flash('error', 'Something went wrong')
     return res.redirect('/')
 })
 
 //PRINT THE PDF CONTRACT
-router.get('/contract-print/:id', ensureAuthenticated, async (req, res) =>{
+router.get('/contract-print/:id', ensureAuthenticated, async (req, res) => {
+
 
 
 })

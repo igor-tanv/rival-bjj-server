@@ -10,25 +10,28 @@
         <div style="margin:100px;">
             <div class="jumbotron" style="padding:40px;">
                 <form action="/contract/status/{{contract._id}}" method="POST">
-                <h1>Contract Details</h1>
+                <h1>Match Details</h1>
                 <br>
                     <img src='/avatar-pictures/{{ contract.opponent.avatar }}' width="150" height="150" />
                     <h3>Opponent Name: {{ contract.opponent.firstName }} {{ contract.opponent.lastName }}</h3>
-                    <h3>Match Status: {{contract.status}}</h3>
-                    <h3>Match Location: {{ contract.school }} </h3>
-                    <h3>Match Date: {{ contract.date.month }} {{ contract.date.day }}, {{ contract.date.year }} at
+                    <h3>Status: {{contract.status}}</h3>
+                    <h3>Location: {{ contract.school }} </h3>
+                    <h3>Weight Class: {{ contract.weightClass }} </h3>
+                    <h3>Date: {{ contract.date.month }} {{ contract.date.day }}, {{ contract.date.year }} at
                         {{ contract.date.hour }}:{{ contract.date.minutes }} </h3>
-                    <h3>Match Rules: {{ contract.rules }} </h3>
-                    <h3>Match Referee: {{ contract.refereeFirstName }} {{ contract.refereeLastName }} </h3>
-                    <h3>Match Comments: {{ contract.comments }} </h3>
+                    <h3>Rules: {{ contract.rules }} </h3>
+                    <h3>Referee: {{ contract.refereeFirstName }} {{ contract.refereeLastName }} </h3>
+                    <h3>Comments: {{ contract.comments }} </h3>
                     <br>
                     <div class="form-group">
+                        <p>NOTE: By accepting this match you agree to the following <a
+                                href="/rules">Competition Rules</a> </p>
                         <label for="status">Accept/Decline: </label>
                         <select name="status">
                             <option value="Accepted">I Accept This Match</option>
                             <option value="Declined">I Decline This Match</option>
                         </select>
-                         * Careful: Once a match is accepted it cannot be declined or changed in any way. 
+                         * Careful: Once a match is accepted it cannot changed in any way. 
                     </div>
                      <button type="submit" class="btn btn-primary">Submit</button>
                 </form>

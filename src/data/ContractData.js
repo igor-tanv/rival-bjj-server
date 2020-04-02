@@ -31,7 +31,7 @@ const deleteContractsByPlayerOrOpponentId = async (Id) => {
 }
 
 const registerContract = async (contract, playerId) => {
-  const requiredFields = ['rules', 'datetime', 'school', 'referee']
+  const requiredFields = ['rules', 'datetime', 'school', 'refereeFirstName','refereeLastName']
   try {
     let newContract = new Contract({
       rules: contract.rules,
@@ -41,7 +41,8 @@ const registerContract = async (contract, playerId) => {
       comments: contract.comments,
       playerId,
       opponentId: contract.opponentId,
-      referee: contract.referee
+      refereeFirstName: contract.refereeFirstName,
+      refereeLastName: contract.refereeLastName
     })
     let result = await newContract.save()
     return ({ status: 200, data: result })
