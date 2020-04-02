@@ -94,13 +94,6 @@ router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
     return res.redirect('/')
 })
 
-//PRINT THE PDF CONTRACT
-router.get('/contract-print/:id', ensureAuthenticated, async (req, res) => {
-
-
-
-})
-
 router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
     let contractId = req.params.id
     let status = req.body
