@@ -1,14 +1,12 @@
 const express = require('express')
 const puppeteer = require('puppeteer');
 
-
 const getPlayers = require('../services/player/getPlayers')
 const getContracts = require('../services/contract/getContracts')
 const registerContract = require('../services/contract/registerContract')
 const updateContract = require('../services/contract/updateContract')
 const { ensureAuthenticated } = require('../middleware/auth')
 const router = new express.Router()
-
 
 
 router.get('/challenge/:opponentId', ensureAuthenticated, async (req, res) => {
@@ -66,8 +64,6 @@ router.get('/contracts/cancelled-declined', ensureAuthenticated, async (req, res
     res.render('pending-contracts', { title: 'Cancelled / Declined Matches', contracts })
 })
 
-
-
 router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
     let contract = await getContracts.getContract(req.params.id)
     if (contract.status === 200) {
@@ -105,6 +101,35 @@ router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
     }
     req.flash('error', updated.data)
     return res.redirect('/')
+})
+
+
+
+router.get('/contract-pdf/:id', async (req, res) => {
+    let contract = await getContracts.getContract(req.params.id)
+    if (contract.status === 200) {
+        contract = contract.data
+        res.render('contract-pdf', { contract })
+    }
+})
+
+router.get('/contract-get-pdf/:id', async (req, res) => {
+    let contractId = req.params.id
+    const puppeteerPDF = async (contractId) => {
+        const browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
+        await page.goto('http://localhost:8000/contract-pdf/' + contractId, { waitUntil: 'networkidle0' });
+        const pdf = await page.pdf({ format: 'A4' });
+        await browser.close();
+        return pdf
+    }
+
+    await puppeteerPDF(contractId).then(pdf => {
+        res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length })
+        res.send(pdf)
+    }).catch((error) => {
+        console.log('ERROR: ', error)
+    })
 })
 
 

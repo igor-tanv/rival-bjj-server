@@ -8,35 +8,39 @@
   <div>
     <div style="margin:100px;">
       <div class="jumbotron" style="padding:40px;">
-        <h1>Official Contract Document: PRINT AND BRING TO THE MATCH</h1>
-         <h3>Instructions for the Competitors: Give this contract to the referee BEFORE the match starts</h3>
+        <h1>Official Contract Document</h1>
+        <p>Print and Bring To The Match</p>
+        <h3>Instructions for the Competitors: Give this contract to the referee BEFORE the match starts</h3>
         <br>
         <h1>Match Details</h1>
-        <h3>Competitor Name: {{ contract.player.firstName }} {{ contract.player.lastName }}</h3>
-        <h3>Opponent Name: {{ contract.opponent.firstName }} {{ contract.opponent.lastName }}</h3>
-        <h3>Match Location: {{ contract.school }} </h3>
-        <h3>Match Date: {{ contract.date.month }} {{ contract.date.day }}, {{ contract.date.year }} at
+        <h3>Competitor Name: {{ contract.player.first }} {{ contract.player.last }}</h3>
+        <h3>Opponent Name: {{ contract.opponent.first }} {{ contract.opponent.last }}</h3>
+        <h3>Match Weight Class: {{ contract.weightClass }} </h3>
+        <h3>Location: {{ contract.school }} </h3>
+        <h3>Date: {{ contract.date.month }} {{ contract.date.day }}, {{ contract.date.year }} at
           {{ contract.date.hour }}:{{ contract.date.minutes }} </h3>
-        <h3>Match Rules: {{ contract.rules }} *See below for rules</h3>
-        <h3>Match Comments: {{ contract.comments }}</h3>
+        <h3>Rules: {{ contract.rules }}</h3>
+        <h3>Comments: {{ contract.comments }}</h3>
         <br>
         <h1>Match Result: To Be Completed By The Referee</h1>
         <ul>
           <li>
             <h3>Winner (circle one):
+              <br><br>
               <ul>
-                <li>{{ contract.opponent.firstName }} {{ contract.opponent.lastName }}</li>
+                <li>{{ contract.opponent.first }} {{ contract.opponent.last }}</li>
                 <br>
-                <li>{{ contract.player.firstName }} {{ contract.player.lastName }}</li>
+                <li>{{ contract.player.first }} {{ contract.player.last }}</li>
                 <br>
                 <li>DRAW</li>
+                <br><br>
               </ul>
             </h3>
           </li>
           <h3>Method: (circle one): Submission / Points / DQ / Forfeit / Injury / Advantage</h3>
           <h3>Comments: ____________________________________________________________________</h3>
           <br>
-           <h3>Date (Month/Day/Year): __________________________________________________</h3>
+          <h3>Date (Month/Day/Year): __________________________________________________</h3>
           <h3>Referee Name: {{ contract.refereeFirstName }} {{contract.refereeLastName}} </h3>
           <h3>Referee Signature: __________________________________________________________ </h3>
         </ul>

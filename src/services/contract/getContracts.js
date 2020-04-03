@@ -44,6 +44,7 @@ const getContract = async (contractId) => {
   if (contract.status === 200) {
     contract = contract.data
     let opponent = await PlayerData.getPlayerById(contract.opponentId)
+    let player = await PlayerData.getPlayerById(contract.playerId)
     date = new Date(contract.datetime * 1000)
     let months = ["", "January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"];
@@ -65,10 +66,16 @@ const getContract = async (contractId) => {
       "last": opponent.lastName,
       "school": opponent.school
     }
-    return ({status:200, data: contract})
+    contract['player'] = {
+      "avatar": player.avatar,
+      "first": player.firstName,
+      "last": player.lastName,
+      "school": player.school
+    }
+    return ({ status: 200, data: contract })
   }
   return ({ status: 400, data: contract })
-  
+
 }
 
 module.exports = {
