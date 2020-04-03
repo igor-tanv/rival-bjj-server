@@ -105,6 +105,7 @@ router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
 
 
 router.get('/contract-pdf/:id', async (req, res) => {
+    //need user id here
     let contract = await getContracts.getContract(req.params.id)
     if (contract.status === 200) {
         contract = contract.data

@@ -49,11 +49,32 @@ const contractSchema = new mongoose.Schema({
     weightClass: {
         type: String,
         required: true
-    }
+    },
+    opponentRank: {
+        gi: {
+            type:Number,
+            default:0
+        },
+        nogi: {
+            type:Number,
+            default:0
+        }
+    },
+    playerRank: {
+        gi: {
+            type:Number,
+            default:0
+        },
+        nogi: {
+            type:Number,
+            default:0
+        }
+    },
 
-}, {
-    timestamps: true
-})
+},
+    {
+        timestamps: true
+    })
 
 const Contract = mongoose.model('Contract', contractSchema)
 
