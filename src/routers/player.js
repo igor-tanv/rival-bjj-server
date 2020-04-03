@@ -33,7 +33,11 @@ router.post("/register", multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, max
 })
 
 router.get('/about', async (req, res) => {
-    res.render('about.hbs')
+    res.render('about')
+})
+
+router.get('/rules', async (req, res) => {
+    res.render('rules')
 })
 
 router.get('/register', async (req, res) => {
