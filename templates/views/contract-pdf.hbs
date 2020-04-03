@@ -9,12 +9,14 @@
     <div style="margin:100px;">
       <div class="jumbotron" style="padding:40px;">
         <h1>Official Contract Document</h1>
-        <p>Print and Bring To The Match</p>
+        <h5>Print This Contract and Bring It To The Match</h5>
         <h3>Instructions for the Competitors: Give this contract to the referee BEFORE the match starts</h3>
         <br>
         <h1>Match Details</h1>
-        <h3>Competitor Name: {{ contract.player.first }} {{ contract.player.last }}</h3>
-        <h3>Opponent Name: {{ contract.opponent.first }} {{ contract.opponent.last }}</h3>
+        <h3>Competitor Name: {{ contract.player.firstName }} {{ contract.player.lastName }} </h3>
+        <h3>Competitor Rank: Gi:{{contract.player.gi}} / NoGi:{{contract.player.nogi}}</h3>
+        <h3>Opponent Name: {{ contract.opponent.firstName }} {{ contract.opponent.lastName }}</h3>
+        <h3>Opponent Rank: Gi: {{contract.opponent.gi}} / NoGi:{{contract.opponent.nogi}}</h3>
         <h3>Match Weight Class: {{ contract.weightClass }} </h3>
         <h3>Location: {{ contract.school }} </h3>
         <h3>Date: {{ contract.date.month }} {{ contract.date.day }}, {{ contract.date.year }} at

@@ -104,7 +104,6 @@ router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
 })
 
 
-
 router.get('/contract-pdf/:id', async (req, res) => {
     let contract = await getContracts.getContract(req.params.id)
     if (contract.status === 200) {
@@ -113,7 +112,7 @@ router.get('/contract-pdf/:id', async (req, res) => {
     }
 })
 
-router.get('/contract-get-pdf/:id', async (req, res) => {
+router.get('/contract-get-pdf/:id', ensureAuthenticated, async (req, res) => {
     let contractId = req.params.id
     const puppeteerPDF = async (contractId) => {
         const browser = await puppeteer.launch({ headless: true });
@@ -128,7 +127,8 @@ router.get('/contract-get-pdf/:id', async (req, res) => {
         res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length })
         res.send(pdf)
     }).catch((error) => {
-        console.log('ERROR: ', error)
+        req.flash('error', 'Something went wrong with the PDF doc')
+        res.redirect('/')
     })
 })
 

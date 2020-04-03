@@ -60,16 +60,21 @@ const getContract = async (contractId) => {
       "hour": date.getHours(),
       minutes
     }
+    
     contract['opponent'] = {
       "avatar": opponent.avatar,
-      "first": opponent.firstName,
-      "last": opponent.lastName,
+      "firstName": opponent.firstName,
+      "lastName": opponent.lastName,
+      "gi": opponent.gi,
+      "nogi": opponent.nogi,
       "school": opponent.school
     }
     contract['player'] = {
       "avatar": player.avatar,
-      "first": player.firstName,
-      "last": player.lastName,
+      "firstName": player.firstName,
+      "lastName": player.lastName,
+      "gi": player.gi,
+      "nogi": player.nogi,
       "school": player.school
     }
     return ({ status: 200, data: contract })
