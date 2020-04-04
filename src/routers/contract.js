@@ -105,7 +105,6 @@ router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
 
 
 router.get('/contract-pdf/:id', async (req, res) => {
-    //need user id here
     let contract = await getContracts.getContract(req.params.id)
     if (contract.status === 200) {
         contract = contract.data
@@ -127,7 +126,7 @@ router.get('/contract-get-pdf/:id', ensureAuthenticated, async (req, res) => {
     await puppeteerPDF(contractId).then(pdf => {
         res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length })
         res.send(pdf)
-    }).catch((error) => {
+    }).catch((e) => {
         req.flash('error', 'Something went wrong with the PDF doc')
         res.redirect('/')
     })
