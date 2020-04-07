@@ -52,7 +52,7 @@
               <label for="avatar">Profile Picture</label>
               <input type="file" id="avatar" name="avatar" class="form-control" 
                 value="" />
-              <p>*Face must be clearly visible</p>
+              <p>*Your face must be clearly visible</p>
             </div>
             
             <div class="form-group">
@@ -62,18 +62,9 @@
                 <option value="F">Female</option>
               </select>
             </div>
-            
             <div class="form-group">
-              <p>Select Your Weight Class:</p>
-              <select name="weightClass">
-                <option value="Flyweight">Flyweight – 57.5 kg (126.5 lbs)</option>
-                <option value="Featherweight">Featherweight – 64 kg (141 lbs)</option>
-                <option value="Lightweight">Lightweight – 70 kg (154 lbs)</option>
-                <option value="Welterweight">Welterweight – 76 kg (167.5 lbs)</option>
-                <option value="Middleweight">Middleweight – 88.3 kg (194.5 lbs)</option>
-                <option value="Light-Heavyweight">Light-Heavyweight – 94.3 kg (207.5 lbs)</option>
-                <option value="Heavyweight">Heavyweight – 100.5 kg (221.0 lbs)</option>
-              </select>
+              <p>Select Your Main Weight Class (Kilograms):</p>
+              {{>registerWeight}}
               <p>*You can still compete in other weight classes</p>
             </div>
             <div class="form-group">
@@ -98,7 +89,6 @@
                 <option value="0">I will not compete in Gi</option>
               </select>
             </div>
-
             <button type="submit" class="btn btn-primary btn-block">
               Register
             </button>
