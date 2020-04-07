@@ -1,8 +1,8 @@
 const ContractData = require('../../data/ContractData')
+const PlayerData = require('../../data/PlayerData')
 
 
 const registerContract = async (contract, playerId) => {
-
   let date = new Date();
   let timestamp = Math.round((date.getTime()) / 1000)
   let matchDate = (Date.parse(contract.datetime)) / 1000
