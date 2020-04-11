@@ -4,7 +4,6 @@ const passport = require('passport');
 const multipart = require('connect-multiparty')
 const fs = require('fs')
 
-
 const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const getPlayers = require('../services/player/getPlayers')
@@ -16,7 +15,38 @@ router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
 
 router.get('/', async (req, res) => {
     let players = await getPlayers.getPlayers()
+    players.forEach((player) =>{
+        player.gi = undefined
+    }) 
+    players.sort((a, b) => b.nogi - a.nogi)
     res.render('main', { players });
+})
+
+router.post('/sort-by', async(req, res) => {
+    let players = await getPlayers.getPlayers()
+    let style = req.body.status
+    let weight = req.body.weightClass
+    if (style == 'null' || weight == 'null') {
+        req.flash('error', 'Search Error: You must select a category AND a weightclass')
+        return res.redirect('/')
+    }
+    if (weight != 'Absolute') {
+        players = players.filter((player) => {
+            return player.weightClass == weight
+        })
+    } 
+    if(style == 'gi'){
+        players.forEach((player) =>{
+            player.nogi = undefined
+        })
+    } else if (style == 'nogi'){
+        players.forEach((player) =>{
+            player.gi = undefined
+        }) 
+    }
+    players.sort((a, b) => b[style] - a[style])
+    style = style.toUpperCase()
+    res.render('main', { players, style, weight });
 })
 
 router.post("/register", multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }), async (req, res) => {
