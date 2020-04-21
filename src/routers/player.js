@@ -22,6 +22,12 @@ router.get('/', async (req, res) => {
     res.render('main', { players });
 })
 
+router.get('/chat/:opponentId', async (req, res) => {
+    let opponent = await getPlayers.getPlayer(req.params.opponentId)
+    //console.log(opponent)
+    res.render('chat', { opponent });
+})
+
 router.post('/sort-by', async(req, res) => {
     let players = await getPlayers.getPlayers()
     let style = req.body.status

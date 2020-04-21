@@ -15,6 +15,9 @@ const partialsPath = path.join(__dirname, '../templates/partials')
 const layoutPath = path.join(__dirname, '../templates/layouts')
 
 const app = express()
+const chatServer = require('http').Server(app);
+chatServer.listen(3000)
+const io = require('socket.io')(chatServer);
 
 // Passport Config
 require('./middleware/passport')(passport);
@@ -27,9 +30,16 @@ app.engine('hbs', hbs({
   partialsDir: partialsPath,
 }));
 
-//app.engine('hbs', hbs({extname: '.hbs', defaultLayout: 'layout', layoutsDir: path.join(__dirname, '../templates/layouts')})); 
 app.set('view engine', 'hbs')
+app.use(express.static('public'))
 app.set('views', viewsPath)
+
+io.on('connection', (socket) => {
+  socket.on('send-chat-message', message => {
+    socket.broadcast.emit('chat-message', message)
+  })
+});
+
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
