@@ -13,14 +13,20 @@
   <div style="margin:100px;">
     <div class="jumbotron" style="padding:40px;">
       <h3>Chat Log With: {{opponent.firstName}} {{opponent.lastName}}</h3>
+      {{# each messages}}
+      <h3>Message: {{ this.message.text }} </h3>
+      {{/each}}
       <div id="message-container"></div>
-      <form id="send-container">
-        <input type="text" id="message-input">
-        <button type="submit" id="send-button">Send</button>
+      <form action="/chat" method="POST" id="send-container">
+        <div class="form-group">
+          <input type="hidden" id="chatId" value={{chatId}}>
+          <input type="text" id="message-input">
+          <button type="submit" id="send-button">Send</button>
       </form>
     </div>
   </div>
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="server.js"></script>
+
 </html>

@@ -36,6 +36,7 @@ app.set('views', viewsPath)
 
 io.on('connection', (socket) => {
   socket.on('send-chat-message', message => {
+    //create message object here user and message
     socket.broadcast.emit('chat-message', message)
   })
 });

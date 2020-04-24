@@ -9,26 +9,44 @@ const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const getPlayers = require('../services/player/getPlayers')
 const registerPlayer = require('../services/player/registerPlayer')
 const deletePlayerById = require('../services/player/deletePlayerById')
+const getChat = require('../services/chat/getChat')
+const createChat = require('../services/chat/createChat')
+const updateChat = require('../services/chat/updateChat')
+
 
 const router = new express.Router()
+
 router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
 
 router.get('/', async (req, res) => {
     let players = await getPlayers.getPlayers()
-    players.forEach((player) =>{
+    players.forEach((player) => {
         player.gi = undefined
-    }) 
+    })
     players.sort((a, b) => b.nogi - a.nogi)
     res.render('main', { players });
 })
 
-router.get('/chat/:opponentId', async (req, res) => {
-    let opponent = await getPlayers.getPlayer(req.params.opponentId)
-    //console.log(opponent)
-    res.render('chat', { opponent });
+router.get('/chat/:opponentId', ensureAuthenticated, async (req, res) => {
+    let opponentId = req.params.opponentId
+    let opponent = await getPlayers.getPlayer(opponentId)
+    let playerId = req.user.id
+    let chat = await getChat.getChat(opponentId, playerId)
+    if (!chat.length) {
+        let newChat = await createChat.createChat(opponentId, playerId)
+        console.log('brand new chat', {newChat})
+        return res.render('chat', { chatId: newChat.id })
+    }
+    res.render('chat', { opponent , messages: chat[0].messages, chatId: chat[0].id });
 })
 
-router.post('/sort-by', async(req, res) => {
+router.post('/chat', ensureAuthenticated, async (req, res) => {
+    console.log(req.user.id)
+    //body is empty
+    console.log(req.body)
+})
+
+router.post('/sort-by', async (req, res) => {
     let players = await getPlayers.getPlayers()
     let style = req.body.status
     let weight = req.body.weightClass
@@ -40,15 +58,15 @@ router.post('/sort-by', async(req, res) => {
         players = players.filter((player) => {
             return player.weightClass == weight
         })
-    } 
-    if(style == 'gi'){
-        players.forEach((player) =>{
+    }
+    if (style == 'gi') {
+        players.forEach((player) => {
             player.nogi = undefined
         })
-    } else if (style == 'nogi'){
-        players.forEach((player) =>{
+    } else if (style == 'nogi') {
+        players.forEach((player) => {
             player.gi = undefined
-        }) 
+        })
     }
     players.sort((a, b) => b[style] - a[style])
     style = style.toUpperCase()
@@ -140,7 +158,7 @@ router.post('/player/delete/:id', ensureAuthenticated, async (req, res) => {
         res.redirect('/')
     }
 
-   
+
 })
 
 module.exports = router
