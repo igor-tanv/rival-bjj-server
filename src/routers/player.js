@@ -34,16 +34,21 @@ router.get('/chat/:opponentId', ensureAuthenticated, async (req, res) => {
     let chat = await getChat.getChat(opponentId, playerId)
     if (!chat.length) {
         let newChat = await createChat.createChat(opponentId, playerId)
-        console.log('brand new chat', {newChat})
-        return res.render('chat', { chatId: newChat.id })
+        return res.render('chat', { opponent, messages: newChat.messages, chatId: newChat.id })
     }
-    res.render('chat', { opponent , messages: chat[0].messages, chatId: chat[0].id });
+    res.render('chat', { opponent, messages: chat[0].messages, chatId: chat[0].id });
 })
 
 router.post('/chat', ensureAuthenticated, async (req, res) => {
-    console.log(req.user.id)
-    //body is empty
-    console.log(req.body)
+    let chatId = req.body.chatId
+    let message = {
+        from: req.user.id,
+        text: req.body.messageInput
+    }
+    let chat = await updateChat.updateChat(chatId, message)
+    let opponentId = chat.users.filter(id => id != req.user.id)
+    let opponent = await getPlayers.getPlayer(opponentId[0])
+    res.render('chat', { opponent, messages: chat.messages, chatId: chat.id });
 })
 
 router.post('/sort-by', async (req, res) => {

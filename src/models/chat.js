@@ -7,18 +7,6 @@ const messageSchema = new mongoose.Schema({
   timestamps: true
 })
 
-const userSchema = new mongoose.Schema({
-  idOne: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'Player'
-  },
-  idTwo: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'Player'
-  },
-})
 
 const chatSchema = new mongoose.Schema({
   users: [],

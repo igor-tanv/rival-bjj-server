@@ -12,17 +12,13 @@ const createChat = async (opponentId, playerId ) => {
     users: [opponentId, playerId],
     messages: []
   })
-  console.log(chat)
-  await chat.save()
-  return chat
+  return await chat.save()
 }
 
 const updateChat = async (chatId, message) => {
-  let chat = Chat.findById(chatId)
-  chat.messages.append(message)
-  console.log('updated chat', chat)
-  await chat.save()
-  return chat
+  let chat = await Chat.findById(chatId)
+  chat.messages.push(message)
+  return await chat.save()
 }
 
 module.exports = {
