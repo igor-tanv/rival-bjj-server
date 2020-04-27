@@ -14,7 +14,7 @@
     <div class="jumbotron" style="padding:40px;">
       <h3>Chat Log With: {{opponent.firstName}} {{opponent.lastName}}</h3>
       {{# each messages}}
-      <h3>Message: {{ this.text }} </h3>
+      <h3>{{this.name}}: {{ this.text }} </h3>
       {{/each}}
       <div id="message-container"></div>
       <form action="/chat" method="POST" id="send-container">

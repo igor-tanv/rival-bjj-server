@@ -29,26 +29,28 @@ router.get('/', async (req, res) => {
 
 router.get('/chat/:opponentId', ensureAuthenticated, async (req, res) => {
     let opponentId = req.params.opponentId
-    let opponent = await getPlayers.getPlayer(opponentId)
     let playerId = req.user.id
-    let chat = await getChat.getChat(opponentId, playerId)
-    if (!chat.length) {
-        let newChat = await createChat.createChat(opponentId, playerId)
-        return res.render('chat', { opponent, messages: newChat.messages, chatId: newChat.id })
+    if (opponentId == playerId) {
+        req.flash('error', "You can't open a chat with yourself")
+        return res.redirect('/')
     }
-    res.render('chat', { opponent, messages: chat[0].messages, chatId: chat[0].id });
+    let chat = await getChat.getChat(opponentId, playerId)
+    if (!chat) {
+        let newChat = await createChat.createChat(opponentId, playerId)
+        return res.render('chat', { opponent: newChat.opponent, messages: newChat.messages, chatId: newChat.id })
+    }
+    res.render('chat', { opponent: chat.opponent, messages: chat.messages, chatId: chat.id });
 })
 
 router.post('/chat', ensureAuthenticated, async (req, res) => {
+    let playerId = req.user.id
     let chatId = req.body.chatId
     let message = {
-        from: req.user.id,
+        from: playerId,
         text: req.body.messageInput
     }
-    let chat = await updateChat.updateChat(chatId, message)
-    let opponentId = chat.users.filter(id => id != req.user.id)
-    let opponent = await getPlayers.getPlayer(opponentId[0])
-    res.render('chat', { opponent, messages: chat.messages, chatId: chat.id });
+    let chat = await updateChat.updateChat(chatId, message, playerId)
+    res.render('chat', { opponent: chat.opponent, messages: chat.messages, chatId });
 })
 
 router.post('/sort-by', async (req, res) => {
@@ -56,7 +58,7 @@ router.post('/sort-by', async (req, res) => {
     let style = req.body.status
     let weight = req.body.weightClass
     if (style == 'null' || weight == 'null') {
-        req.flash('error', 'Search Error: You must select a category AND a weightclass')
+        req.flash('error', 'Search Error: Select Gi or NoGi AND a weightclass')
         return res.redirect('/')
     }
     if (weight != 'Absolute') {
