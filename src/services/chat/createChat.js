@@ -1,9 +1,9 @@
-const chatData = require('../../data/ChatData')
-const getPlayers = require('../player/getPlayers')
+const ChatData = require('../../data/ChatData')
+const PlayerService = require('../player/index')
 
 const createChat = async (opponentId, playerId) => {
-  let opponent = await getPlayers.getPlayer(opponentId)
-  let chat = await chatData.createChat(opponentId, playerId)
+  let opponent = await PlayerService.getPlayer(opponentId)
+  let chat = await ChatData.createChat(opponentId, playerId)
   chat.opponent = opponent
   return chat 
 }
