@@ -6,20 +6,15 @@ const fs = require('fs')
 
 const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
-const getPlayers = require('../services/player/getPlayers')
-const registerPlayer = require('../services/player/registerPlayer')
-const deletePlayerById = require('../services/player/deletePlayerById')
-const getChat = require('../services/chat/getChat')
-const createChat = require('../services/chat/createChat')
-const updateChat = require('../services/chat/updateChat')
-
+const PlayerService = require('../services/player/index')
+const ChatService = require('../services/chat/index')
 
 const router = new express.Router()
 
 router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
 
 router.get('/', async (req, res) => {
-    let players = await getPlayers.getPlayers()
+    let players = await PlayerService.getPlayers()
     players.forEach((player) => {
         player.gi = undefined
     })
@@ -34,9 +29,9 @@ router.get('/chat/:opponentId', ensureAuthenticated, async (req, res) => {
         req.flash('error', "You can't open a chat with yourself")
         return res.redirect('/')
     }
-    let chat = await getChat.getChat(opponentId, playerId)
+    let chat = await ChatService.getChat(opponentId, playerId)
     if (!chat) {
-        let newChat = await createChat.createChat(opponentId, playerId)
+        let newChat = await ChatService.createChat(opponentId, playerId)
         return res.render('chat', { opponent: newChat.opponent, messages: newChat.messages, chatId: newChat.id })
     }
     res.render('chat', { opponent: chat.opponent, messages: chat.messages, chatId: chat.id });
@@ -49,12 +44,12 @@ router.post('/chat', ensureAuthenticated, async (req, res) => {
         from: playerId,
         text: req.body.messageInput
     }
-    let chat = await updateChat.updateChat(chatId, message, playerId)
+    let chat = await ChatService.updateChat(chatId, message, playerId)
     res.render('chat', { opponent: chat.opponent, messages: chat.messages, chatId });
 })
 
 router.post('/sort-by', async (req, res) => {
-    let players = await getPlayers.getPlayers()
+    let players = await PlayerService.getPlayers()
     let style = req.body.status
     let weight = req.body.weightClass
     if (style == 'null' || weight == 'null') {
@@ -81,7 +76,7 @@ router.post('/sort-by', async (req, res) => {
 })
 
 router.post("/register", multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }), async (req, res) => {
-    const registerData = await registerPlayer.registerPlayer(req.body, req.files.avatar)
+    const registerData = await PlayerService.registerPlayer(req.body, req.files.avatar)
     if (registerData.status != 200) {
         return res.render("register", { error: registerData.data })
     }
@@ -128,7 +123,7 @@ router.post("/login", function (req, res, next) {
 
 router.get('/players/:id', ensureAuthenticated, async (req, res) => {
     try {
-        let player = (req.params.id === ":id") ? await getPlayers.getPlayer(req.user.id) : await getPlayers.getPlayer(req.params.id)
+        let player = (req.params.id === ":id") ? await PlayerService.getPlayer(req.user.id) : await PlayerService.getPlayer(req.params.id)
         res.render('player-profile', { player })
     } catch (e) {
         req.flash('error', 'Login to view your profile')
@@ -138,7 +133,7 @@ router.get('/players/:id', ensureAuthenticated, async (req, res) => {
 
 router.get('/players/opponent/:id', async (req, res) => {
     try {
-        const player = await getPlayers.getPlayer(req.params.id)
+        const player = await PlayerService.getPlayer(req.params.id)
         if (!player) {
             req.flash('error', 'That player does not exist')
             return res.redirect('/')
@@ -152,7 +147,7 @@ router.get('/players/opponent/:id', async (req, res) => {
 
 router.post('/player/delete/:id', ensureAuthenticated, async (req, res) => {
     try {
-        let player = await deletePlayerById.deletePlayerById(req.params.id)
+        let player = await PlayerService.deletePlayerById(req.params.id)
         fs.unlink(path.PUBLIC.AVATAR_PICTURES + '/' + player.data.avatar, function (err) {
             if (err) throw err
         })
