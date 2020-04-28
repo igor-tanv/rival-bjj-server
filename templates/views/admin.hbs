@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+</head>
+
+<body>
+<div style="margin:100px;">
+    <div class="jumbotron"  style="padding:40px;">
+      <h1>Record Administration</h1>
+  {{# each contract}}
+      <h3>{{this.school}}</h3>
+  {{/each}}
+  <form action="/admin" method="POST" id="send-container">
+    <div class="form-group">
+      <input id="datetime" type="datetime-local" max="12-31-2100" name="datetime" value="">
+      <button type="submit" id="send-button">Find Match</button>
+  </form>
+</div>
+</div>
+</body>
+
+</html>

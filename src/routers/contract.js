@@ -2,7 +2,7 @@ const express = require('express')
 const puppeteer = require('puppeteer');
 
 const PlayerService = require('../services/player/index')
-const ContractService = require('../services/player/index')
+const ContractService = require('../services/contract/index')
 const { ensureAuthenticated } = require('../middleware/auth')
 const router = new express.Router()
 
@@ -27,7 +27,6 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
     }
     req.flash('success_msg', 'Your challenge has been submitted to your opponent for review')
     res.redirect('/')
-
 })
 
 router.get('/contracts/outgoing', ensureAuthenticated, async (req, res) => {

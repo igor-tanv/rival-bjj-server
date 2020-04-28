@@ -1,7 +1,7 @@
 const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
 
-const updateContractStatus = async (contractId, status) => {
+const updateContract = async (contractId, status) => {
   let contract = await ContractData.getContractByContractId(contractId)
   if (contract.status === 200) {
     contract = contract.data
@@ -22,5 +22,5 @@ const updateContractStatus = async (contractId, status) => {
 }
 
 module.exports = {
-  updateContractStatus
+  updateContract
 }

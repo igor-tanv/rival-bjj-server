@@ -2,6 +2,7 @@ const express = require('express')
 require('./db/mongoose')
 const playerRouter = require('./routers/player')
 const contractRouter = require('./routers/contract')
+const adminRouter = require('./routers/admin')
 const bodyParser = require('body-parser');
 const hbs = require('express-handlebars')
 const path = require('path')
@@ -73,5 +74,6 @@ app.use(function (req, res, next) {
 
 app.use(playerRouter)
 app.use(contractRouter)
+app.use(adminRouter)
 
 module.exports = app
