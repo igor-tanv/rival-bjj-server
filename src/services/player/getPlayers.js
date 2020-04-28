@@ -1,4 +1,3 @@
-
 const PlayersData = require('../../data/PlayerData')
 
 const getPlayers = async () => {
@@ -6,12 +5,6 @@ const getPlayers = async () => {
   return players
 }
 
-const getPlayer = async (playerId) => {
-  const player = await PlayersData.getPlayerById(playerId)
-  return player
-}
-
 module.exports = {
   getPlayers,
-  getPlayer
 }

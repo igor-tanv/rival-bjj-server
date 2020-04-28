@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js",
+    "dev": "env-cmd -f ./config/dev.env nodemon -r esm src/index.js",
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand",
     "lint:ejs": "ejslint src/templates/views/login"
   },
@@ -20,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
     "connect-multiparty": "^2.2.0",
+    "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.17.0",
@@ -31,6 +32,7 @@
     "passport-local": "^1.0.0",
     "puppeteer": "^2.1.1",
     "sharp": "^0.25.2",
+    "socket.io": "^2.3.0",
     "validator": "^12.1.0"
   },
   "devDependencies": {

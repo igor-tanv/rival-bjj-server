@@ -1,7 +1,11 @@
-const getPlayers = require('./getPlayers')
-const registerPlayer = require('./registerPlayer')
+import { getPlayers } from './getPlayers'
+import { getPlayer } from './getPlayer'
+import { registerPlayer } from './registerPlayer'
+import { deletePlayerById } from './deletePlayerById'
 
 module.exports = {
   getPlayers,
-  registerPlayer
+  getPlayer,
+  registerPlayer,
+  deletePlayerById,
 }

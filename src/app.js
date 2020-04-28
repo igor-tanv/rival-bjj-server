@@ -2,6 +2,7 @@ const express = require('express')
 require('./db/mongoose')
 const playerRouter = require('./routers/player')
 const contractRouter = require('./routers/contract')
+const adminRouter = require('./routers/admin')
 const bodyParser = require('body-parser');
 const hbs = require('express-handlebars')
 const path = require('path')
@@ -15,6 +16,9 @@ const partialsPath = path.join(__dirname, '../templates/partials')
 const layoutPath = path.join(__dirname, '../templates/layouts')
 
 const app = express()
+const chatServer = require('http').Server(app);
+chatServer.listen(3000)
+const io = require('socket.io')(chatServer);
 
 // Passport Config
 require('./middleware/passport')(passport);
@@ -27,9 +31,17 @@ app.engine('hbs', hbs({
   partialsDir: partialsPath,
 }));
 
-//app.engine('hbs', hbs({extname: '.hbs', defaultLayout: 'layout', layoutsDir: path.join(__dirname, '../templates/layouts')})); 
 app.set('view engine', 'hbs')
+app.use(express.static('public'))
 app.set('views', viewsPath)
+
+io.on('connection', (socket) => {
+  socket.on('send-chat-message', message => {
+    //create message object here user and message
+    socket.broadcast.emit('chat-message', message)
+  })
+});
+
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -62,5 +74,6 @@ app.use(function (req, res, next) {
 
 app.use(playerRouter)
 app.use(contractRouter)
+app.use(adminRouter)
 
 module.exports = app
