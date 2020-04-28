@@ -1,6 +1,6 @@
 const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
-const weightClass = require('../../helpers/weight')
+const weightHelper = require('../../helpers/weight')
 const dateTimeHelper = require('../../helpers/datetime')
 
 const getContract = async (contractId) => {
@@ -10,7 +10,7 @@ const getContract = async (contractId) => {
     let opponent = await PlayerData.getPlayerById(contract.opponentId)
     let player = await PlayerData.getPlayerById(contract.playerId)
     contract['date'] = dateTimeHelper.dateTimeHelper(contract.datetime)
-    contract['kilos'] = weightClass.weightLimits(contract.weightClass)
+    contract['kilos'] = weightHelper.weightLimits(contract.weightClass)
     contract['opponent'] = {
       "avatar": opponent.avatar,
       "firstName": opponent.firstName,
