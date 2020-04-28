@@ -90,7 +90,7 @@ router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
 router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
     let contractId = req.params.id
     let status = req.body
-    let updated = await ContractService.updateContractStatus(contractId, status)
+    let updated = await ContractService.updateContract(contractId, status)
 
     if (updated.status == 200) {
         req.flash('success_msg', 'Match has been ' + updated.data.status)

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+</head>
+
+<body>
+  <div style="margin:100px;">
+    <div class="jumbotron" style="padding:40px;">
+      <h1>Record Administration</h1>
+      <br><br>
+      {{# each contracts}}
+      <form action="/result/contract/{{this.id}}" method="POST" id="send-container">
+        <div class="form-group">
+          <input type="hidden" id="red" name="red" value={{this.player.id}}>
+          <input type="hidden" id="blue" name="blue" value={{this.opponent.id}}>
+          <h3>RED: {{this.player.firstName}} {{this.player.lastName}} vs BLUE: {{this.opponent.firstName}}
+            {{this.opponent.lastName}}</h3>
+          <h3>Date: {{ this.date.month }} {{ this.date.day }}, {{ this.date.year }} at
+            {{ this.date.hour }}:{{ this.date.minutes }}</h3>
+          <h3>Location: {{this.school}}</h3>
+          <label for="result">Match Result
+            <select name="status">
+              <option value="wbt">Red Wins By Tap</option>
+              <option value="wbdq">Red Wins By DQ</option>
+              <option value="wbf">Red Wins By Forfeit</option>
+              <option value="wbi">Red Wins By Injury</option>
+              <option value="wbp">Red Wins By Pts</option>
+              <option value="wba">Red Wins By Advantage</option>
+              <option value="d">Draw</option>
+              <option value="lba">Red Loses By Advantage</option>
+              <option value="lbp">Red Loses By Pts</option>
+              <option value="lbi">Red Loses By Injury</option>
+              <option value="lbf">Red Loses By Forfeit</option>
+              <option value="lbdq">Red Loses By DQ</option>
+              <option value="lbt">Red Loses By Tap</option>
+            </select>
+          </label>
+          <button type="submit" id="send-button">Update</button>
+      </form>
+      {{/each}}
+      <br><br>
+      <form action="/admin" method="POST" id="send-container">
+        <div class="form-group">
+          <input id="datetime" type="datetime-local" max="12-31-2100" name="datetime" value="">
+          <button type="submit" id="send-button">Find Match</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
