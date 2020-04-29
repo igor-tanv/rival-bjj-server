@@ -1,5 +1,6 @@
 const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
+const AdminData = require('../../data/AdminData')
 
 const results = {
     wbt: 1,
@@ -18,7 +19,8 @@ const results = {
 }
 
 
-const updateRanks = async (contractId, redId, blueId, result) => {
+const updatePlayerRanksById = async (contractId, matchData) => {
+   const {redId, blueId, result} = matchData
 
     let K = 50
 
@@ -27,20 +29,20 @@ const updateRanks = async (contractId, redId, blueId, result) => {
     let blue = await PlayerData.getPlayerById(blueId)
 
     //gi or nogi
-    let rank = contract.rules.toLowerCase()
+    let rank = contract.data.rules.toLowerCase()
 
     let winProbRed = 1 / (1 + 10 ** ((blue[rank] - red[rank]) / 400))
     let winProbBlue = 1 / (1 + 10 ** ((red[rank] - blue[rank]) / 400))
 
     let newRankRed = red[rank] + (K * (results[result] - winProbRed))
-    let newRankBlue = blue[rank] + (K * (results[result] - winProbBlue))
+    let newRankBlue = blue[rank] + (K * (Math.abs(results[result]-1) - winProbBlue))
+    
+    await AdminData.updatePlayerRankById(red.id ,{[rank]: newRankRed })
+    await AdminData.updatePlayerRankById(blue.id ,{[rank]: newRankBlue })
 
-    let redUpdate = await PlayerData.updateRanksById(redId, { [rank]: newRankRed })
-    let blueUpdate = await PlayerData.updateRankById(blueId, {[rank]: newRankBlue })
 
-    return {redUpdate, blueUpdate}
 }
 
 module.exports = {
-    updateRanks
+    updatePlayerRanksById
 }

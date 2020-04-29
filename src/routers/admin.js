@@ -1,5 +1,6 @@
 const express = require('express')
 
+const AdminService = require('../services/admin/index')
 const PlayerService = require('../services/player/index')
 const ContractService = require('../services/contract/index')
 const { ensureAuthenticated } = require('../middleware/auth')
@@ -22,7 +23,13 @@ router.post('/admin', async (req, res) => {
   res.render('admin-contracts', { contracts })
 })
 
-router.post('result/contract/:contractId', async (req, res) => {
+router.post('/result/contract/:contractId', async (req, res) => {
+  let contractId = req.params.contractId
+  let matchData = req.body
+
+  //console.log('API', contractId, matchData)
+
+  tempVariable = await AdminService.updatePlayerRanksById(contractId, matchData)
   
 })
 

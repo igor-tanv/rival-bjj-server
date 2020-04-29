@@ -14,15 +14,15 @@
       {{# each contracts}}
       <form action="/result/contract/{{this.id}}" method="POST" id="send-container">
         <div class="form-group">
-          <input type="hidden" id="red" name="red" value={{this.player.id}}>
-          <input type="hidden" id="blue" name="blue" value={{this.opponent.id}}>
+          <input type="hidden" id="redId" name="redId" value={{this.player.id}}>
+          <input type="hidden" id="blueId" name="blueId" value={{this.opponent.id}}>
           <h3>RED: {{this.player.firstName}} {{this.player.lastName}} vs BLUE: {{this.opponent.firstName}}
             {{this.opponent.lastName}}</h3>
           <h3>Date: {{ this.date.month }} {{ this.date.day }}, {{ this.date.year }} at
             {{ this.date.hour }}:{{ this.date.minutes }}</h3>
           <h3>Location: {{this.school}}</h3>
-          <label for="result">Match Result
-            <select name="status">
+          <label for="status">Match Result
+            <select name="result">
               <option value="wbt">Red Wins By Tap</option>
               <option value="wbdq">Red Wins By DQ</option>
               <option value="wbf">Red Wins By Forfeit</option>
