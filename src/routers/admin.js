@@ -27,9 +27,14 @@ router.post('/result/contract/:contractId', async (req, res) => {
   let contractId = req.params.contractId
   let matchData = req.body
 
-  //console.log('API', contractId, matchData)
-
-  tempVariable = await AdminService.updatePlayerRanksById(contractId, matchData)
+  let response = await AdminService.updatePlayerRanksById(contractId, matchData)
+  if (response.status == 200) {
+    req.flash('success_msg', response.data)
+    res.redirect('/admin')
+  } else {
+    req.flash('error', response.data)
+    res.redirect('/admin')
+  }
   
 })
 
