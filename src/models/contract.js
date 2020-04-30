@@ -26,17 +26,16 @@ const contractSchema = new mongoose.Schema({
         required: true,
         ref: 'Player'
     },
-    result: {
-        type: String,
-        default: 'TBD'
+    method: {
+        type: Number
     },
     status: {
-        type: String,
-        default: 'Pending'
+        type: Number,
+        default: 1
     },
-    completed: {
-        type: Boolean,
-        default: false
+    winner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Player'
     },
     refereeFirstName: {
         type: String,

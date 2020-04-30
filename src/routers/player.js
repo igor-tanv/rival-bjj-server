@@ -7,6 +7,7 @@ const fs = require('fs')
 const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const PlayerService = require('../services/player/index')
+const ContractService = require('../services/contract/index')
 const ChatService = require('../services/chat/index')
 
 const router = new express.Router()
@@ -124,7 +125,8 @@ router.post("/login", function (req, res, next) {
 router.get('/players/:id', ensureAuthenticated, async (req, res) => {
     try {
         let player = (req.params.id === ":id") ? await PlayerService.getPlayer(req.user.id) : await PlayerService.getPlayer(req.params.id)
-        res.render('player-profile', { player })
+        let contracts = await ContractService.getMatchHistory(player.id)
+        res.render('player-profile', { player, contracts })
     } catch (e) {
         req.flash('error', 'Login to view your profile')
         res.redirect('login')

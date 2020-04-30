@@ -30,7 +30,7 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
 })
 
 router.get('/contracts/outgoing', ensureAuthenticated, async (req, res) => {
-    let allContracts = await Promise.all(await ContractService.getContracts(req.user.id))
+    let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
     let contracts = allContracts.filter((contract) => {
         return (contract.playerId == req.user.id && contract.status == 'Pending')
     })
@@ -38,23 +38,24 @@ router.get('/contracts/outgoing', ensureAuthenticated, async (req, res) => {
 })
 
 router.get('/contracts/incoming', ensureAuthenticated, async (req, res) => {
-    let allContracts = await Promise.all(await ContractService.getContracts(req.user.id))
+    let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
     let contracts = allContracts.filter((contract) => {
         return (contract.playerId != req.user.id && contract.status == 'Pending')
     })
     res.render('pending-contracts', { title: 'Pending: Incoming', contracts })
 })
 
-router.get('/contracts/upcoming', ensureAuthenticated, async (req, res) => {
-    let allContracts = await Promise.all(await ContractService.getContracts(req.user.id))
-    let contracts = allContracts.filter((contract) => {
-        return contract.status == 'Accepted'
-    })
-    res.render('pending-contracts', { title: 'All Upcoming Matches', contracts })
-})
+// router.get('/contracts/upcoming', ensureAuthenticated, async (req, res) => {
+//     let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
+//     let contracts = allContracts.filter((contract) => {
+//         //return accepted and completed matches
+//         return (contract.status == 2 || contract.status == 4)
+//     })
+//     res.render('pending-contracts', { title: 'All Upcoming Matches', contracts })
+// })
 
 router.get('/contracts/cancelled-declined', ensureAuthenticated, async (req, res) => {
-    let allContracts = await Promise.all(await ContractService.getContracts(req.user.id))
+    let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
     let contracts = allContracts.filter((contract) => {
         return (contract.status == 'Declined' || contract.status == 'Cancelled')
     })
@@ -62,7 +63,7 @@ router.get('/contracts/cancelled-declined', ensureAuthenticated, async (req, res
 })
 
 router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
-    let contract = await ContractService.getContract(req.params.id)
+    let contract = await ContractService.getContractByContractId(req.params.id)
     if (contract.status === 200) {
         contract = contract.data
         if (contract.opponentId == req.user.id) {
@@ -102,7 +103,7 @@ router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
 
 
 router.get('/contract-pdf/:id', async (req, res) => {
-    let contract = await ContractService.getContract(req.params.id)
+    let contract = await ContractService.getContractByContractId(req.params.id)
     if (contract.status === 200) {
         contract = contract.data
         res.render('contract-pdf', { contract })
