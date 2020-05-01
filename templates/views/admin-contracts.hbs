@@ -23,21 +23,21 @@
           <h3>Date: {{ this.date.month }} {{ this.date.day }}, {{ this.date.year }} at
             {{ this.date.hour }}:{{ this.date.minutes }}</h3>
           <h3>Location: {{this.school}}</h3>
-          <label for="status">Match Result
-            <select name="result">
-              <option value="wbt">Red Wins By Tap</option>
-              <option value="wbdq">Red Wins By DQ</option>
-              <option value="wbf">Red Wins By Forfeit</option>
-              <option value="wbi">Red Wins By Injury</option>
-              <option value="wbp">Red Wins By Pts</option>
-              <option value="wba">Red Wins By Advantage</option>
-              <option value="d">Draw</option>
-              <option value="lba">Red Loses By Advantage</option>
-              <option value="lbp">Red Loses By Pts</option>
-              <option value="lbi">Red Loses By Injury</option>
-              <option value="lbf">Red Loses By Forfeit</option>
-              <option value="lbdq">Red Loses By DQ</option>
-              <option value="lbt">Red Loses By Tap</option>
+          <label for="status">Match Winner
+            <select name="winner">
+              <option value={{this.player.id}}>Red</option>
+              <option value={{this.opponent.id}}>Blue</option>
+            </select>
+          </label>
+          <label for="stat">Method
+            <select name="method">
+              <option value='submission'>Submission</option>
+              <option value='points'>Points</option>
+              <option value='advantage'>Advantage</option>
+              <option value='disqualification'>Disqualification</option>
+              <option value='forfeit'>Forfeit</option>
+              <option value='injury'>Injury</option>
+              <option value='draw'>Draw</option>
             </select>
           </label>
           <button type="submit" id="send-button">Update</button>

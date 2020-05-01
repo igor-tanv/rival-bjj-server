@@ -9,16 +9,6 @@ enumStatus = {
   cancelled: 5
 }
 
-enumMethod = {
-  submission: 1,
-  points: 2,
-  advantage: 3,
-  disqualification: 4,
-  forfeit: 5,
-  injury: 6,
-  draw: 7
-}
-
 
 const registerContract = async (contract, playerId) => {
   let date = new Date();

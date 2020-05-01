@@ -13,7 +13,7 @@ const contractSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    comments: {
+    playerComments: {
         type: String,
         maxlength: 200
     },
@@ -44,6 +44,10 @@ const contractSchema = new mongoose.Schema({
     refereeLastName: {
         type: String,
         required: true
+    },
+    refereeComments: {
+        type: String,
+        max: 500
     },
     weightClass: {
         type: String,

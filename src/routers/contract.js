@@ -40,7 +40,7 @@ router.get('/contracts/outgoing', ensureAuthenticated, async (req, res) => {
 router.get('/contracts/incoming', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
     let contracts = allContracts.filter((contract) => {
-        return (contract.playerId != req.user.id && contract.status == 'Pending')
+        return (contract.playerId != req.user.id && contract.status == 1)
     })
     res.render('pending-contracts', { title: 'Pending: Incoming', contracts })
 })
@@ -70,16 +70,17 @@ router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
             opponent = await PlayerService.getPlayer(contract.playerId)
             contract['opponent'] = opponent
         }
-        if (contract.status == 'Accepted') {
+        //pending-1, accepted-2, declined/cancelled-5
+        if (contract.status == 2) {
             return res.render('contracts-upcoming', { contract })
         }
-        if (contract.status == 'Pending' && contract.opponentId == req.user.id) {
+        if (contract.status == 1 && contract.opponentId == req.user.id) {
             return res.render('contracts-incoming', { contract })
         }
-        if (contract.status == 'Pending' && contract.opponentId != req.user.id) {
+        if (contract.status == 1 && contract.opponentId != req.user.id) {
             return res.render('contracts-outgoing', { contract })
         }
-        if (contract.status == 'Declined') {
+        if (contract.status == 5) {
             // same page as outgoing because structure of web page is similar
             return res.render('contracts-outgoing', { contract })
         }
@@ -94,7 +95,8 @@ router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
     let updated = await ContractService.updateContract(contractId, status)
 
     if (updated.status == 200) {
-        req.flash('success_msg', 'Match has been ' + updated.data.status)
+        console.log('api', updated.data.status)
+        req.flash('success_msg', 'Match has been ' + updated.data.status == 2 ? 'Accepted' : 'Declined')
         return res.redirect('/')
     }
     req.flash('error', updated.data)

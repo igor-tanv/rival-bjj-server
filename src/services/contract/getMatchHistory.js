@@ -1,7 +1,8 @@
 const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
 const weightClass = require('../../helpers/weight')
-const matchDateHelper = require('../../helpers/matchDate')
+const dateTimeHelper = require('../../helpers/datetime')
+
 
 
 const getMatchHistory = async (playerId) => {
@@ -11,16 +12,22 @@ const getMatchHistory = async (playerId) => {
     return (contract.status == 2 || contract.status == 4)
   })
   //create match history object
-  contracts = contracts.map((contract) => {
-    if(contract.winner == playerId) contract.result = 'Win'
-    else if(contract.winner != contract.playerId && contract.winner != contract.opponentId ) contract.result = 'Draw'
-    else {contract.result = 'Lose'}
+  contracts = contracts.map( async (contract) => {
+    let opponentId = [contract.playerId, contract.opponentId].filter((id) => id != playerId)
+    let opponent = await PlayerData.getPlayerById(opponentId)
+    if(!contract.winner) contract.result = 'Pending'
+    else if (contract.winner) {
+      if(contract.winner == playerId) contract.result = 'Win'
+      else if(contract.winner != contract.playerId && contract.winner != contract.opponentId ) contract.result = 'Draw'
+      else {contract.result = 'Lose'}
+    }
     return {
       result: contract.result,
-      opponent: contract.opponent,
+      opponent: opponent,
       method: contract.method,
-      date: matchDateHelper(contract.datetime),
-      location: contract.location
+      date: dateTimeHelper.dateTimeHelper(contract.datetime),
+      location: contract.location,
+      weightClass: contract.weightClass
     }
   })
   contracts.sort((a, b) => b.date - a.date)
