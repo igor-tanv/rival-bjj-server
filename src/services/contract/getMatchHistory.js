@@ -23,6 +23,7 @@ const getMatchHistory = async (playerId) => {
     }
     return {
       result: contract.result,
+      rules: contract.rules,
       opponent: opponent,
       method: contract.method,
       date: dateTimeHelper.dateTimeHelper(contract.datetime),

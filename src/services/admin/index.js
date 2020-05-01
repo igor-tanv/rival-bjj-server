@@ -1,5 +1,5 @@
-import { updatePlayerRanksById } from './updatePlayerRanksById'
+import { updatePlayerById } from './updatePlayerById'
 
 module.exports = {
-  updatePlayerRanksById
+  updatePlayerById
 }

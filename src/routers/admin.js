@@ -24,10 +24,9 @@ router.post('/admin', async (req, res) => {
 })
 
 router.post('/result/contract/:contractId', async (req, res) => {
-  console.log(req.body)
   let contractId = req.params.contractId
   let matchData = req.body
-  let response = await AdminService.updatePlayerRanksById(contractId, matchData)
+  let response = await AdminService.updatePlayerById(contractId, matchData)
   if (response.status == 200) {
     req.flash('success_msg', response.data)
     res.redirect('/admin')

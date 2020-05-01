@@ -11,5 +11,6 @@ const updatePlayerById = async (playerId, updates) => {
 }
 
 module.exports = {
-  updatePlayerRankById
+  updatePlayerRankById,
+  updatePlayerById
 }

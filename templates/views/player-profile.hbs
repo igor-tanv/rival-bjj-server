@@ -24,6 +24,7 @@
                     <p><strong>Match History: </strong></p>
                     {{# each contracts }}
                         <h3>Result: {{this.result}}</h3>
+                        <h3>Type: {{this.rules}}</h3>
                         <h3>Opponent Name: {{ this.opponent.firstName }} {{ this.opponent.lastName }}</h3>
                         <h3>Method: {{this.method}}</h3>
                         <h3>Date: {{this.date.month}}/{{this.date.day}}/{{this.date.year}} at {{this.date.hour}}:{{this.date.minutes}}</h3>
