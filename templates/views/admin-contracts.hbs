@@ -27,6 +27,7 @@
             <select name="winner">
               <option value={{this.player.id}}>Red</option>
               <option value={{this.opponent.id}}>Blue</option>
+              <option value="none">Draw</option>
             </select>
           </label>
           <label for="stat">Method
@@ -40,7 +41,7 @@
               <option value='draw'>Draw</option>
             </select>
           </label>
-          <label for="sta">Match Winner
+          <label for="sta">Match Status
             <select name="status">
               <option value="completed">Completed</option>
               <option value="cancelled">Cancelled</option>

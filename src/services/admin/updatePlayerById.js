@@ -19,7 +19,7 @@ const updatePlayerById = async (contractId, matchData) => {
 
     if (status == 'cancelled') {
         let cancelled = contractServices.enumStatus[status]
-        await ContractData.updateContract(contractId, { 'status': cancelled, 'winner': 'Draw' })
+        await ContractData.updateContract(contractId, { 'status': cancelled, 'winner': 'N/A' })
         return ({ status: 200, data: 'Match has been cancelled' })
     } else if (status == 'completed') {
         let completed = contractServices.enumStatus[status]
@@ -53,10 +53,14 @@ const updatePlayerById = async (contractId, matchData) => {
     winProbBlue = 1 / (1 + 10 ** ((red[rank] - blue[rank]) / 400))
 
     // negative 1 absolute difference inverts the score for losing player
+    // if there is a draw, both conditional blocks will output correct result
     if (redId == winner) {
         newRankRed = red[rank] + (redK * (methodValues[method] - winProbRed))
         newRankBlue = blue[rank] + (blueK * (Math.abs(methodValues[method] - 1) - winProbBlue))
     } else if (blueId == winner) {
+        newRankRed = red[rank] + (redK * (Math.abs(methodValues[method] - 1) - winProbRed))
+        newRankBlue = blue[rank] + (blueK * (methodValues[method] - winProbBlue))
+    } else if (winner == 'none') {
         newRankRed = red[rank] + (redK * (Math.abs(methodValues[method] - 1) - winProbRed))
         newRankBlue = blue[rank] + (blueK * (methodValues[method] - winProbBlue))
     }
