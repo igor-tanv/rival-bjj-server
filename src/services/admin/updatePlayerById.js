@@ -16,16 +16,14 @@ methodValues = {
 
 const updatePlayerById = async (contractId, matchData) => {
     const { redId, blueId, winner, method, status } = matchData
-   
 
     if (status == 'cancelled') {
         let cancelled = contractServices.enumStatus[status]
-        await ContractData.updateContract(contractId, { 'status': cancelled })
+        await ContractData.updateContract(contractId, { 'status': cancelled, 'winner': 'Draw' })
         return ({ status: 200, data: 'Match has been cancelled' })
     } else if (status == 'completed') {
         let completed = contractServices.enumStatus[status]
-        console.log({ 'status': completed })
-        await ContractData.updateContract(contractId, { 'status': completed })
+        await ContractData.updateContract(contractId, { 'status': completed, 'winner': winner, 'method': method})
     }
 
     let contract, red, blue, pairs, assignK, redK, blueK, rank, winProbRed, winProbBlue, newRankRed, newRankBlue

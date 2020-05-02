@@ -95,8 +95,7 @@ router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
     let updated = await ContractService.updateContract(contractId, status)
 
     if (updated.status == 200) {
-        console.log('api', updated.data.status)
-        req.flash('success_msg', 'Match has been ' + updated.data.status == 2 ? 'Accepted' : 'Declined')
+        req.flash('success_msg', (updated.data.status == 2 ? 'Accepted' : 'Declined'))
         return res.redirect('/')
     }
     req.flash('error', updated.data)
