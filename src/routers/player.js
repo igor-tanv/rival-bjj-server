@@ -122,17 +122,6 @@ router.post("/login", function (req, res, next) {
     })(req, res, next)
 })
 
-// router.get('/players/:id', ensureAuthenticated, async (req, res) => {
-//     try {
-//         let player = (req.params.id === ":id") ? await PlayerService.getPlayer(req.user.id) : await PlayerService.getPlayer(req.params.id)
-//         let contracts = await ContractService.getMatchHistory(player.id)
-//         res.render('player-profile', { player, contracts })
-//     } catch (e) {
-//         req.flash('error', 'Login to view your profile')
-//         res.redirect('login')
-//     }
-// })
-
 router.get('/players/:id', ensureAuthenticated, async (req, res) => {
         let player = (req.params.id === ":id") ? await PlayerService.getPlayer(req.user.id) : await PlayerService.getPlayer(req.params.id)
         let contracts = await Promise.all(await ContractService.getMatchHistory(player.id))
@@ -146,7 +135,8 @@ router.get('/players/opponent/:id', async (req, res) => {
             req.flash('error', 'That player does not exist')
             return res.redirect('/')
         }
-        res.render('opponent-profile.hbs', { player })
+        let contracts = await Promise.all(await ContractService.getMatchHistory(player.id))
+        res.render('opponent-profile.hbs', { player, contracts })
     } catch (e) {
         req.flash('error', 'Something went wrong')
         res.redirect('/')
