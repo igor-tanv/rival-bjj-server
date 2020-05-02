@@ -1,13 +1,15 @@
-import { getContract } from './getContract'
-import { getContracts } from './getContracts'
+import { getContractByContractId } from './getContractByContractId'
+import { getContractsByPlayerId } from './getContractsByPlayerId'
 import { registerContract } from './registerContract'
 import { updateContract } from './updateContract'
 import { getContractByDate } from './getContractByDate'
+import { getMatchHistory } from './getMatchHistory'
 
 module.exports = {
-  getContract,
-  getContracts,
+  getContractByContractId,
+  getContractsByPlayerId,
   registerContract,
   updateContract,
-  getContractByDate
+  getContractByDate,
+  getMatchHistory
 }

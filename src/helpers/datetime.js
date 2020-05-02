@@ -6,14 +6,13 @@ const dateTimeHelper = (datetime) => {
   let month = months[date.getMonth()]
   let minutes = date.getMinutes()
   if (minutes == 0)  minutes = '00'
-  let fullDate = {
+  return {
     "year": date.getFullYear(),
     "month": month,
     "day": date.getDate(),
     "hour": date.getHours(),
     "minutes": minutes
   }
-  return fullDate
 }
 
 module.exports = { dateTimeHelper }

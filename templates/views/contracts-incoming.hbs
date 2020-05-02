@@ -10,19 +10,19 @@
         <div style="margin:100px;">
             <div class="jumbotron" style="padding:40px;">
                 <form action="/contract/status/{{contract._id}}" method="POST">
-                <h1>Match Details</h1>
-                {{>opponent}} 
+                    <h1>Pending Match Details</h1>
+                    {{>opponent}}
                     <div class="form-group">
-                        <p>NOTE: By accepting this match you agree to the following <a
-                                href="/rules">Competition Rules</a> </p>
+                        <p>NOTE: By accepting this match you agree to the following <a href="/rules">Competition
+                                Rules</a> </p>
                         <label for="status">Accept/Decline: </label>
                         <select name="status">
-                            <option value="Accepted">I Accept This Match</option>
-                            <option value="Declined">I Decline This Match</option>
+                            <option value=2>I Accept This Match</option>
+                            <option value=3>I Decline This Match</option>
                         </select>
-                         * Careful: Once a match is accepted it cannot changed in any way. 
+                        * Careful: Once a match is accepted it cannot be changed in any way.
                     </div>
-                     <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
                 <br>
             </div>

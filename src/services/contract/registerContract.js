@@ -1,6 +1,14 @@
 const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
 
+enumStatus = {
+  pending: 1,
+  accepted: 2, 
+  declined: 3,
+  completed: 4,
+  cancelled: 5
+}
+
 
 const registerContract = async (contract, playerId) => {
   let date = new Date();
@@ -15,9 +23,11 @@ const registerContract = async (contract, playerId) => {
   if ((matchDate - timestamp) > threeMonths) { 
     return ({status:400, data:'Cannot set a match more than 3 months out'})
   }
+  contract.staus = enumStatus.pending
   return await ContractData.registerContract(contract, playerId)
 }
 
 module.exports = {
-  registerContract
+  registerContract,
+  enumStatus
 }

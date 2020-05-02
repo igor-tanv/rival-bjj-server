@@ -13,7 +13,7 @@ const contractSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    comments: {
+    playerComments: {
         type: String,
         maxlength: 200
     },
@@ -26,17 +26,17 @@ const contractSchema = new mongoose.Schema({
         required: true,
         ref: 'Player'
     },
-    result: {
+    method: {
         type: String,
-        default: 'TBD'
+        default: null
     },
     status: {
-        type: String,
-        default: 'Pending'
+        type: Number,
+        default: 1
     },
-    completed: {
-        type: Boolean,
-        default: false
+    winner: {
+        type: String,
+        default: null
     },
     refereeFirstName: {
         type: String,
@@ -45,6 +45,10 @@ const contractSchema = new mongoose.Schema({
     refereeLastName: {
         type: String,
         required: true
+    },
+    refereeComments: {
+        type: String,
+        max: 500
     },
     weightClass: {
         type: String,

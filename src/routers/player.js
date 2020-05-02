@@ -7,6 +7,7 @@ const fs = require('fs')
 const { ensureAuthenticated } = require('../middleware/auth')
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const PlayerService = require('../services/player/index')
+const ContractService = require('../services/contract/index')
 const ChatService = require('../services/chat/index')
 
 const router = new express.Router()
@@ -122,13 +123,9 @@ router.post("/login", function (req, res, next) {
 })
 
 router.get('/players/:id', ensureAuthenticated, async (req, res) => {
-    try {
         let player = (req.params.id === ":id") ? await PlayerService.getPlayer(req.user.id) : await PlayerService.getPlayer(req.params.id)
-        res.render('player-profile', { player })
-    } catch (e) {
-        req.flash('error', 'Login to view your profile')
-        res.redirect('login')
-    }
+        let contracts = await Promise.all(await ContractService.getMatchHistory(player.id))
+        res.render('player-profile', { player, contracts })
 })
 
 router.get('/players/opponent/:id', async (req, res) => {
@@ -138,7 +135,8 @@ router.get('/players/opponent/:id', async (req, res) => {
             req.flash('error', 'That player does not exist')
             return res.redirect('/')
         }
-        res.render('opponent-profile.hbs', { player })
+        let contracts = await Promise.all(await ContractService.getMatchHistory(player.id))
+        res.render('opponent-profile.hbs', { player, contracts })
     } catch (e) {
         req.flash('error', 'Something went wrong')
         res.redirect('/')

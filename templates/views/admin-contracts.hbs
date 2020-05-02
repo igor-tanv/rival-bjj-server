@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+</head>
+
+<body>
+  <div style="margin:100px;">
+    <div class="jumbotron" style="padding:40px;">
+      <h2>{{success_msg}}</h2>
+      <h2>{{error}}</h2>
+      <h1>Record Administration</h1>
+      <br><br>
+      {{# each contracts}}
+      <form action="/result/contract/{{this.id}}" method="POST" id="send-container">
+        <div class="form-group">
+          <input type="hidden" id="redId" name="redId" value={{this.player.id}}>
+          <input type="hidden" id="blueId" name="blueId" value={{this.opponent.id}}>
+          <h3>RED: {{this.player.firstName}} {{this.player.lastName}} vs BLUE: {{this.opponent.firstName}}
+            {{this.opponent.lastName}}</h3>
+          <h3>Date: {{ this.date.month }} {{ this.date.day }}, {{ this.date.year }} at
+            {{ this.date.hour }}:{{ this.date.minutes }}</h3>
+          <h3>Location: {{this.school}}</h3>
+          <label for="status">Match Winner
+            <select name="winner">
+              <option value={{this.player.id}}>Red</option>
+              <option value={{this.opponent.id}}>Blue</option>
+              <option value="none">Draw</option>
+            </select>
+          </label>
+          <label for="stat">Method
+            <select name="method">
+              <option value='submission'>Submission</option>
+              <option value='points'>Points</option>
+              <option value='advantage'>Advantage</option>
+              <option value='disqualification'>Disqualification</option>
+              <option value='forfeit'>Forfeit</option>
+              <option value='injury'>Injury</option>
+              <option value='draw'>Draw</option>
+            </select>
+          </label>
+          <label for="sta">Match Status
+            <select name="status">
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </label>
+          <button type="submit" id="send-button">Update</button>
+      </form>
+      {{/each}}
+      <br><br>
+      <form action="/admin" method="POST" id="send-container">
+        <div class="form-group">
+          <input id="datetime" type="datetime-local" max="12-31-2100" name="datetime" value="">
+          <button type="submit" id="send-button">Find Match</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 const Contract = require('../models/contract')
 
 const getContractByDate = async (date) => {
-  return await Contract.find({'datetime': date})
+  return await Contract.find({ 'datetime': date })
 }
 
 const getContractByContractId = async (contractId) => {
@@ -35,14 +35,14 @@ const deleteContractsByPlayerOrOpponentId = async (Id) => {
 }
 
 const registerContract = async (contract, playerId) => {
-  const requiredFields = ['rules', 'datetime', 'school', 'refereeFirstName','refereeLastName']
+  const requiredFields = ['rules', 'datetime', 'school', 'refereeFirstName', 'refereeLastName']
   try {
     let newContract = new Contract({
       rules: contract.rules,
       datetime: (Date.parse(contract.datetime)) / 1000,
       weightClass: contract.weightClass,
       school: contract.school,
-      comments: contract.comments,
+      playerComments: contract.playerComments,
       playerId,
       opponentId: contract.opponentId,
       refereeFirstName: contract.refereeFirstName,
@@ -66,7 +66,7 @@ const updateContract = async (contractId, updates) => {
   try {
     const updated = await Contract.findOneAndUpdate({ _id: contractId }, updates, { new: true })
     return ({ status: 200, data: updated })
-  }catch(e){
+  } catch (e) {
     return ({ status: 400, data: e })
   }
 }

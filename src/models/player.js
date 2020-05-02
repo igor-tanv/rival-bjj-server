@@ -64,11 +64,15 @@ const playerSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    rating: {
+    wins: {
         type: Number,
         default: 0
     },
-    record: {
+    losses: {
+        type: Number,
+        default: 0
+    },
+    draws: {
         type: Number,
         default: 0
     },

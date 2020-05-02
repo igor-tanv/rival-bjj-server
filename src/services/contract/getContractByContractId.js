@@ -3,7 +3,7 @@ const PlayerData = require('../../data/PlayerData')
 const weightHelper = require('../../helpers/weight')
 const dateTimeHelper = require('../../helpers/datetime')
 
-const getContract = async (contractId) => {
+const getContractByContractId = async (contractId) => {
   let contract = await ContractData.getContractByContractId(contractId)
   if (contract.status === 200) {
     contract = contract.data
@@ -33,5 +33,5 @@ const getContract = async (contractId) => {
 }
 
 module.exports = {
-  getContract
+  getContractByContractId
 }

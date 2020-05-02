@@ -6,18 +6,25 @@
 
 
 <div class="container">
-	<div class="row">
-		
+	<div class="row">	
     	 <div class="well profile">
-            <div class="col-sm-12">
-                
+            <div class="col-sm-12"> 
                     <h2>{{player.firstName}} {{player.lastName}}</h2>
                     <img src='/avatar-pictures/{{player.avatar}}' width="150" height="150"/>
+                    <p><strong>Fight Record(Win/Lose/Draw): {{player.wins}}/{{player.losses}}/{{player.draws}} </strong></p>
                     <p><strong>School: </strong> {{player.school}}</p>
                     <p><strong>Gi Rank: </strong> {{player.gi}}</p>
                     <p><strong>NoGi Rank: </strong> {{player.nogi}} </p>
                     <p><strong>Weight: </strong>{{player.weightClass}}</p>
                     <p><strong>Match History: </strong></p>
+                    {{# each contracts }}
+                        <h3>Result: {{this.result}}</h3>
+                        <h3>Type: {{this.rules}}</h3>
+                        <h3>Opponent Name: {{ this.opponent.firstName }} {{ this.opponent.lastName }}</h3>
+                        <h3>Method: {{this.method}}</h3>
+                        <h3>Date: {{this.date.month}}/{{this.date.day}}/{{this.date.year}} at {{this.date.hour}}:{{this.date.minutes}}</h3>
+                        <h3>Weight Class: {{this.weightClass}}</h3>
+                    {{/each}}
                     <br>
                     <p><a class="btn btn-primary btn-lg" href="/challenge/{{player._id}}" role="button">Challenge</a></p> 
                     <p><a class="btn btn-primary btn-lg" href="/chat/{{player._id}}" role="button">Chat</a></p> 
