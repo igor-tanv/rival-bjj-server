@@ -45,14 +45,14 @@ router.get('/contracts/incoming', ensureAuthenticated, async (req, res) => {
     res.render('pending-contracts', { title: 'Pending: Incoming', contracts })
 })
 
-// router.get('/contracts/upcoming', ensureAuthenticated, async (req, res) => {
-//     let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
-//     let contracts = allContracts.filter((contract) => {
-//         //return accepted and completed matches
-//         return (contract.status == 2 || contract.status == 4)
-//     })
-//     res.render('pending-contracts', { title: 'All Upcoming Matches', contracts })
-// })
+router.get('/contracts/upcoming', ensureAuthenticated, async (req, res) => {
+    let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
+    let contracts = allContracts.filter((contract) => {
+        //return accepted and completed matches
+        return (contract.status == 2 || contract.status == 4)
+    })
+    res.render('pending-contracts', { title: 'All Upcoming Matches', contracts })
+})
 
 router.get('/contracts/cancelled-declined', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
