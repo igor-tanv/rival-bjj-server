@@ -43,6 +43,7 @@
                                 </div>
                             </div>
                             <div class="column-two">
+                                 <p><strong>Record (W/L/D): {{player.wins}}/{{player.losses}}/{{player.draws}} </strong></p>
                                 <p><strong>School: </strong> {{player.school}}</p>
                                 <p><strong>Gi Rank: </strong> {{player.gi}}</p>
                                 <p><strong>NoGi Rank: </strong> {{player.nogi}} </p>
@@ -55,13 +56,21 @@
                                     <p><a class="btn btn-primary btn-lg" href="/contracts/outgoing" role="button">Received</a></p>
                                 </div>
                                 <div class="row-two">
-                                    <p><a class="btn btn-primary btn-lg" href="/contracts/upcoming" role="button">Upcoming: All</a></p>
+                                    
                                     <p><a class="btn btn-primary btn-lg" href="/contracts/cancelled-declined" role="button">Declined</a></p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <p class="fight-record"><strong>Fight Record: </strong></p>
+                    <p class="match-history"><strong>Match History: </strong></p>
+                    {{# each contracts }}
+                        <h3>Result: {{this.result}}</h3>
+                        <h3>Type: {{this.rules}}</h3>
+                        <h3>Opponent Name: {{ this.opponent.firstName }} {{ this.opponent.lastName }}</h3>
+                        <h3>Method: {{this.method}}</h3>
+                        <h3>Date: {{this.date.month}}/{{this.date.day}}/{{this.date.year}} at {{this.date.hour}}:{{this.date.minutes}}</h3>
+                        <h3>Weight Class: {{this.weightClass}}</h3>
+                    {{/each}}
                     <div class="bottom-column">
                         <div class="bottom-column-inner">
                             <p><a class="btn btn-primary btn-lg" href="/logout" role="button">Logout</a></p>
