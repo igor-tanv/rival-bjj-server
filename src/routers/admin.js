@@ -9,7 +9,7 @@ const dateTimeHelper = require('../helpers//datetime')
 const router = new express.Router()
 
 router.get('/admin', async (req, res) => {
-  res.render('admin-contracts')
+  res.render('contracts-admin')
 })
 
 router.post('/admin', async (req, res) => {
@@ -20,7 +20,7 @@ router.post('/admin', async (req, res) => {
       contract['opponent'] = await PlayerService.getPlayer(contract.opponentId)
       return contract
     }))
-  res.render('admin-contracts', { contracts })
+  res.render('contracts-admin', { contracts })
 })
 
 router.post('/result/contract/:contractId', async (req, res) => {

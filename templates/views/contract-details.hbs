@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <div>
+        <div style="margin:100px;">
+            <div class="jumbotron" style="padding:40px;">
+                    <h1>Confirmed Match</h1>
+                    {{>opponent}}
+                    <p><a class="btn btn-primary btn-lg" href="/contract-get-pdf/{{contract._id}}" role="button">Print
+                            Contract</a></p>
+                    <p>*You must bring a hard copy of the contract to the match</p>
+                 <form action="/contract/status/{{contract._id}}" method="POST">
+                     <button type="submit" name="status" value="5" class="btn btn-primary btn-lg">Cancel Match</button>
+                    <p>*If you cancel a match, it will be scored as a forfeit loss on your record.</p>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
