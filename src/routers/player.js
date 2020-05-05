@@ -13,6 +13,7 @@ const ChatService = require('../services/chat/index')
 const router = new express.Router()
 
 router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
+router.use("/css", express.static(path.PUBLIC.CSS))
 
 router.get('/', async (req, res) => {
     let players = await PlayerService.getPlayers()

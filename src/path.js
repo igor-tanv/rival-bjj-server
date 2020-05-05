@@ -3,6 +3,7 @@ let BASE_PATH = path.dirname(process.mainModule.filename);
 
 module.exports = {
   PUBLIC: {
-    AVATAR_PICTURES: BASE_PATH + '/../public/avatar-pictures'
+    AVATAR_PICTURES: BASE_PATH + '/../public/avatar-pictures',
+    CSS: BASE_PATH + '/../public/css'
   }
 }

@@ -15,6 +15,14 @@
 
                     <h3>You are challenging {{opponent.firstName}} {{opponent.lastName}} to a match</h3>
                     <br>
+                    <h5>NOTE: If you plan to host this match at your school it's your responsibility to provide:</h3>
+                    <ul> 
+                        <li>Match Referee (usually your instructor). Make sure they read the Rules page.</li>
+                        <li>Match Scorekeeper </li>
+                        <li>Scales (for weigh-in)</li>
+                        <li>Clean grappling area big enough for two people to comepete</li>
+                        <p>*If you, as the host, fail to provide any of these you will get a DQ</p>
+                    </ul>
                     <script>
                         function checkForm(form) {
                             if (!form.terms.checked) {
@@ -28,7 +36,7 @@
                     <form action="/challenge" method="POST" onsubmit="return checkForm(this)">
                         <input type="hidden" id="opponentId" name="opponentId" value={{opponent._id}}>
                         <div class="form-group">
-                            <label for="rules">Match Rules: </label>
+                            <label for="rules">Match Type: </label>
                             <select name="rules">
                                 <option value="Gi">Gi</option>
                                 <option value="NoGi">NoGi</option>
@@ -60,11 +68,16 @@
                         <div class="form-group">
                             <label for="playerComments">Comments: </label>
                             <input type="text" id="playerComments" name="playerComments" class="form-control"
-                                placeholder="Relevant comments such as match fee, school address, parking instructions, phone number etc." />
+                                placeholder="Relevant comments such as school address, parking instructions, phone number etc." />
                         </div>
+                        <p>MATCH FEE: 100,000 VND for each competitior. This fee must be paid 
+                            to the owner or head instructor before the match starts. (This fee is for the match only. 
+                            If the visiting competitor wants to stay for class or open mat afterwards they will have to pay
+                             the mat fee of that school).
+                        </p>
 
                         <p><input type="checkbox" name="terms"> I have read and agree to all the <a
-                                href="/rules">Rules</a> of this match</p>
+                                href="/rules">Rules</a> of this match (If you're hosting this match, make sure the Referee reads the Rules as well.)</p>
                         <br>
                         <button type="submit" class="btn btn-primary">Submit Contract</button>
                     </form>

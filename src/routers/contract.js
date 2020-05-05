@@ -4,6 +4,7 @@ const puppeteer = require('puppeteer');
 const PlayerService = require('../services/player/index')
 const ContractService = require('../services/contract/index')
 const { ensureAuthenticated } = require('../middleware/auth')
+const matchStatus = require('../helpers/matchStatus')
 const router = new express.Router()
 
 
@@ -32,27 +33,38 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
 router.get('/contracts/outgoing', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
     let contracts = allContracts.filter((contract) => {
-        return (contract.playerId == req.user.id && contract.status == 'Pending')
+        return (contract.playerId == req.user.id && contract.status == 1)
+    }).map((contract) => {
+        contract['currentStatus'] = matchStatus.statusToString(contract.status)
+        return contract
     })
-    res.render('pending-contracts', { title: 'Pending: Outgoing', contracts })
+    let note = '*All contracts you see here are waiting to be Accepted or Declined by your opponent'
+    res.render('pending-contracts', { title: 'Sent Contracts', contracts, note })
 })
 
 router.get('/contracts/incoming', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
     let contracts = allContracts.filter((contract) => {
         return (contract.playerId != req.user.id && contract.status == 1)
+    }).map((contract) => {
+        contract['currentStatus'] = matchStatus.statusToString(contract.status)
+        return contract
     })
-    res.render('pending-contracts', { title: 'Pending: Incoming', contracts })
+    let note = '*All contracts you see here are waiting to be Accepted or Declined by YOU'
+    res.render('pending-contracts', { title: 'Received Contracts', contracts, note })
 })
 
-// router.get('/contracts/upcoming', ensureAuthenticated, async (req, res) => {
-//     let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
-//     let contracts = allContracts.filter((contract) => {
-//         //return accepted and completed matches
-//         return (contract.status == 2 || contract.status == 4)
-//     })
-//     res.render('pending-contracts', { title: 'All Upcoming Matches', contracts })
-// })
+router.get('/contracts/upcoming', ensureAuthenticated, async (req, res) => {
+    let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
+    let contracts = allContracts.filter((contract) => {
+        return (contract.status == 2)
+    }).map((contract) => {
+        contract['currentStatus'] = matchStatus.statusToString(contract.status)
+        return contract
+    })
+    let note = '*All contracts you see here have been accepted by you and the opponent. Make sure you print the match contract and bring it with you to the match'
+    res.render('pending-contracts', { title: 'All Upcoming Matches', contracts, note })
+})
 
 router.get('/contracts/cancelled-declined', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
@@ -81,7 +93,7 @@ router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
             return res.render('contracts-outgoing', { contract })
         }
         if (contract.status == 5) {
-            // same page as outgoing because structure of web page is similar
+            // declined contracts use the same page as outgoing because structure of web page is similar
             return res.render('contracts-outgoing', { contract })
         }
     }
