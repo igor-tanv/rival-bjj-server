@@ -12,8 +12,7 @@
                 <h1>{{title}}</h1>
                 {{# each contracts }}     
                 <h3>Opponent Name: {{ this.opponent.first }} {{ this.opponent.last }}</h3>
-                <h3>Match Status: {{this.currentStatus}}</h3> 
-                <h3>Cancelled / Declined By: {{this.cancelledOrDeclinedBy}}</h3>   
+                <h3>Match Status: {{this.currentStatus}}</h3>   
                 <p><a class="btn btn-primary btn-lg" href="/contract-review/{{this._id}}" role="button">Match Details</a></p>
                 {{/each}}          
                 <br>

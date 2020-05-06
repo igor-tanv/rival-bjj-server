@@ -33,11 +33,6 @@ const contractSchema = new mongoose.Schema({
     status: {
         type: Number,
         default: 1,
-        cancelledOrDeclinedBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Player'
-        }
-
     },
     winner: {
         type: String,
