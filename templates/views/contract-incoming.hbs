@@ -11,6 +11,7 @@
             <div class="jumbotron" style="padding:40px;">
                 <form action="/contract/status/{{contract._id}}" method="POST">
                     <h1>Pending Match Details</h1>
+                    <p><a class="btn btn-primary btn-lg" href="/players/:id" role="button">Back</a></p>
                     {{>opponent}}
                     <div class="form-group">
                         <p>NOTE: By accepting this match you agree to the following <a href="/rules">Competition
