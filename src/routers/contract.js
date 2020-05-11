@@ -39,7 +39,7 @@ router.get('/contracts/outgoing', ensureAuthenticated, async (req, res) => {
         return contract
     })
     let note = '*All contracts you see here are waiting to be Accepted or Declined by your opponent'
-    res.render('pending-contracts', { title: 'Sent Contracts', contracts, note })
+    res.render('contracts-accepted', { title: 'Sent Contracts', contracts, note })
 })
 
 router.get('/contracts/incoming', ensureAuthenticated, async (req, res) => {
@@ -51,7 +51,7 @@ router.get('/contracts/incoming', ensureAuthenticated, async (req, res) => {
         return contract
     })
     let note = '*All contracts you see here are waiting to be Accepted or Declined by YOU'
-    res.render('pending-contracts', { title: 'Received Contracts', contracts, note })
+    res.render('contracts-accepted', { title: 'Received Contracts', contracts, note })
 })
 
 router.get('/contracts/upcoming', ensureAuthenticated, async (req, res) => {
@@ -63,15 +63,18 @@ router.get('/contracts/upcoming', ensureAuthenticated, async (req, res) => {
         return contract
     })
     let note = '*All contracts you see here have been accepted by you and the opponent. Make sure you print the match contract and bring it with you to the match'
-    res.render('pending-contracts', { title: 'All Upcoming Matches', contracts, note })
+    res.render('contracts-accepted', { title: 'All Upcoming Matches', contracts, note })
 })
 
 router.get('/contracts/cancelled-declined', ensureAuthenticated, async (req, res) => {
     let allContracts = await Promise.all(await ContractService.getContractsByPlayerId(req.user.id))
     let contracts = allContracts.filter((contract) => {
-        return (contract.status == 'Declined' || contract.status == 'Cancelled')
+        return (contract.status == 3 || contract.status == 5)
+    }).map((contract) => {
+        contract['currentStatus'] = matchStatus.statusToString(contract.status)
+        return contract
     })
-    res.render('pending-contracts', { title: 'Cancelled / Declined Matches', contracts })
+    res.render('contracts-cancelled-declined', { title: 'Cancelled / Declined Matches', contracts })
 })
 
 router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
@@ -82,19 +85,19 @@ router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
             opponent = await PlayerService.getPlayer(contract.playerId)
             contract['opponent'] = opponent
         }
-        //pending-1, accepted-2, declined/cancelled-5
+        //pending-1, accepted-2, declined-3, cancelled-5
         if (contract.status == 2) {
-            return res.render('contracts-upcoming', { contract })
+            return res.render('contract-details', { contract })
         }
         if (contract.status == 1 && contract.opponentId == req.user.id) {
-            return res.render('contracts-incoming', { contract })
+            return res.render('contract-incoming', { contract })
         }
         if (contract.status == 1 && contract.opponentId != req.user.id) {
-            return res.render('contracts-outgoing', { contract })
+            return res.render('contract-outgoing', { contract })
         }
-        if (contract.status == 5) {
+        if (contract.status == 5 || contract.status == 3) {
             // declined contracts use the same page as outgoing because structure of web page is similar
-            return res.render('contracts-outgoing', { contract })
+            return res.render('contract-outgoing', { contract })
         }
     }
     req.flash('error', 'Something went wrong')
@@ -104,10 +107,11 @@ router.get('/contract-review/:id', ensureAuthenticated, async (req, res) => {
 router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
     let contractId = req.params.id
     let status = req.body
-    let updated = await ContractService.updateContract(contractId, status)
+    let player = req.user.id
+    let updated = await ContractService.updateContract(contractId, status, player)
 
     if (updated.status == 200) {
-        req.flash('success_msg', (updated.data.status == 2 ? 'Accepted' : 'Declined'))
+        req.flash('success_msg', (updated.data.status == 2 ? 'Accepted: Check your Match History' : 'Declined'))
         return res.redirect('/')
     }
     req.flash('error', updated.data)
@@ -115,11 +119,11 @@ router.post('/contract/status/:id', ensureAuthenticated, async (req, res) => {
 })
 
 
-router.get('/contract-pdf/:id', async (req, res) => {
+router.get('/print-contract-pdf/:id', async (req, res) => {
     let contract = await ContractService.getContractByContractId(req.params.id)
     if (contract.status === 200) {
         contract = contract.data
-        res.render('contract-pdf', { contract })
+        res.render('print-contract-pdf', { contract })
     }
 })
 
@@ -128,7 +132,7 @@ router.get('/contract-get-pdf/:id', ensureAuthenticated, async (req, res) => {
     const puppeteerPDF = async (contractId) => {
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
-        await page.goto('http://localhost:8000/contract-pdf/' + contractId, { waitUntil: 'networkidle0' });
+        await page.goto('http://localhost:8000/print-contract-pdf/' + contractId, { waitUntil: 'networkidle0' });
         const pdf = await page.pdf({ format: 'A4' });
         await browser.close();
         return pdf

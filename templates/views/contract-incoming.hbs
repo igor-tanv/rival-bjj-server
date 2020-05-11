@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <div>
+        <div style="margin:100px;">
+            <div class="jumbotron" style="padding:40px;">
+                <form action="/contract/status/{{contract._id}}" method="POST">
+                    <h1>Pending Match Details</h1>
+                    <p><a class="btn btn-primary btn-lg" href="/players/:id" role="button">Back</a></p>
+                    {{>opponent}}
+                    <div class="form-group">
+                        <p>By accepting this match you agree to the following <a href="/rules">Competition
+                                Rules</a> </p>
+                        <h5>NOTE: If this match will be hosted at your school it's your responsibility to provide:
+                            </h3>
+                            <ul>
+                                <li>Match Referee (usually your instructor). Make sure he or she reads the Rules page before you accept this match.</li>
+                                <li>Match Scorekeeper (anyone to keep score) </li>
+                                <li>Scales (for weigh-in)</li>
+                                <li>Clean grappling area big enough for two people to comepete</li>
+                                <p>*If the host competitor fails to provide any of these the match will result in a forfeit loss for the host</p>
+                            </ul>
+                            <p>
+                                MATCH FEE: 100,000 VND for each competitior. This fee must be paid to the HOST owner /
+                                instructor
+                                before the match starts. (This fee is for the match only. If the visiting competitor
+                                wants to stay
+                                for class or open mat after the match they will have to pay the mat fee of that school).
+                            </p>
+                            <label for="status">Accept/Decline: </label>
+                            <select name="status">
+                                <option value=2>I Accept This Match</option>
+                                <option value=3>I Decline This Match</option>
+                            </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <br>
+            </div>
+
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
