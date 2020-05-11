@@ -1,69 +1,87 @@
 <html>
+   <head>
 
-<head>
-</head>
+      <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-<body>
-  <div style="margin:100px;">
-
-    <div class="jumbotron" style="padding:40px;">
-      <h2>{{success_msg}}</h2>
-      <h2>{{error}}</h2>
-      <h1>Welcome to Rival</h1>
-      <br>
-      <p>Challenge anyone to a grappling match in your area</p>
-      <p><a class="btn btn-primary btn-lg" href="/rules" role="button">Learn more</a></p>
-
-      <br>
-
-    </div>
-    <form action="/sort-by" method="POST">
-      <div class="form-group">
-        <label for="status">Search for
-          <select name="status">
-            <option value="null"></option>
-            <option value="gi">Gi</option>
-            <option value="nogi">No-Gi</option>
-          </select> competitors in
-        </label>
-        <select name="weightClass">
-          <option value="null"></option>
-          <option value="Absolute">Absolute</option>
-          <option value="Flyweight">Flyweight: 57.5 and under</option>
-          <option value="Featherweight">Featherweight: 57.6 - 64</option>
-          <option value="Lightweight">Lightweight: 64.1 - 70</option>
-          <option value="Welterweight">Welterweight: 70.1 - 76</option>
-          <option value="Middleweight">Middleweight: 76.1 - 82.3</option>
-          <option value="Cruiserweight">Cruiserweight: 82.4 - 88.3</option>
-          <option value="Light-Heavyweight">Light-Heavyweight: 88.4 - 94.3</option>
-          <option value="Heavyweight">Heavyweight: 94.4 - 100.4</option>
-          <option value="Super-Heavyweight">Super-Heavyweight: 100.5 and over</option>
-        </select> kilograms
-        <button type="submit" class="btn btn-primary">Search</button>
+   </head>
+   <body>
+      <div class="container" id="main-container">
+         <div class="jumbotron" id="main-jumbotron">
+            <h2>{{success_msg}}</h2>
+            <h2>{{error}}</h2>
+            <h1>Welcome to Rival</h1>
+            <br>
+            <p>Challenge anyone to a grappling match in your area</p>
+            <p class="learn-more-button"><a class="btn btn-primary btn-lg" href="/rules" role="button">Learn more</a></p>
+            <br>
+         </div>
+         <form action="/sort-by" method="POST">
+            <div class="form-group">
+               <label for="status">
+                  Search for
+                  <select name="status">
+                     <option value="null"></option>
+                     <option value="gi">Gi</option>
+                     <option value="nogi">No-Gi</option>
+                  </select>
+                  competitors in
+               </label>
+               <select name="weightClass">
+                  <option value="null"></option>
+                  <option value="Absolute">Absolute</option>
+                  <option value="Flyweight">Flyweight: 57.5 and under</option>
+                  <option value="Featherweight">Featherweight: 57.6 - 64</option>
+                  <option value="Lightweight">Lightweight: 64.1 - 70</option>
+                  <option value="Welterweight">Welterweight: 70.1 - 76</option>
+                  <option value="Middleweight">Middleweight: 76.1 - 82.3</option>
+                  <option value="Cruiserweight">Cruiserweight: 82.4 - 88.3</option>
+                  <option value="Light-Heavyweight">Light-Heavyweight: 88.4 - 94.3</option>
+                  <option value="Heavyweight">Heavyweight: 94.4 - 100.4</option>
+                  <option value="Super-Heavyweight">Super-Heavyweight: 100.5 and over</option>
+               </select>
+               kilograms
+               <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+         </form>
+         {{#if style}}
+         <h3>Showing top {{style}} players for {{weight}} class</h3>
+         {{/if}}
+         <div class="main-jumbotron-wrap">
+            {{# each players }}
+            <div class="jumbotron" style="padding:20px;">
+               <img class="avatar-picture" style="float: left" src='/avatar-pictures/{{this.avatar}}' />
+               <div class="player-details">
+                  <span>
+                     <h2>Name:</h2>
+                     <h3> {{ this.firstName }} {{this.lastName}}</h3>
+                  </span>
+                  <span>
+                     <h2>School:</h2>
+                     <h3> {{ this.school }} </h3>
+                  </span>
+                  <span>
+                     <h2>Weight Class:</h2>
+                     <h3> {{ this.weightClass }} </h3>
+                  </span>
+                  {{#if this.nogi}}
+                  <span>
+                     <h2>NoGi Rank:</h2>
+                     <h3> {{ this.nogi }} </h3>
+                  </span>
+                  {{/if}}
+                  {{#if this.gi}}
+                  <span>
+                     <h2>Gi Rank:</h2>
+                     <h3> {{ this.gi }} </h3>
+                  </span>
+                  {{/if}}
+                  <span><a class="btn btn-primary btn-lg" href="/players/opponent/{{this._id}}" role="button">View Profile</a></span>
+                  <br>
+               </div>
+            </div>
+            {{/each}}
+         </div>
       </div>
-    </form>
-    {{#if style}}
-    <h3>Showing top {{style}} players for {{weight}} class</h3>
-    {{/if}}
-
-    {{# each players }}
-    <div class="jumbotron" style="padding:20px;">
-      <img style="float: left" src='/avatar-pictures/{{this.avatar}}' width="150" height="150" />
-      <h3>Name: {{ this.firstName }} {{this.lastName}}</h3>
-      <h3>School: {{ this.school }} </h3>
-      <h3>Weight Class: {{ this.weightClass }} </h3>
-      {{#if this.nogi}}
-      <h3>NoGi Rank: {{ this.nogi }} </h3>
-      {{/if}}
-      {{#if this.gi}}
-      <h3>Gi Rank: {{ this.gi }} </h3>
-      {{/if}}
-      <p><a class="btn btn-primary btn-lg" href="/players/opponent/{{this._id}}" role="button">View Profile</a></p>
-      <br>
-    </div>
-    {{/each}}
-  </div>
-  </div>
-</body>
-
+      </div>
+   </body>
 </html>

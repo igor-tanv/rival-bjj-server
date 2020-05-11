@@ -10,7 +10,6 @@
         <div class="well profile player-profile">
             <div class="col-sm-12">
                 <div class="col-xs-12 col-sm-8">
-					<div class="feature-banner"></div>
                     <h2 class="welcome">Welcome: {{player.firstName}} {{player.lastName}}</h2>
                     <div class="column-wrap">
                         <div class="column-inner-wrap">
@@ -18,9 +17,7 @@
                                 <img src='/avatar-pictures/{{player.avatar}}' width="240" height="240" />
                                 <div class="col-xs-12 col-sm-4 text-center">
                                     <figure>
-                                      
                                         <figcaption class="ratings">
-                                            <!-- DELETE ACCOUNT BUTTON WAS HERE -->
                                             <p>Ratings
                                                 <a href="#">
                                                     <span class="fa fa-star"></span>
@@ -43,7 +40,7 @@
                                 </div>
                             </div>
                             <div class="column-two">
-                                 <p><strong>Record (W/L/D): {{player.wins}}/{{player.losses}}/{{player.draws}} </strong></p>
+                                <p><strong>Record (W/L/D): {{player.wins}}/{{player.losses}}/{{player.draws}} </strong></p>
                                 <p><strong>School: </strong> {{player.school}}</p>
                                 <p><strong>Gi Rank: </strong> {{player.gi}}</p>
                                 <p><strong>NoGi Rank: </strong> {{player.nogi}} </p>
