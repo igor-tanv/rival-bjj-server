@@ -19,8 +19,9 @@ const getMatchHistory = async (playerId) => {
     else if (contract.winner) {
       if(contract.winner == playerId) contract.result = 'Win'
       else if(contract.winner != contract.playerId && contract.winner != contract.opponentId ) contract.result = 'Draw'
-      else {contract.result = 'Lose'}
+      else {contract.result = 'Loss'}
     }
+    //datetime property is not displayed but used for sorting match history in GET player profile route
     return {
       result: contract.result,
       rules: contract.rules,
@@ -28,10 +29,10 @@ const getMatchHistory = async (playerId) => {
       method: contract.method,
       date: dateTimeHelper.dateTimeHelper(contract.datetime),
       location: contract.location,
-      weightClass: contract.weightClass
+      weightClass: contract.weightClass,
+      datetime: contract.datetime
     }
   })
-  contracts.sort((a, b) => b.date - a.date)
   return contracts
 }
 

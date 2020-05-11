@@ -126,6 +126,7 @@ router.post("/login", function (req, res, next) {
 router.get('/players/:id', ensureAuthenticated, async (req, res) => {
         let player = (req.params.id === ":id") ? await PlayerService.getPlayer(req.user.id) : await PlayerService.getPlayer(req.params.id)
         let contracts = await Promise.all(await ContractService.getMatchHistory(player.id))
+        contracts.sort((a, b) => b.datetime - a.datetime)
         res.render('player-profile', { player, contracts })
 })
 
@@ -158,8 +159,6 @@ router.post('/player/delete/:id', ensureAuthenticated, async (req, res) => {
         req.flash('error', 'Error while deleting profile')
         res.redirect('/')
     }
-
-
 })
 
 module.exports = router
