@@ -6,13 +6,13 @@
 </head>
 
 <div style="margin:100px;">
-  <div class="jumbotron" style="padding:40px;">
+  <div class="jumbotron" id="register-jumbotron" style="padding:40px;">
     <div class="row mt-5">
       <div class="col-md-6 m-auto">
         <div class="card card-body">
           <h1 class="text-center mb-3">
             <h5>{{ error }}</h5>
-            <h5><i class="fas fa-user-plus"></i>Register</h5>
+            <h5 class="register"><i class="fas fa-user-plus"></i>Register</h5>
           </h1>
 
           <form action="/register" method="POST" enctype="multipart/form-data">
@@ -43,31 +43,31 @@
               <input type="password" id="password2" name="password2" class="form-control" placeholder="Confirm Password"
                 value="" />
             </div>
-            <div class="form-group">
+            <div class="form-group school">
               <label for="school">Martial Arts School</label>
               <input type="text" id="school" name="school" class="form-control" placeholder="Enter School Name"
                 value="" />
             </div>
-            <div class="form-group">
+            <div class="form-group profile-picture">
               <label for="avatar">Profile Picture</label>
-              <input type="file" id="avatar" name="avatar" class="form-control" 
+              <input type="file" id="avatar" name="avatar" class="form-control"
                 value="" />
               <p>*Your face must be clearly visible</p>
             </div>
             
-            <div class="form-group">
+            <div class="form-group gender">
               <p>Select Your Gender:</p>
               <select name="gender">
                 <option value="M">Male</option>
                 <option value="F">Female</option>
               </select>
             </div>
-            <div class="form-group">
+            <div class="form-group weight-class">
               <p>Select Your Main Weight Class (Kilograms):</p>
               {{>registerWeight}}
               <p>*You can still compete in other weight classes</p>
             </div>
-            <div class="form-group">
+            <div class="form-group no-gi-experience">
               <p>Select Your NoGi Experience:</p>
               <select name="nogi">
                 <option value="1200">Under 1 Year</option>
@@ -78,7 +78,7 @@
                 <option value="0">I will not compete in NoGi</option>
               </select>
             </div>
-            <div class="form-group">
+            <div class="form-group gi-experience">
               <p>Select Your Gi Experience:</p>
               <select name="gi">
                 <option value="1200">White</option>
