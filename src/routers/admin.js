@@ -47,10 +47,10 @@ router.post('/result/contract/:contractId', async (req, res) => {
   let response = await AdminService.updatePlayerById(contractId, matchData)
   if (response.status == 200) {
     req.flash('success_msg', response.data)
-    res.redirect('/admin')
+    return res.render('contracts-admin');
   } else {
     req.flash('error', response.data)
-    res.redirect('/admin')
+    res.redirect('/login-admin')
   }
 })
 
