@@ -1,60 +1,85 @@
-<!DOCTYPE html> 
-<html> 
-<head> 
-   
-</head> 
-
-
-<div class="container">
-	<div class="row">	
-    	 <div class="well profile">
-            <div class="col-sm-12"> 
-                    <h2>{{player.firstName}} {{player.lastName}}</h2>
-                    <img src='/avatar-pictures/{{player.avatar}}' width="150" height="150"/>
-                    <p><strong>Fight Record(Win/Loss/Draw): {{player.wins}}/{{player.losses}}/{{player.draws}} </strong></p>
-                    <p><strong>School: </strong> {{player.school}}</p>
-                    <p><strong>Gi Rank: </strong> {{player.gi}}</p>
-                    <p><strong>NoGi Rank: </strong> {{player.nogi}} </p>
-                    <p><strong>Weight: </strong>{{player.weightClass}}</p>
-                    <p><strong>Match History: </strong></p>
-                    {{# each contracts }}
-                        <h3>Result: {{this.result}}</h3>
-                        <h3>Type: {{this.rules}}</h3>
-                        <h3>Opponent Name: {{ this.opponent.firstName }} {{ this.opponent.lastName }}</h3>
-                        <h3>Method: {{this.method}}</h3>
-                        <h3>Date: {{this.date.month}}/{{this.date.day}}/{{this.date.year}} at {{this.date.hour}}:{{this.date.minutes}}</h3>
-                        <h3>Weight Class: {{this.weightClass}}</h3>
-                    {{/each}}
-                    <br>
-                    <p><a class="btn btn-primary btn-lg" href="/challenge/{{player._id}}" role="button">Challenge</a></p> 
-                    <p><a class="btn btn-primary btn-lg" href="/chat/{{player._id}}" role="button">Chat</a></p> 
-                  
-                         
-                <div class="col-xs-12 col-sm-4 text-center">
-                    <figure>
-                      
-                        <figcaption class="ratings">
-                            <p>Ratings
-                            <a href="#">
-                                <span class="fa fa-star"></span>
-                            </a>
-                            <a href="#">
-                                <span class="fa fa-star"></span>
-                            </a>
-                            <a href="#">
-                                <span class="fa fa-star"></span>
-                            </a>
-                            <a href="#">
-                                <span class="fa fa-star"></span>
-                            </a>
-                            <a href="#">
+<!DOCTYPE html>
+<html>
+   <head>
+   </head>
+   <div class="container" id="opponent-profile-container">
+   <div class="row">
+      <div class="well profile">
+         <div class="col-sm-12">
+            <div class="column-wrap">
+               <div class="column-inner-wrap">
+                  <h2 class="player-name">{{player.firstName}} {{player.lastName}}</h2>
+                  <div class="column-one">
+                     <img src='/avatar-pictures/{{player.avatar}}' width="240" height="240" />
+                     <div class="col-xs-12 col-sm-4 text-center">
+                        <figure>
+                           <figcaption class="ratings">
+                              <p>Ratings
+                                 <a href="#">
+                                 <span class="fa fa-star"></span>
+                                 </a>
+                                 <a href="#">
+                                 <span class="fa fa-star"></span>
+                                 </a>
+                                 <a href="#">
+                                 <span class="fa fa-star"></span>
+                                 </a>
+                                 <a href="#">
+                                 <span class="fa fa-star"></span>
+                                 </a>
+                                 <a href="#">
                                  <span class="fa fa-star-o"></span>
-                            </a> 
-                            </p>
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>            
-    	 </div>                 
-	</div>
-</div>
+                                 </a>
+                              </p>
+                           </figcaption>
+                        </figure>
+                     </div>
+                  </div>
+                  <div class="column-two">
+                     <p><strong>Fight Record(Win/Lose/Draw): {{player.wins}}/{{player.losses}}/{{player.draws}}
+                        </strong>
+                     </p>
+                     <p><strong>School: </strong> {{player.school}}</p>
+                     <p><strong>Gi Rank: </strong> {{player.gi}}</p>
+                     <p><strong>NoGi Rank: </strong> {{player.nogi}} </p>
+                     <p><strong>Weight: </strong>{{player.weightClass}}</p>
+                  </div>
+                  <div class="column-three">
+                  </div>
+                  <div class="column-four">
+                     <p><a class="btn btn-primary btn-lg" href="/challenge/{{player._id}}"
+                        role="button">Challenge</a></p>
+                     <p><a class="btn btn-primary btn-lg" href="/chat/{{player._id}}" role="button">Chat</a></p>
+                  </div>
+               </div>
+            </div>
+            <div class="match-history-wrap">
+               <p>Match History:</p>
+               <table class="match-history">
+                  <thead>
+                     <th>Result:</th>
+                     <th>Type:</th>
+                     <th>Opponent Name:</th>
+                     <th>Method:</th>
+                     <th>Date:</th>
+                     <th>Weight Class:</th>
+                  </thead>
+                  <tbody>
+                     {{# each contracts }}
+                     <tr>
+                        <td>{{this.result}}</td>
+                        <td>{{this.rules}}</td>
+                        <td>{{ this.opponent.firstName }}
+                           {{ this.opponent.lastName }}
+                        </td>
+                        <td>{{this.method}}</td>
+                        <td>{{this.date.month}}/{{this.date.day}}/{{this.date.year}} at {{this.date.hour}}:{{this.date.minutes}}</td>
+                        <td>{{this.weightClass}}</td>
+                     </tr>
+                     {{/each}}
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
