@@ -56,6 +56,7 @@ div.container#main-container {
 }
 
 #main-jumbotron.jumbotron {
+  position: relative;
   margin: 0;
   padding: 100px;
   background-image: url("https://i.ibb.co/hyv8t4n/image2.jpg");
@@ -65,8 +66,19 @@ div.container#main-container {
   border-radius: 0;
 }
 
+#main-jumbotron.jumbotron::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content:"";
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
 h2.success,
 h2.error {
+  position: relative;
   text-align: center;
   color: #ffffff;
   margin-bottom: 0px;
@@ -78,6 +90,10 @@ h2.success {
 
 h2.error {
   color: red;
+}
+
+div.main-details-wrap {
+  position: relative;
 }
 
 div.jumbotron#main-jumbotron h1 {
@@ -154,6 +170,11 @@ div.main-jumbotron-wrap div.jumbotron {
   margin: 1%;
   border-radius: 0;
   background: #fafafa;
+}
+
+div.avatar-wrap {
+  width: 230px !important;
+  height: 230px !important;
 }
 
 img.avatar-picture {
@@ -633,4 +654,194 @@ div#about-jumbotron.jumbotron {
 div#about-jumbotron.jumbotron h1 {
   font-size: 38px;
   font-weight: 100;
+}
+
+
+/* ====================================================== */
+
+/*                        CONTRACT                        */
+
+/* ====================================================== */
+
+div#contract-jumbotron.jumbotron h5 { 
+  font-size: 17px;
+}
+
+div#contract-jumbotron.jumbotron h1 { 
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+div.red-and-blue {
+  display: flex;
+  flex-direction: row;
+  margin-bottom:40px
+}
+
+div.red-corner-wrap {
+  margin-right:30px;
+  width: 49%;
+  float: left;
+  border: 1px solid #000000;
+}
+
+div.red-corner-wrap h2 {
+  padding: 10px;
+  text-align: center;
+  font-size:24px;
+}
+
+div.red-corner-wrap h3 {
+  margin: 0 0 4px 0;
+  padding-left: 18px;
+  font-size:17px;
+}
+
+div.red-corner-wrap h3:nth-of-type(2),
+div.blue-corner-wrap h3:nth-of-type(2) {
+  margin-bottom: 14px;
+}
+
+div.red-corner-wrap h3:first-of-type,
+div.blue-corner-wrap h3:first-of-type {
+  text-transform: capitalize;
+}
+
+div.red-corner-wrap h3:last-of-type,
+div.blue-corner-wrap h3:last-of-type {
+  margin-bottom: 34px;
+}
+
+div.red-corner-wrap span {
+  float: left;
+  width: 90%;
+  margin: 0 5% 20px;
+  border-bottom: 1px solid #000000;
+}
+
+div.blue-corner-wrap {
+  width: 49%;
+  float: right;
+  border: 1px solid #000000;
+}
+
+div.blue-corner-wrap h2 {
+  padding: 10px;
+  text-align: center;
+  font-size:24px;
+}
+
+div.blue-corner-wrap h3 {
+  margin: 0 0 4px 0;
+  padding-left:18px;
+  font-size:17px;
+}
+
+div.blue-corner-wrap span {
+  float: left;
+  width: 90%;
+  margin: 0 5% 20px;
+  border-bottom: 1px solid #000000;
+}
+
+div.lower-match-details {
+  margin-bottom: 30px;
+}
+
+div.match-result {
+  margin-bottom: 24px;
+}
+
+div.match-result h5 {
+  margin-bottom: 17px;
+}
+
+div.match-result h3 {
+  font-size: 17px;
+}
+
+div.lower-match-details {
+  width: 100%;
+  float: left;;
+}
+
+div.lower-match-details h3 {
+  font-size: 17px;
+}
+
+div.lower-match-details-left {
+  float: left;
+  margin-right: 50px;
+}
+
+div.lower-match-details-middle {
+  float: left;
+  margin-right: 50px;
+}
+
+div.lower-match-details-right {
+float: left;
+}
+
+div.player-comments {
+  float: left;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+div.player-comments h3 {
+  font-size: 17px;
+  margin-bottom: 26px;
+}
+
+div.player-comments span {
+  float: left;
+  width: 100%;
+  border-bottom: 1px solid #000000;
+}
+
+div.match-result h3 {
+  font-size: 17px;
+}
+
+div.match-result h3:nth-of-type(6) {
+  margin-bottom: 28px;
+}
+
+div.match-result h3:nth-of-type(7) {
+  margin-bottom: 18px;
+}
+
+div.post-match h3 {
+  font-size: 28px;
+  margin-bottom: 18px;
+}
+
+div.competition-rules {
+  padding-top: 140px;
+}
+
+div.row.mt-5 div.card.card-body {
+  padding-top: 0;
+}
+
+div.row.mt-5 div.card.card-body h3 {
+  font-size: 28px;
+}
+
+div.bjj-rules {
+  margin-top: 0;
+  margin-bottom: 40px;
+}
+
+div.bjj-rules ol li:nth-of-type(2) {
+  margin-bottom: 80px;
+}
+
+div.bjj-rules ol li:nth-of-type(3) {
+  padding-top: 100px;
+}
+
+div.scoring {
+  margin-bottom: 20px;
 }
