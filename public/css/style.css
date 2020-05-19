@@ -1,0 +1,636 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* ====================================================== */
+
+/*                         HEADER                         */
+
+/* ====================================================== */
+
+nav.navbar.navbar-expand-lg.navbar-dark.bg-primary {
+  padding: 12px 16px;
+  background-color: #1a2949 !important;
+}
+
+div#navbarColor01.collapse.navbar-collapse {
+  display: flex !important;
+  justify-content: center;
+}
+
+ul.navbar-nav.mr-auto {
+  width: 80%;
+  justify-content: center;
+  margin: 0 !important;
+}
+
+ul.navbar-nav.mr-auto li.nav-item {
+  margin: 0 16px;
+}
+
+ul.navbar-nav.mr-auto li.nav-item a.nav-link {
+  color:#ffffff;
+}
+
+/* ====================================================== */
+
+/*                         FOOTER                         */
+
+/* ====================================================== */
+
+.footer-copyright.text-center.py-3 {
+  width: 100%;
+  float: left;
+}
+
+/* ====================================================== */
+
+/*                          MAIN                          */
+
+/* ====================================================== */
+
+div.container#main-container {
+  max-width:100%;
+  width:100%;
+  padding: 0;;
+}
+
+#main-jumbotron.jumbotron {
+  margin: 0;
+  padding: 100px;
+  background-image: url("https://i.ibb.co/hyv8t4n/image2.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 0;
+}
+
+h2.success,
+h2.error {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 0px;
+}
+
+h2.success {
+  color: green;
+}
+
+h2.error {
+  color: red;
+}
+
+div.jumbotron#main-jumbotron h1 {
+  margin-top: 60px;
+  font-size: 48px;
+  font-weight: 100;
+}
+
+div.jumbotron#main-jumbotron h1,
+div.jumbotron#main-jumbotron p {
+  text-align: center;
+  color: #ffffff;;
+}
+
+div#main-jumbotron.jumbotron p:first-of-type {
+  margin-bottom: 36px !important;
+}
+
+p.learn-more-button a.btn.btn-primary.btn-lg {
+  background-color: transparent;
+  border: 1px solid #ffffff;
+  margin-bottom: 60px;
+}
+
+p.learn-more-button a.btn.btn-primary.btn-lg:hover {
+  background-color: #ffffff;
+  color: #000000;
+  transition: .3s;
+}
+
+div.container#main-container div.form-group {
+  display:-webkit-box;
+  display:-ms-flexbox;
+    display:flex;
+  -webkit-box-pack:center;
+  -ms-flex-pack:center;
+    justify-content:center;
+  margin-bottom: 60px;
+  padding: 50px 0 40px;
+  background-color: #fafafa;
+}
+
+div.form-group select {
+  height: 28px;
+  margin:0 70px;
+  background-color: #ffffff;
+}
+
+div.form-group select:last-of-type {
+  margin: 0 10px;
+}
+
+div.form-group label {
+  margin:0;
+}
+
+div.form-group button.btn-primary {
+  margin: -6px 0 0 15px;
+  padding: 8px 16px;
+  border: none;
+  background-color: #1a2949;
+}
+
+div.main-jumbotron-wrap {
+  width: 50%;
+  margin: 0 25% 90px;
+  float: left;
+}
+
+div.main-jumbotron-wrap div.jumbotron {
+  float: left;
+  display: inline-flex;
+  width: 100%;
+  margin: 1%;
+  border-radius: 0;
+  background: #fafafa;
+}
+
+img.avatar-picture {
+  width: 230px !important;
+  height: 230px !important;
+}
+
+div.player-details {
+  float: left;
+  margin: 0 40px;
+}
+
+div.player-details span {
+  float: left;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+div.player-details span h2 {
+  float: left;
+  margin-right: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+div.player-details h3 {
+  float: left;
+  margin-bottom: 0 !important;
+  font-size: 16px;
+  text-transform: capitalize;
+}
+
+div.player-details strong {
+  float: left;
+  margin-right: 5px;
+  line-height: 1.2em;
+}
+
+div.player-details span:last-of-type {
+  margin: 14px 0 0;
+}
+
+
+/* ====================================================== */
+
+/*                     PLAYER PROFILE                     */
+
+/* ====================================================== */
+
+div.container#player-profile-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  div.row {
+    margin: 0;
+  }
+  
+  div.well.profile.player-profile {
+    width: 100%;
+  }
+  
+  div.col-sm-12 {
+    padding: 0;
+  }
+  
+  div.col-xs-12.col-sm-8 {
+    float: left;
+    max-width: 100%;
+    padding: 0;
+  }
+  
+  h2.welcome {
+    padding: 70px 80px;
+    font-size: 40px;
+    text-align: center;
+    font-weight: 100;
+    text-transform: capitalize;
+  }
+  
+  div.container#player-profile-container div.column-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    float: left;
+    width: 100%;
+    padding: 60px 80px;
+    background-color: #fafafa;
+  }
+  
+  div.container#player-profile-container div.column-one {
+    float: left;
+  }
+  
+  div.col-xs-12.col-sm-4.text-center {
+    max-width: 100%;
+    margin-top: 16px;
+  }
+  
+  div.col-xs-12.col-sm-4.text-center figure {
+    margin: 0;
+  }
+  
+  figcaption.ratings p {
+    margin: 0;
+  }
+  
+  div.container#player-profile-container div.column-two {
+    float: left;
+    margin-left: 110px;
+  }
+  
+  div.container#player-profile-container div.column-three {
+    float: left;
+    margin-left: 110px;
+  }
+  
+  div.column-three .row-one, div.column-three .row-two {
+    display: flex;
+  }
+  
+  a.btn.btn-primary.btn-lg {
+    min-width: 140px;
+    margin-right: 16px;
+    padding: 10px 16px;
+    font-size: 16px;
+    border: none;
+    background-color: #1a2949;
+  }
+  
+ a.btn.btn-primary.btn-lg:hover {
+    background-color: #233966;
+    transition: 0.3s;
+  }
+  
+  p.match-history {
+    width: 100%;
+    float: left;
+    padding: 30px 80px;
+  }
+  
+  div.bottom-column {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #fafafa;
+  }
+  
+  div.bottom-column-inner {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    float: left;
+    width: 100%;
+    max-width: 1680px;
+    padding: 30px 80px;
+  }
+  
+  div.bottom-column p {
+    margin: 0;
+  }
+  
+  button.btn.btn-danger {
+    border: none;
+    padding: 10px 16px;
+    background-color: #ce2625;
+  }
+  
+  div.col-xs-12.col-sm-8 form .form-group {
+    margin: 0;
+  }
+  
+
+/* ====================================================== */
+
+/*                    OPPONENT PROFILE                    */
+
+/* ====================================================== */
+  
+div.container#opponent-profile-container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+div.container#opponent-profile-container div.well.profile {
+  width:100%;
+}
+
+div.container#opponent-profile-container div.column-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  float: left;
+  margin-top: 80px;
+  padding: 60px 80px;
+  width: 100%;
+  background-color:#fafafa;
+}
+
+h2.player-name {
+  margin-bottom: 30px;
+}
+
+
+
+div.container#opponent-profile-container div.column-one {
+  float:left;
+}
+
+div.container#opponent-profile-container h2.player-name {
+  text-transform: capitalize;
+  font-weight: 100;
+}
+
+div.container#opponent-profile-container div.column-two {
+  float:left;
+  margin-left: 90px;
+}
+
+div.container#opponent-profile-container div.column-three {
+  float:left;
+  margin-left: 90px;
+}
+
+div.container#opponent-profile-container div.column-three h3 {
+  margin: 0 0 16px;
+  font-size: 16px;
+}
+
+div.container#opponent-profile-container div.column-four {
+  float:left;
+  margin-left: 90px;
+}
+
+
+
+
+div.match-history-wrap {
+  float: left;
+  width: 100%;
+  padding: 80px 0;
+}
+
+div.match-history-wrap p {
+  text-align: center;
+  margin-bottom: 58px;
+  font-size: 32px;
+  font-weight: 100;
+}
+
+table.match-history  {
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-size: 16px;
+  min-width: 700px;
+}
+
+table.match-history thead tr {
+  text-align: left;
+  color:#ffffff;
+  background-color: #1a2949;
+}
+
+table.match-history td,
+table.match-history th {
+  padding: 12px 18px;
+  font-weight: 400;
+}
+
+table.match-history tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+table.match-history tbody tr:nth-of-type(even) {
+  background-color: #fafafa;
+}
+
+table.match-history tbody tr:last-of-type {
+  border-bottom: 4px solid #1a2949;
+}
+
+
+/* ====================================================== */
+
+/*                         RULES                          */
+
+/* ====================================================== */
+
+div#rules-jumbotron.jumbotron {
+  max-width: 1480px;
+  margin: 0 auto;
+  background-color: #fafafa;
+}
+
+div#rules-jumbotron.jumbotron h1 {
+  margin-bottom: 20px;
+  font-size: 42px;
+  font-weight: 100;
+}
+
+div.card.card-body {
+  border: none;
+}
+
+div.card.card-body h3 {
+  font-weight: 100;
+  font-size: 32px;
+  margin-bottom: 22px;
+}
+
+div.card.card-body ol li {
+  margin-bottom: 6px;
+}
+
+
+/* ====================================================== */
+
+/*                       REGISTER                         */
+
+/* ====================================================== */
+
+div#register-jumbotron.jumbotron {
+  border-radius: 0;
+  background-color: #fafafa;
+}
+
+div#register-jumbotron.jumbotron .card.card-body {
+  padding: 20px 40px;
+}
+
+div#register-jumbotron.jumbotron h5.register {
+  margin-bottom: 42px;
+  font-size: 32px;
+  font-weight: 100;
+}
+
+div#register-jumbotron.jumbotron div.form-group label {
+  margin-bottom: 8px;
+}
+
+input#firstName.form-control {
+  margin-bottom: 16px;
+}
+
+input#avatar.form-control {
+  border: none;
+  padding: 0 0 10px 0;
+}
+
+div.form-group.school {
+  margin-bottom: 24px;
+}
+
+div.form-group.profile-picture {
+  margin-bottom: 24px;
+}
+
+div.form-group.gender {
+  margin-bottom: 24px;
+}
+
+div.form-group.gender p {
+  margin-bottom: 10px;
+}
+
+div.form-group.gender select {
+  margin: 0;
+}
+
+div.form-group.weight-class {
+  margin-bottom: 24px;
+}
+
+div.form-group.weight-class p {
+  margin-bottom: 10px;
+}
+
+div.form-group.weight-class select {
+  margin: 2px 0 6px;
+}
+
+div.form-group.no-gi-experience {
+  margin-bottom: 24px;
+}
+
+div.form-group.no-gi-experience p {
+  margin-bottom: 10px;
+}
+
+div.form-group.no-gi-experience select {
+  margin: 2px 0 6px;
+}
+
+div.form-group.gi-experience {
+  margin-bottom: 24px;
+}
+
+div.form-group.gi-experience p {
+  margin-bottom: 10px;
+}
+
+div.form-group.gi-experience select {
+  margin: 2px 0 6px;
+}
+
+div#register-jumbotron.jumbotron button.btn.btn-primary.btn-block {
+  margin: 0;
+}
+
+/* ====================================================== */
+
+/*                         LOGIN                          */
+
+/* ====================================================== */
+
+div#login-jumbotron.jumbotron {
+  width: 600px;
+  margin: 0 auto;
+  background-color:#fafafa;
+}
+
+div#login-jumbotron.jumbotron div.login-form h1 {
+  margin-bottom: 34px;
+  font-size:34px;
+  font-weight: 100;
+}
+
+div.login-form div.form-group {
+  margin-bottom: 30px;
+}
+
+div#login-jumbotron.jumbotron div.login-form form div.form-group label {
+  margin-bottom: 12px;
+}
+
+div#login-jumbotron.jumbotron div.login-form form div.form-group input {
+  margin-bottom: 6px;
+}
+
+div#login-jumbotron.jumbotron button.btn.btn-primary {
+  min-width: 110px;
+  margin-right: 16px;
+  padding: 10px 16px;
+  font-size: 16px;
+  border: none;
+  background-color: #1a2949;
+}
+
+
+/* ====================================================== */
+
+/*                      ABOUT / FAQ                       */
+
+/* ====================================================== */
+
+div#about-jumbotron.jumbotron {
+  max-width: 1480px;
+  margin: 0 auto;
+  background-color: #fafafa;
+}
+
+div#about-jumbotron.jumbotron h1 {
+  font-size: 38px;
+  font-weight: 100;
+}
