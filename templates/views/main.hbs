@@ -9,10 +9,12 @@
          <div class="jumbotron" id="main-jumbotron">
             <h2 class="success">{{success_msg}}</h2>
             <h2 class="error">{{error}}</h2>
-            <h1>Welcome to Rival</h1>
-            <br>
-            <p>Challenge anyone to a grappling match in your area</p>
-            <p class="learn-more-button"><a class="btn btn-primary btn-lg" href="/rules" role="button">Learn more</a></p>
+            <div class="main-details-wrap">
+               <h1>Welcome to Rival</h1>
+               <br>
+               <p>Challenge anyone to a grappling match in your area</p>
+               <p class="learn-more-button"><a class="btn btn-primary btn-lg" href="/rules" role="button">Learn more</a></p>
+            </div>
             <br>
          </div>
          <form action="/sort-by" method="POST">
@@ -49,7 +51,9 @@
          <div class="main-jumbotron-wrap">
             {{# each players }}
             <div class="jumbotron" style="padding:20px;">
-               <img class="avatar-picture" style="float: left" src='/avatar-pictures/{{this.avatar}}' />
+               <div class="avatar-wrap">
+                  <img class="avatar-picture" style="float: left" src='/avatar-pictures/{{this.avatar}}' />
+               </div>
                <div class="player-details">
                   <span>
                      <h2>Name:</h2>

@@ -1,262 +1,302 @@
 <!DOCTYPE html>
 <html>
+   <head>
+      <style>
+         li {
+         display: inline-block;
+         /* You can also add some margins here to make it look prettier */
+         zoom: 1;
+         *display: inline;
+         /* this fix is needed for IE7- */
+         }
+      </style>
+   </head>
+   <body>
+      <div>
+      <div style="margin: 50px 100px; ">
+      <div class="jumbotron" id="contract-jumbotron" style="padding:40px;">
+         <h1>
+            <center>Official Match Contract</center>
+         </h1>
+         <h5>Print This Contract and Bring It To The Match</h5>
+         <h5>Sign your name under Match Details</h5>
+         <h5>Give this contract to the referee BEFORE the match starts</h5>
+         <h5>Follow the Post Match Instructions</h5>
+         <br>
+         <h1>
+            <center>Match Details</center>
+            <h5>*The competitor rankings shown below were locked in at the time
+               this match was accepted so they may differ from your current rankings.
+            </h5>
+            <br>
+         </h1>
+         <div class="red-and-blue">
+            <div class="red-corner-wrap">
+               <h2>Red Corner:</h2>
+               <h3>{{ contract.player.firstName }} {{ contract.player.lastName }}</h3>
+               <h3>Gi {{ contract.playerRank.gi }} / NoGi {{ contract.playerRank.nogi }}</h3>
+               <h3>Red Sign Here:</h3>
+               <span></span>
+            </div>
+            <div class="blue-corner-wrap">
+               <h2>Blue Corner:</h2>
+               <h3>{{ contract.opponent.firstName }} {{ contract.opponent.lastName }}</h3>
+               <h3>Gi {{ contract.opponentRank.gi }} / NoGi {{ contract.opponentRank.nogi }}</h3>
+               <h3>Blue Sign Here:</h3>
+               <span></span>
+            </div>
+         </div>
+         <div class="lower-match-details">
+            <div class="lower-match-details-left">
+               <h3>Match Weight Class: {{ contract.weightClass }}</h3>
+               <h3>Weight Limit: {{contract.kilos}} Kilograms</h3>
+            </div>
+            <div class="lower-match-details-middle">
+               <h3>Location: {{ contract.school }} </h3>
+               <h3>Date: {{ contract.date.month }} {{ contract.date.day }}, {{ contract.date.year }} at
+                  {{ contract.date.hour }}:{{ contract.date.minutes }} 
+               </h3>
+            </div>
+            <div class="lower-match-details-right">
+               <h3>Rules: {{ contract.rules }}</h3>
+            </div>
+         </div>
+         <div class="player-comments">
+            <h3>Comments from Red: {{ contract.playerComments }}</h3>
+            <span></span>
+         </div>
+         <div class="match-result">
+            <h1>
+               <center>Match Result</center>
+            </h1>
+            <h5>
+               <center>(to be completed by the referee)</center>
+            </h5>
+            <h3>1. Winner (circle one): RED / BLUE / DRAW</h3>
+            <h3>2. Method (circle one): Submission / Points / DQ / Forfeit / Injury / Advantage</h3>
+            <h3>3. Comments:</h3>
+            <h3>4. Referee Name: {{ contract.refereeFirstName }} {{contract.refereeLastName}} </h3>
+            <h3>5. Referee Signature: </h3>
+            <h3>6. Date: </h3>
+         </div>
 
-<head>
-  <style>
-    li {
-      display: inline-block;
-      /* You can also add some margins here to make it look prettier */
-      zoom: 1;
-      *display: inline;
-      /* this fix is needed for IE7- */
-    }
-  </style>
+         <div class="post-match">
+            <h3>Post Match Instructions: </h3>
+            <ul>
+               <li>After the match has concluded and the referee signs and returns this contract to
+                  both competitors the WINNER will take a photo of this page and email it to <u>rival.contracts@gmail.com</u>
+               </li>
+               <li>Once we receive the contract, your record and rank will be updated in 24-48 hours.</li>
+               <li>The LOSING competitor should should keep his copy of the contract in case
+                  of record error. If the record has been updated improperly only your copy of the contract can serve
+                  as a tool for correction. Anything else other than the contract, written or verbal, will not be accepted.
+               </li>
+            </ul>
+         </div>
+         
+         <div class="rate-opponent">
+            <h3>Rate your Opponent (circle one): </h3>
+            <ul>
+               <li>5 stars: Fulfilled all contract obligations and was professional, polite and punctual- an excellent
+                  adversary.
+               </li>
+               <li>4 stars: Good opponent but was slightly unprepared (late, didn't read the rules, etc.)- still a good
+                  match.
+               </li>
+               <li>3 stars: OK but with some problems. (example: host competitor did not have everything ready for the
+                  match).
+               </li>
+               <li>2 stars: Bad opponent. (Missed weight, more than 15 minutes late, broke the rules).</li>
+               <li>1 star: Terrible opponent. (Tried to cheat, became hostile, did not follow any rules).</li>
+               <li>Other comments (make it short): </li>
+            </ul>
+         </div>
 
-</head>
-
-<body>
-  <div>
-    <div style="margin:100px;">
-      <div class="jumbotron" style="padding:40px;">
-        <h1>
-          <center>Official Match Contract</center>
-        </h1>
-        <h5>Print This Contract and Bring It To The Match</h5>
-        <h5>Sign your name under Match Details</h5>
-        <h5>Give this contract to the referee BEFORE the match starts</h5>
-        <h5>Follow the Post Match Instructions</h5>
-        <br>
-        <h1>
-          <center>Match Details</center>
-          <h5>*The competitor rankings shown below were locked in at the time
-            this match was accepted so they may differ from your current rankings.
-          </h5>
-          <br>
-        </h1>
-        <h3>RED Corner: {{ contract.player.firstName }} {{ contract.player.lastName }}
-          Gi {{ contract.playerRank.gi }} / NoGi {{ contract.playerRank.nogi }}
-        </h3>
-        <h3>RED Sign Here:</h3>
-        <h3>BLUE Corner: {{ contract.opponent.firstName }} {{ contract.opponent.lastName }}
-          Gi {{ contract.opponentRank.gi }} , NoGi {{ contract.opponentRank.nogi }}
-        </h3>
-        <h3>BLUE Sign Here:</h3>
-        <h3>Match Weight Class: {{ contract.weightClass }}
-          <h3>Weight Limit: {{contract.kilos}} Kilograms</h3>
-          <h3>Location: {{ contract.school }} </h3>
-        </h3>
-        <h3>Date: {{ contract.date.month }} {{ contract.date.day }}, {{ contract.date.year }} at
-          {{ contract.date.hour }}:{{ contract.date.minutes }} </h3>
-        <h3>Rules: {{ contract.rules }}</h3>
-        <h3>Comments from RED: {{ contract.playerComments }}</h3>
-        <br><br><br>
-        <h1>
-          <center>Match Result</center>
-        </h1>
-        <h5>
-          <center>(to be completed by the referee)</center>
-        </h5>
-        <br>
-        <h3>1. Winner(circle one): RED / BLUE / DRAW</h3>
-        <br>
-        <h3>2. Method(circle one): Submission / Points / DQ / Forfeit / Injury / Advantage</h3>
-        <br>
-        <h3>3. Comments:</h3>
-        <br><br><br>
-        <h3>Referee Name: {{ contract.refereeFirstName }} {{contract.refereeLastName}} </h3>
-        <br>
-        <h3>5. Referee Signature: </h3>
-        <h3>6. Date: </h3>
-        <br> <br>
-        <h3>Rate your Opponent (circle one):
-          <ul>
-            <li>5 stars: Fulfilled all contract obligations and was professional, polite and punctual- an excellent
-              adversary.</li>
-            <li>4 stars: Good opponent but was slightly unprepared (late, didn't read the rules, etc.)- still a good
-              match.</li>
-            <li>3 stars: OK but with some problems. (example: host competitor did not have everything ready for the
-              match).</li>
-            <li>2 stars: Bad opponent. (Missed weight, more than 15 minutes late, broke the rules).</li>
-            <li>1 star: Terrible opponent. (Tried to cheat, became hostile, did not follow any rules).</li>
-            <li>Other comments (make it short): </li>
-          </ul>
-        </h3>
-        <h3>Post Match Instructions: </h3>
-        <ul>
-          <li>After the match has concluded and the referee signs and returns this contract to
-            both competitors the WINNER will take a photo of this page and email it to <u>rival.contracts@gmail.com</u>
-          </li>
-          <li>Once we receive the contract, your record and rank will be updated in 24-48 hours.</li>
-          <li>The LOSING competitor should should keep his copy of the contract in case
-            of record error. If the record has been updated improperly only your copy of the contract can serve
-            as a tool for correction. Anything else other than the contract, written or verbal, will not be accepted.
-          </li>
-        </ul>
-        <br>
-        <h1>COMPETITION RULES</h1>
-        <p>Read these rules before you send or accept any matches. They apply to both Gi and NoGi and cannot be changed.
-        </p>
-
-        <div class="row mt-5">
-          <div class="card card-body">
-            <h3>General Rules</h3>
-            Note: Competitors, coaches, scorekeepers and referees should all be present least 15 minutes
-            before the match starts
-            in order to weigh-in, warm up and discuss the rules below to make sure everyone
-            is on the same page.<br><br>
-            <ol>
-              <li> No unsportsmanlike conduct will be allowed.  You may be disqualified for
-                unsportsmanlike
-                conduct. The
-                referee will be shown maximum respect at all times. </li>
-              <li> No striking, biting, eye gouging (includes chin to eye), head butting, small joint
-                manipulation
-                (finger or toe locks), hair pulling, grabbing the windpipe, or ear pulling will be
-                permitted.</li>
-              <li> No slamming allowed. Illegal slamming will be defined as slamming your opponent to
-                escape
-                submissions and/or to pass the guard; or standing from the guard and/or jumping from
-                a
-                standing position
-                to slam your opponent. Slamming will result in an automatic DQ.  Takedowns are NOT
-                considered slams, but
-                you must deliver your opponent safely to the mat.</li>
-              <li> No infectious skin diseases (such as ringworm, staph, and MRSA) or open wounds will
-                be
-                permitted.  No lubricants, oils, or lotions of any kind will be permitted on any
-                part of the
-                body or
-                clothing.</li>
-              <li> Competitors will be allowed to continue grappling anywhere on the matted area,
-                provided they
-                don’t interfere with another match.  If the competitors near the edge of the mat,
-                they will
-                be restarted
-                from the same position, unless the referee is unable to duplicate the position for
-                any
-                reason.  In case
-                the referee is unable to duplicate the position, the competitors will restart from a
-                standing position.</li>
-              <li> If a competitor flees the mat area when a submission is locked in and the competitor is
-                obviously
-                fleeing to avoid submission, he or she will be automatically disqualified. </li>
-              <li> <u>All matches are allowed to be recorded on video</u> just like any other tournament. If either
-                competitor or their instructor
-                interfere with this rule they will receive a DQ.
-              </li>
-              <li> Every match must have 1 Referee and 1 Scorekeeper. This is the responsibility of
-                the hosting school. </li>
-              <li> The visiting competitor is allowed to bring 1 Coach or Assistant to the match.</li>
-              <li> It is the responsibility of the hosting competitor to discuss these rules with his or her
-                instructor <u>before sending or accepting the match contract</u>. </li>
-              <li> Both competitors must weigh-in before the match starts. It is the responsibility of
-                the hosting school to provide a working scale and failure to do so will result in a
-                DQ for the host competitor. Either the visiting competitor or their coach/assitant may
-                request the scales to be verified by placing a weight on the scale. </li>
-              <li> If a competitor does not make the weight outlined in their contract the other
-                competitor
-                has the option to reject the match and accept a win by DQ or continue with the
-                match. </li>
-              <li> If a competitor arrives to the match 5 minutes or more past the Match Starting
-                Time, the other competitor
-                has the option to reject the match and accept a win by DQ or continue with the
-                match. </li>
-              <li>IF EITHER THE COMPETITOR OR THEIR INSTRUCTOR ATTEMPT TO CHANGE OR FAIL TO HONOR ANY OF RULES MENTIONED
-                HERE
-                THAT COMPETITOR WILL RECEIVE AN AUTOMATIC MATCH
-                DISQUALIFICATION.</li>
-            </ol>
-            </p>
-
-            <p>
-              <h3>Brazilian Jiu Jitsu (Gi) Rules</h3>
-              NOTE: If two competitors of different belt levels compete the Brazilian Jiu Jitsu
-              (Gi) Rules will automatically default to the lower belt level.<br>
-              <br>
-              <ol>
-                <li>The only submissions below the waist that are legal for white, blue, and purple
-                  belts are
-                  straight
-                  ankle locks
-                  (AKA straight footlock).</li>
-                <li>Kneebars, figure-four toeholds, and compression locks (AKA “slicers”, “crushers”)
-                  are
-                  legal in brown and black belt divisions only.</li>
-                <li> Heel hooks, reaping the knee, twisting knee locks, “flying scissor” takedowns, and
-                  neck cranks are never legal in Gi matches.</li>
-                <li> All competitors must compete using the belt awarded to them by their Brazilian Jiu
-                  Jitsu instructor.</li>
-                <li> All competitors must have a clean, properly fitted Jiu Jitsu or Judo Gi. Mouthpiece
-                  and groin protection are optional, but recommended.</li>
-                <li> Match Lengths: ALL GI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND</li>
-              </ol>
-            </p>
-
-            <p>
-              <h3>Submission Grappling (NoGi) Rules</h3>
-              NOTE: If two competitors of different NoGi levels compete the Submission Grappling (NoGi)
-              Rules will automatically default to the lower NoGi level.
-              <br><br>
-              <h5>Definition of NoGi Levels by Competitor Rank: </h5>
-              <ul>
-                <li> Novice: Under 1200 </li>
-                <li>Beginner: 1200 - 1424 </li>
-                <li>Intermediate: 1425 - 2000</li>
-                <li>Advanced: Over 2000 </li>
-              </ul>
-              <ol>
-                 <li>The only submissions below the waist legal for novice, beginner and intermediate
-                  are
-                  straight ankle locks (AKA straight footlock) and kneebars.</li>
-                <li>ALL submissions are allowed in the Advanced division. Neck
-                  cranks, spine locks, bicep/calf slicers (crushers), and flying scissors takedowns
-                  are legal
-                  ONLY in the Advanced
-                  division.</li>
-                <li>No grabbing of any clothing, including your own, will be permitted.</li>
-                <li>Gis are optional for submission grappling divisions. Mouthpiece and groin protection
-                  are optional, but recommended. All competitors must wear a tight-fitting T-shirt or
-                  rashguard.</li>
-                <li>Match Lengths: ALL NOGI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND</li>
-              </ol>
-            </p>
-            <p>
-              <h3>Scoring- Gi and NoGi</h3>
-              NOTE: A competitor must hold each position for a AT LEAST 3 seconds to get the points.
-              <br>
-              <ul>
-                <li>Takedown or Throw = 2 points</li>
-                <li>Sweep = 2 points</li>
-                <li>Pass opponent’s guard = 3 points</li>
-                <li>Mounted position = 4 points</li>
-                <li>Back Mount with Hooks in = 4 points</li>
-                <li>Back Mount knees on ground, opponent flat on stomach = 4 points (Additional 4 points
-                  are
-                  scored by putting the hooks in from this position)</li>
-                <li>Body triangle from the back = 4 points</li>
-                <li>Knee on stomach = 2 points</li>
-                <li> The referee may award advantage points based on which competitor displayed greater offense during
-                  the
-                  match and came
-                  closest to achieving possible point- or submission-scoring positions</li>
-              </ul>
-              <h3>Weight Classes- Gi and NoGi <h5>(Kilograms)</h5>
-              </h3>
-              <ul>
-                <li>Flyweight: 57.5 and under</li>
-                <li>Featherweight: 57.6 - 64</li>
-                <li>Lightweight: 64.1 - 70</li>
-                <li>Welterweight: 70.1 - 76</li>
-                <li>Middleweight: 76.1 - 82.3</li>
-                <li>Cruiserweight: 82.4 - 88.3</li>
-                <li>Light-Heavyweight: 88.4 - 94.3</li>
-                <li>Heavyweight: 94.4 - 100.4</li>
-                <li>Super-Heavyweight: 100.5 and over</li>
-                <p>*For Gi matches competitors must weigh in wearing their Gi</p>
-              </ul>
-          </div>
-        </div>
+         <div class="competition-rules">
+            <h1>Competition Rules</h1>
+            <p>Read these rules before you send or accept any matches. They apply to both Gi and NoGi and cannot be changed.</p>
+         </div>
+         <div class="row mt-5">
+            <div class="card card-body">
+               <h3>General Rules</h3>
+               Note: Competitors, coaches, scorekeepers and referees should all be present least 15 minutes
+               before the match starts
+               in order to weigh-in, warm up and discuss the rules below to make sure everyone
+               is on the same page.<br><br>
+               <ol>
+                  <li> No unsportsmanlike conduct will be allowed.  You may be disqualified for
+                     unsportsmanlike
+                     conduct. The
+                     referee will be shown maximum respect at all times. 
+                  </li>
+                  <li> No striking, biting, eye gouging (includes chin to eye), head butting, small joint
+                     manipulation
+                     (finger or toe locks), hair pulling, grabbing the windpipe, or ear pulling will be
+                     permitted.
+                  </li>
+                  <li> No slamming allowed. Illegal slamming will be defined as slamming your opponent to
+                     escape
+                     submissions and/or to pass the guard; or standing from the guard and/or jumping from
+                     a
+                     standing position
+                     to slam your opponent. Slamming will result in an automatic DQ.  Takedowns are NOT
+                     considered slams, but
+                     you must deliver your opponent safely to the mat.
+                  </li>
+                  <li> No infectious skin diseases (such as ringworm, staph, and MRSA) or open wounds will
+                     be
+                     permitted.  No lubricants, oils, or lotions of any kind will be permitted on any
+                     part of the
+                     body or
+                     clothing.
+                  </li>
+                  <li> Competitors will be allowed to continue grappling anywhere on the matted area,
+                     provided they
+                     don’t interfere with another match.  If the competitors near the edge of the mat,
+                     they will
+                     be restarted
+                     from the same position, unless the referee is unable to duplicate the position for
+                     any
+                     reason.  In case
+                     the referee is unable to duplicate the position, the competitors will restart from a
+                     standing position.
+                  </li>
+                  <li> If a competitor flees the mat area when a submission is locked in and the competitor is
+                     obviously
+                     fleeing to avoid submission, he or she will be automatically disqualified. 
+                  </li>
+                  <li> <u>All matches are allowed to be recorded on video</u> just like any other tournament. If either
+                     competitor or their instructor
+                     interfere with this rule they will receive a DQ.
+                  </li>
+                  <li> Every match must have 1 Referee and 1 Scorekeeper. This is the responsibility of
+                     the hosting school. 
+                  </li>
+                  <li> The visiting competitor is allowed to bring 1 Coach or Assistant to the match.</li>
+                  <li> It is the responsibility of the hosting competitor to discuss these rules with his or her
+                     instructor <u>before sending or accepting the match contract</u>. 
+                  </li>
+                  <li> Both competitors must weigh-in before the match starts. It is the responsibility of
+                     the hosting school to provide a working scale and failure to do so will result in a
+                     DQ for the host competitor. Either the visiting competitor or their coach/assitant may
+                     request the scales to be verified by placing a weight on the scale. 
+                  </li>
+                  <li> If a competitor does not make the weight outlined in their contract the other
+                     competitor
+                     has the option to reject the match and accept a win by DQ or continue with the
+                     match. 
+                  </li>
+                  <li> If a competitor arrives to the match 5 minutes or more past the Match Starting
+                     Time, the other competitor
+                     has the option to reject the match and accept a win by DQ or continue with the
+                     match. 
+                  </li>
+                  <li>IF EITHER THE COMPETITOR OR THEIR INSTRUCTOR ATTEMPT TO CHANGE OR FAIL TO HONOR ANY OF RULES MENTIONED
+                     HERE
+                     THAT COMPETITOR WILL RECEIVE AN AUTOMATIC MATCH
+                     DISQUALIFICATION.
+                  </li>
+               </ol>
+               </p>
+               <p>
+               <div class="bjj-rules">
+                  <h3>Brazilian Jiu Jitsu (Gi) Rules</h3>
+                  NOTE: If two competitors of different belt levels compete the Brazilian Jiu Jitsu
+                  (Gi) Rules will automatically default to the lower belt level.<br>
+                  <br>
+                  <ol>
+                     <li>The only submissions below the waist that are legal for white, blue, and purple
+                        belts are straight ankle locks (AKA straight footlock).
+                     </li>
+                     <li>Kneebars, figure-four toeholds, and compression locks (AKA “slicers”, “crushers”)
+                        are legal in brown and black belt divisions only.
+                     </li>
+                     <li> Heel hooks, reaping the knee, twisting knee locks, “flying scissor” takedowns, and
+                        neck cranks are never legal in Gi matches.
+                     </li>
+                     <li> All competitors must compete using the belt awarded to them by their Brazilian Jiu
+                        Jitsu instructor.
+                     </li>
+                     <li> All competitors must have a clean, properly fitted Jiu Jitsu or Judo Gi. Mouthpiece
+                        and groin protection are optional, but recommended.
+                     </li>
+                     <li> Match Lengths: ALL GI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND</li>
+                  </ol>
+                  </p>
+               </div>
+               <p>
+               <h3>Submission Grappling (NoGi) Rules</h3>
+               NOTE: If two competitors of different NoGi levels compete the Submission Grappling (NoGi)
+               Rules will automatically default to the lower NoGi level.
+               <br><br>
+               <h5>Definition of NoGi Levels by Competitor Rank: </h5>
+               <ul>
+                  <li> Novice: Under 1200 </li>
+                  <li>Beginner: 1200 - 1424 </li>
+                  <li>Intermediate: 1425 - 2000</li>
+                  <li>Advanced: Over 2000 </li>
+               </ul>
+               <ol>
+                   
+                  <li>The only submissions below the waist legal for novice, beginner and intermediate
+                     are
+                     straight ankle locks (AKA straight footlock) and kneebars.
+                  </li>
+                  <li>ALL submissions are allowed in the Advanced division. Neck
+                     cranks, spine locks, bicep/calf slicers (crushers), and flying scissors takedowns
+                     are legal
+                     ONLY in the Advanced
+                     division.
+                  </li>
+                  <li>No grabbing of any clothing, including your own, will be permitted.</li>
+                  <li>Gis are optional for submission grappling divisions. Mouthpiece and groin protection
+                     are optional, but recommended. All competitors must wear a tight-fitting T-shirt or
+                     rashguard.
+                  </li>
+                  <li>Match Lengths: ALL NOGI MATCHES WILL CONSIST OF ONE 8-MINUTE ROUND</li>
+               </ol>
+               </p>
+               <div class="scoring">
+                  <h3>Scoring- Gi and NoGi</h3>
+                  NOTE: A competitor must hold each position for a AT LEAST 3 seconds to get the points.
+                  <br>
+                  <ul>
+                     <li>Takedown or Throw = 2 points</li>
+                     <li>Sweep = 2 points</li>
+                     <li>Pass opponent’s guard = 3 points</li>
+                     <li>Mounted position = 4 points</li>
+                     <li>Back Mount with Hooks in = 4 points</li>
+                     <li>Back Mount knees on ground, opponent flat on stomach = 4 points (Additional 4 points
+                        are
+                        scored by putting the hooks in from this position)
+                     </li>
+                     <li>Body triangle from the back = 4 points</li>
+                     <li>Knee on stomach = 2 points</li>
+                     <li> The referee may award advantage points based on which competitor displayed greater offense during
+                        the
+                        match and came
+                        closest to achieving possible point- or submission-scoring positions
+                     </li>
+                  </ul>
+               </div>
+               <h3>
+                  Weight Classes- Gi and NoGi 
+                  <h5>(Kilograms)</h5>
+               </h3>
+               <ul>
+                  <li>Flyweight: 57.5 and under</li>
+                  <li>Featherweight: 57.6 - 64</li>
+                  <li>Lightweight: 64.1 - 70</li>
+                  <li>Welterweight: 70.1 - 76</li>
+                  <li>Middleweight: 76.1 - 82.3</li>
+                  <li>Cruiserweight: 82.4 - 88.3</li>
+                  <li>Light-Heavyweight: 88.4 - 94.3</li>
+                  <li>Heavyweight: 94.4 - 100.4</li>
+                  <li>Super-Heavyweight: 100.5 and over</li>
+                  <p>*For Gi matches competitors must weigh in wearing their Gi</p>
+               </ul>
+            </div>
+         </div>
       </div>
-</body>
-
+   </body>
 </html>
