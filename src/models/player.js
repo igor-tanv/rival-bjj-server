@@ -76,6 +76,10 @@ const playerSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    sumRating: {
+        type: Number,
+        default: 0
+    },
     avatar: {
         type: String,
         required: true
