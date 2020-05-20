@@ -11,7 +11,7 @@
     <div class="jumbotron" style="padding:40px;">
       <h2>{{success_msg}}</h2>
       <h2>{{error}}</h2>
-      <h1>Record Administration</h1>
+      <h1>Record Admin</h1>
       <br><br>
       {{# each contracts}}
       <form action="/result/contract/{{this.id}}" method="POST" id="send-container">
@@ -30,6 +30,10 @@
               <option value="none">Draw</option>
             </select>
           </label>
+          <label for="ratings">Red Rating</label>
+              <input type="number" name="redRating" min="1" max="5"/>
+          <label for="blueRating">Blue Rating</label>
+              <input type="number" name="blueRating" min="1" max="5"/>
           <label for="stat">Method
             <select name="method">
               <option value='submission'>Submission</option>
@@ -51,7 +55,7 @@
       </form>
       {{/each}}
       <br><br>
-      <form action="/admin" method="POST" id="send-container">
+      <form action="/contract-admin" method="POST" id="send-container">
         <div class="form-group">
           <input id="datetime" type="datetime-local" max="12-31-2100" name="datetime" value="">
           <button type="submit" id="send-button">Find Match</button>

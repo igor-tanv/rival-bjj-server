@@ -30,7 +30,7 @@ router.post('/login-admin', async (req, res, next) => {
 
 })
 
-router.post('/admin', async (req, res) => {
+router.post('/contract-admin', async (req, res) => {
   let contracts = await ContractService.getContractByDate(req.body.datetime)
   contracts = await Promise.all(contracts.map(async (contract) => {
     contract['date'] = dateTimeHelper.dateTimeHelper(contract.datetime)

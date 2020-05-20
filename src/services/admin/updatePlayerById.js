@@ -15,7 +15,7 @@ methodValues = {
 }
 
 const updatePlayerById = async (contractId, matchData) => {
-    const { redId, blueId, winner, method, status } = matchData
+    const { redId, blueId, winner, method, status, redRating, blueRating } = matchData
 
     if (status == 'cancelled') {
         let cancelled = contractServices.enumStatus[status]
@@ -25,6 +25,11 @@ const updatePlayerById = async (contractId, matchData) => {
         let completed = contractServices.enumStatus[status]
         await ContractData.updateContract(contractId, { 'status': completed, 'winner': winner, 'method': method})
     }
+
+    //updating ratings based on player feedback. If rating not provided, default to 5
+    //consolidate into one db call
+    await AdminData.updatePlayerById(redId, {$inc: { sumRating: redRating } })
+    await AdminData.updatePlayerById(blueId, {$inc: { sumRating: blueRating} })
 
     let contract, red, blue, pairs, assignK, redK, blueK, rank, winProbRed, winProbBlue, newRankRed, newRankBlue
 
@@ -36,7 +41,7 @@ const updatePlayerById = async (contractId, matchData) => {
     blue['record'] = blue.wins + blue.losses + blue.draws
     pairs = [[red, redK], [blue, blueK]]
 
-    //assign K based on total number of matches player has had
+    //assign K based on total number of matches a player has had
     assignK = pairs.map((pair) => {
         if (pair[0].record >= 0 && pair[0].record <= 12) pair[1] = 40
         else if (pair[0].record >= 13 && pair[0].record <= 24) pair[1] = 24
@@ -52,7 +57,7 @@ const updatePlayerById = async (contractId, matchData) => {
     winProbRed = 1 / (1 + 10 ** ((blue[rank] - red[rank]) / 400))
     winProbBlue = 1 / (1 + 10 ** ((red[rank] - blue[rank]) / 400))
 
-    // negative 1 absolute difference inverts the score for losing player
+    // Absolute difference inverts negative score for losing player
     // if there is a draw, both conditional blocks will output correct result
     if (redId == winner) {
         newRankRed = red[rank] + (redK * (methodValues[method] - winProbRed))
