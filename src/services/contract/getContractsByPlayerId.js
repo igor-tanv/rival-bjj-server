@@ -13,16 +13,16 @@ const getContractsByPlayerId = async (id) => {
     else {
       opponent = await PlayerData.getPlayerById(contract.playerId)
     }
+    contract['date'] = dateTimeHelper.dateTimeHelper(contract.datetime)
     if (opponent) {
-      contract['date'] = dateTimeHelper.dateTimeHelper(contract.datetime)
       contract['opponent'] = {
         "avatar": opponent.avatar,
         "first": opponent.firstName,
         "last": opponent.lastName,
         "school": opponent.school
       }
-      return contract
     }
+    return contract
   })
   return processedContracts
 }

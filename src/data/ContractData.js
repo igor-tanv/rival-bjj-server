@@ -34,8 +34,19 @@ const deleteContractsByPlayerOrOpponentId = async (Id) => {
   }
 }
 
+//when a player deletes his profile all unresolved contracts will be deleted as well 
+const deleteUnresolvedContracts = async (Id) => {
+  try {
+    // deletes objects with a status 1 or 2 and playerId or opponentId
+    await Contract.deleteMany({$and:[{ status: { $in: [ 1, 2 ] } }, { $or: [{ playerId: Id }, { opponentId: Id }] }]})
+    return ({ status: 200, data: 'All pending contracts deleted successfully' })
+  } catch (e) {
+    return ({ status: 400, data: e })
+  }
+}
+
 const registerContract = async (contract, playerId) => {
-  const requiredFields = ['rules', 'datetime', 'school', 'refereeFirstName', 'refereeLastName']
+  const requiredFields = ['rules', 'datetime', 'school', 'referee']
   try {
     let newContract = new Contract({
       rules: contract.rules,
@@ -44,6 +55,10 @@ const registerContract = async (contract, playerId) => {
       school: contract.school,
       playerComments: contract.playerComments,
       playerId,
+      playerFirstName: contract.playerFirstName,
+      playerLastName: contract.playerLastName,
+      opponentFirstName: contract.opponentFirstName,
+      opponentLastName: contract.opponentLastName,
       opponentId: contract.opponentId,
       refereeFirstName: contract.refereeFirstName,
       refereeLastName: contract.refereeLastName
@@ -79,5 +94,6 @@ module.exports = {
   getContractsByPlayerOrOpponentId,
   deleteContractsByPlayerOrOpponentId,
   getContractByContractId,
-  updateContract
+  updateContract,
+  deleteUnresolvedContracts
 }
