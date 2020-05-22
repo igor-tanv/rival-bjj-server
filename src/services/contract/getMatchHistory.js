@@ -15,6 +15,20 @@ const getMatchHistory = async (playerId) => {
   contracts = contracts.map( async (contract) => {
     let opponentId = [contract.playerId, contract.opponentId].filter((id) => id != playerId)
     let opponent = await PlayerData.getPlayerById(opponentId)
+    //if opponent has deleted his profile get name from contract
+    if(!opponent){
+      if (contract.playerId == playerId) {
+        opponent = {
+          firstName: contract.opponentFirstName,
+          lastName: contract.opponentLastName
+        }
+      } else if (contract.opponentId == playerId) {
+        opponent = {
+          firstName: contract.playerFirstName,
+          lastName: contract.playerLastName
+        }
+      }
+    }
     if(!contract.winner) contract.result = 'Pending'
     else if (contract.winner) {
       if(contract.winner == playerId) contract.result = 'Win'

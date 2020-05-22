@@ -13,19 +13,6 @@ const contractSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    playerComments: {
-        type: String,
-        maxlength: 200
-    },
-    opponentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-    },
-    playerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Player'
-    },
     method: {
         type: String,
         default: null
@@ -38,31 +25,26 @@ const contractSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    refereeFirstName: {
-        type: String,
-        required: true
-    },
-    refereeLastName: {
-        type: String,
-        required: true
-    },
-    refereeComments: {
-        type: String,
-        max: 500
-    },
     weightClass: {
         type: String,
         required: true
     },
-    opponentRank: {
-        gi: {
-            type:Number,
-            default:0
-        },
-        nogi: {
-            type:Number,
-            default:0
-        }
+    playerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Player'
+    },
+    playerFirstName: {
+        type: String,
+        required: true
+    },
+    playerLastName: {
+        type: String,
+        required: true
+    },
+    playerComments: {
+        type: String,
+        maxlength: 200
     },
     playerRank: {
         gi: {
@@ -74,7 +56,41 @@ const contractSchema = new mongoose.Schema({
             default:0
         }
     },
-
+    opponentLastName: {
+        type: String,
+        required: true
+    },
+    opponentFirstName: {
+        type: String,
+        required: true
+    },
+    opponentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Player'
+    },
+    opponentRank: {
+        gi: {
+            type:Number,
+            default:0
+        },
+        nogi: {
+            type:Number,
+            default:0
+        }
+    },
+    refereeFirstName: {
+        type: String,
+        required: true
+    },
+    refereeLastName: {
+        type: String,
+        required: true
+    },
+    refereeComments: {
+        type: String,
+        max: 500
+    }
 },
     {
         timestamps: true
