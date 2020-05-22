@@ -23,7 +23,7 @@
             <h5>
                <li>Print this contract and bring it to the match</li><br>
                <li>Sign your name in the box below</li>
-               <li>Give this contract to the referee before the match starts along with 100,000VND</li>
+               <li>Give this contract to the referee before the match starts along with 50,000VND</li>
                <li>Follow the Post Match Instructions</li>
             </h5>
             <br>
@@ -53,7 +53,7 @@
             <div class="lower-match-details">
                <div class="lower-match-details-left">
                   <h3>Match Weight Class: {{ contract.weightClass }}</h3>
-                  <h3>Weight Limit: {{contract.kilos}} Kilograms</h3>
+                  <h3>Weight Limit (Kilograms): {{contract.kilos}}</h3>
                </div>
                <div class="lower-match-details-middle">
                   <h3>Location: {{ contract.school }} </h3>
@@ -63,7 +63,7 @@
                </div>
                <div class="lower-match-details-right">
                   <h3>Rules: {{ contract.rules }}</h3>
-                  <h3>Match Fee: 100,000 VND</h3>
+                  <h3>Match Length: {{contract.matchLength}} minutes</h3>
                </div>
             </div>
             <div class="player-comments">

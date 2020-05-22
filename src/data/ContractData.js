@@ -52,6 +52,7 @@ const registerContract = async (contract, playerId) => {
       rules: contract.rules,
       datetime: (Date.parse(contract.datetime)) / 1000,
       weightClass: contract.weightClass,
+      matchLength: contract.matchLength,
       school: contract.school,
       playerComments: contract.playerComments,
       playerId,

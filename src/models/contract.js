@@ -29,6 +29,10 @@ const contractSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    matchLength: {
+        type: Number,
+        required: true
+    },
     playerId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
