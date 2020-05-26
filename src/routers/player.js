@@ -132,6 +132,19 @@ router.get('/players/:id', ensureAuthenticated, async (req, res) => {
     res.render('player-profile', { player, contracts })
 })
 
+router.get('/update-player', async(req, res) =>{
+    res.render('player-profile-update')
+})
+
+router.post('/update-player', async (req, res) => {
+    //let playerId = req.user.id
+    let updates = req.body
+    console.log(updates)
+    //const player = await PlayerService.updatePlayer(playerId, updates)
+    req.flash('success_msg', 'Your profile has been updated')
+    res.redirect('/')
+})
+
 router.get('/players/opponent/:id', async (req, res) => {
     try {
         const player = await PlayerService.getPlayer(req.params.id)
