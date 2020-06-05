@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+  <div class="container" id="login-container">
+    <div style="margin:100px;">
+      <div class="jumbotron" id="login-jumbotron" style="padding:40px;">
+         <p align="right"><a class="btn btn-primary btn-lg" href="/players/:id" role="button">Back</a></p>
+        <h5>{{error}}</h5>
+        <div class="login-form">
+          <h1>Update Your Profile</h1>
+          <form action="/update-player" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" name="firstName" class="form-control" id="firstName" placeholder="First Name">
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" name="lastName" class="form-control" id="lastName" placeholder="Last Name">
+            </div>
+            <div class="form-group">
+              <label for="school">School</label>
+              <input type="text" name="school" class="form-control" id="school" placeholder="School Name">
+            </div>
+            <div class="form-group">
+               <p>Main Weight Class (Kilograms):</p>
+              <select name="weightClass">
+                <option value=""></option>
+                <option value="Flyweight">Flyweight: 57.5 and under</option>
+                <option value="Featherweight">Featherweight: 57.6 - 64</option>
+                <option value="Lightweight">Lightweight: 64.1 - 70</option>
+                <option value="Welterweight">Welterweight: 70.1 - 76</option>
+                <option value="Middleweight">Middleweight: 76.1 - 82.3</option>
+                <option value="Cruiserweight">Cruiserweight: 82.4 - 88.3</option>
+                <option value="Light-Heavyweight">Light-Heavyweight: 88.4 - 94.3</option>
+                <option value="Heavyweight">Heavyweight: 94.4 - 100.4</option>
+                <option value="Super-Heavyweight">Super-Heavyweight: 100.5 and over</option>
+              </select>
+            </div>
+            <div class="form-group profile-picture">
+              <label for="avatar">Profile Picture</label>
+              <input type="file" id="avatar" name="avatar" class="form-control"
+                value="" />
+              <p>*Your face must be clearly visible</p>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

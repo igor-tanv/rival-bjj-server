@@ -18,6 +18,10 @@ const registerPlayer = async (newPlayer) => {
   return await newPlayer.save()
 }
 
+const updatePlayer = async (playerId, updates) => {
+  return await Player.findOneAndUpdate({ _id: playerId }, updates, { new: true })
+}
+
 const deletePlayerById = async (id) => {
   try{
     //delete pending contracts
@@ -34,6 +38,7 @@ module.exports = {
   getAllPlayers,
   registerPlayer,
   getPlayerById,
-  deletePlayerById
+  deletePlayerById,
+  updatePlayer
 }
 

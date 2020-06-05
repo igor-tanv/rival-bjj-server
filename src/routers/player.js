@@ -78,6 +78,8 @@ router.post('/sort-by', async (req, res) => {
 })
 
 router.post("/register", multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }), async (req, res) => {
+    // console.log(req.body)
+    console.log(req.files.avatar)
     const registerData = await PlayerService.registerPlayer(req.body, req.files.avatar)
     if (registerData.status != 200) {
         return res.render("register", { error: registerData.data })
@@ -130,6 +132,20 @@ router.get('/players/:id', ensureAuthenticated, async (req, res) => {
     player['averageRating'] = isNaN(Math.round(player.sumRating / (player.wins + player.losses + player.draws) * 10) / 10) ? 0 : Math.round(player.sumRating / (player.wins + player.losses + player.draws) * 10) / 10
     contracts.sort((a, b) => b.datetime - a.datetime)
     res.render('player-profile', { player, contracts })
+})
+
+router.get('/update-player', async(req, res) =>{
+    res.render('player-profile-update')
+})
+
+router.post('/update-player', ensureAuthenticated, multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }) ,async (req, res) => {
+    let playerId = req.user.id
+    let updates = req.body
+    // console.log(updates)
+    let avatar = req.files.avatar
+    await PlayerService.updatePlayer(playerId, updates, avatar)
+    req.flash('success_msg', 'Your profile has been updated')
+    res.redirect('/')
 })
 
 router.get('/players/opponent/:id', async (req, res) => {
