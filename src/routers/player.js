@@ -15,6 +15,13 @@ const router = new express.Router()
 router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
 router.use("/css", express.static(path.PUBLIC.CSS))
 
+// list /players.json GET
+// list /players.json?sort_by=ginogi&value=gi&last_name=shamrock GET
+// show /players/1.json GET
+// create /players/ POST
+// update /players/1 PATCH
+// delete /players/1 DELETE
+
 router.get('/', async (req, res) => {
     let players = await PlayerService.getPlayers()
     players.forEach((player) => {
@@ -134,11 +141,11 @@ router.get('/players/:id', ensureAuthenticated, async (req, res) => {
     res.render('player-profile', { player, contracts })
 })
 
-router.get('/update-player', async(req, res) =>{
+router.get('/update-player', async (req, res) => {
     res.render('player-profile-update')
 })
 
-router.post('/update-player', ensureAuthenticated, multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }) ,async (req, res) => {
+router.post('/update-player', ensureAuthenticated, multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }), async (req, res) => {
     let playerId = req.user.id
     let updates = req.body
     // console.log(updates)
