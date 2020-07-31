@@ -27,6 +27,7 @@ router.get('/', async (req, res) => {
     players.forEach((player) => {
         player.gi = undefined
     })
+
     players.sort((a, b) => b.nogi - a.nogi)
     res.render('main', { players });
 })
@@ -85,12 +86,8 @@ router.post('/sort-by', async (req, res) => {
 })
 
 router.post("/register", multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }), async (req, res) => {
-    // console.log(req.body)
-    console.log(req.files.avatar)
     const registerData = await PlayerService.registerPlayer(req.body, req.files.avatar)
-    if (registerData.status != 200) {
-        return res.render("register", { error: registerData.data })
-    }
+    if (registerData.status != 200) return res.render("register", { error: registerData.data })
     let player = registerData.data
     //factor out this code and the same in the post login 
     req.logIn(player, function (err) {
