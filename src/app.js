@@ -9,6 +9,7 @@ const path = require('path')
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+const cors = require('cors')
 
 // Define paths for Express config
 const viewsPath = path.join(__dirname, '../templates/views')
@@ -16,6 +17,7 @@ const partialsPath = path.join(__dirname, '../templates/partials')
 const layoutPath = path.join(__dirname, '../templates/layouts')
 
 const app = express()
+app.use(cors())
 const chatServer = require('http').Server(app);
 chatServer.listen(3000)
 const io = require('socket.io')(chatServer);

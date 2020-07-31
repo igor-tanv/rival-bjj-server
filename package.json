@@ -9,7 +9,6 @@
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand",
     "lint:ejs": "ejslint src/templates/views/login"
   },
- 
   "jest": {
     "testEnvironment": "node"
   },
@@ -20,6 +19,7 @@
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
     "connect-multiparty": "^2.2.0",
+    "cors": "^2.8.5",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
