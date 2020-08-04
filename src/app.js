@@ -1,6 +1,6 @@
 const express = require('express')
 require('./db/mongoose')
-const playerJsonRouter = require('./routers/api/players')
+const playerJsonRouter = require('./routers/api/index')
 const playerRouter = require('./routers/player')
 const contractRouter = require('./routers/contract')
 const adminRouter = require('./routers/admin')

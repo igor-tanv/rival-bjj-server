@@ -15,13 +15,6 @@ const router = new express.Router()
 router.use("/avatar-pictures", express.static(path.PUBLIC.AVATAR_PICTURES))
 router.use("/css", express.static(path.PUBLIC.CSS))
 
-// list /players.json GET
-// list /players.json?sort_by=ginogi&value=gi&last_name=shamrock GET
-// show /players/1.json GET
-// create /players/ POST
-// update /players/1 PATCH
-// delete /players/1 DELETE
-
 router.get('/', async (req, res) => {
     let players = await PlayerService.getPlayers()
     players.forEach((player) => {

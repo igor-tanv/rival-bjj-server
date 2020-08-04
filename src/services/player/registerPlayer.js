@@ -24,11 +24,10 @@ const registerPlayerJson = async (registration) => {
   try {
     let player = new Player(registration)
     if (registration.avatar) {
-      // convert base64 to image and save to path.PUBLIC_AVATAR_PICTURES
-      // use email as filename and attach to player.avatar
       const avatar = new Buffer.from(registration.avatar, 'base64')
       const avatarFileName = player.email.replace(/@/g, "-").replace(/\./g, "-") + ".png"
-      fs.writeFileSync(path.join(paths.PUBLIC.AVATAR_PICTURES, avatarFileName), avatar)
+      sharp(avatar).resize({ width: 250, height: 250 }).toBuffer()
+        .then(data => fs.writeFileSync(path.join(paths.PUBLIC.AVATAR_PICTURES, avatarFileName), data))
       player.avatar = avatarFileName
     }
     const newPlayer = await PlayersData.registerPlayer(player)
