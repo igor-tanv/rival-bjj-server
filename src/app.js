@@ -1,5 +1,6 @@
 const express = require('express')
 require('./db/mongoose')
+const playerJsonRouter = require('./routers/api/players')
 const playerRouter = require('./routers/player')
 const contractRouter = require('./routers/contract')
 const adminRouter = require('./routers/admin')
@@ -19,7 +20,7 @@ const layoutPath = path.join(__dirname, '../templates/layouts')
 const app = express()
 app.use(cors())
 const chatServer = require('http').Server(app);
-chatServer.listen(3000)
+//chatServer.listen(3000)
 const io = require('socket.io')(chatServer);
 
 // Passport Config
@@ -43,8 +44,6 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('chat-message', message)
   })
 });
-
-
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json())
@@ -74,6 +73,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use(playerJsonRouter)
 app.use(playerRouter)
 app.use(contractRouter)
 app.use(adminRouter)

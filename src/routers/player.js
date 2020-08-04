@@ -1,5 +1,5 @@
 const express = require('express')
-const path = require('../path')
+const path = require('../paths')
 const passport = require('passport');
 const multipart = require('connect-multiparty')
 const fs = require('fs')
@@ -27,7 +27,6 @@ router.get('/', async (req, res) => {
     players.forEach((player) => {
         player.gi = undefined
     })
-
     players.sort((a, b) => b.nogi - a.nogi)
     res.render('main', { players });
 })
