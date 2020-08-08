@@ -1,8 +1,3 @@
-// players/ GET INDEX/SEARCH
-// players/1 GET SHOW
-// players/ POST CREATE
-// players/1 PATCH UPDATE
-// players/1 DELETE DELETE
 
 const express = require('express')
 const paths = require('../../paths')
@@ -27,14 +22,20 @@ router.get('/players.json', async (req, res) => {
 })
 
 // currently this is for the player profile page which needs the player contract info as well 
-router.get('/player/:id', async (req, res) => {
+router.get('/players/:id', async (req, res) => {
   let player = req.params.id === ':id' ? await PlayerService.getPlayer(req.user.id) : await PlayerService.getPlayer(req.params.id)
   let contracts = await Promise.all(await ContractService.getMatchHistory(player.id))
   //isNan ensures a rating of 0 does not return Nan
-  player.averageRating = isNaN(((player.sumRating / (player.wins + player.losses + player.draws)) * 10) / 10)
+  player.qualityRating = isNaN(((player.sumRating / (player.wins + player.losses + player.draws)) * 10) / 10)
     ? 0 : ((player.sumRating / (player.wins + player.losses + player.draws)) * 10) / 10
   contracts.sort((a, b) => b.datetime - a.datetime)
-  res.status(200).json({ player, contracts })
+  res.status(200).json({
+    player: {
+      ...player._doc,
+      qualityRating: player.qualityRating,
+      contracts
+    }
+  })
 })
 
 router.post('/player.json', async (req, res) => {
