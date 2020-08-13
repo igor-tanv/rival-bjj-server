@@ -9,7 +9,7 @@ const contractSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    school: {
+    location: {
         type: String,
         required: true
     },
@@ -40,11 +40,11 @@ const contractSchema = new mongoose.Schema({
     },
     playerFirstName: {
         type: String,
-        required: true
+        required: false
     },
     playerLastName: {
         type: String,
-        required: true
+        required: false
     },
     playerComments: {
         type: String,
@@ -52,21 +52,21 @@ const contractSchema = new mongoose.Schema({
     },
     playerRank: {
         gi: {
-            type:Number,
-            default:0
+            type: Number,
+            default: 0
         },
         nogi: {
-            type:Number,
-            default:0
+            type: Number,
+            default: 0
         }
     },
     opponentLastName: {
         type: String,
-        required: true
+        required: false
     },
     opponentFirstName: {
         type: String,
-        required: true
+        required: false
     },
     opponentId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -75,12 +75,12 @@ const contractSchema = new mongoose.Schema({
     },
     opponentRank: {
         gi: {
-            type:Number,
-            default:0
+            type: Number,
+            default: 0
         },
         nogi: {
-            type:Number,
-            default:0
+            type: Number,
+            default: 0
         }
     },
     refereeFirstName: {

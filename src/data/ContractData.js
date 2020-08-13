@@ -38,7 +38,7 @@ const deleteContractsByPlayerOrOpponentId = async (Id) => {
 const deleteUnresolvedContracts = async (Id) => {
   try {
     // deletes objects with a status 1 or 2 and playerId or opponentId
-    await Contract.deleteMany({$and:[{ status: { $in: [ 1, 2 ] } }, { $or: [{ playerId: Id }, { opponentId: Id }] }]})
+    await Contract.deleteMany({ $and: [{ status: { $in: [1, 2] } }, { $or: [{ playerId: Id }, { opponentId: Id }] }] })
     return ({ status: 200, data: 'All pending contracts deleted successfully' })
   } catch (e) {
     return ({ status: 400, data: e })
@@ -46,14 +46,14 @@ const deleteUnresolvedContracts = async (Id) => {
 }
 
 const registerContract = async (contract, playerId) => {
-  const requiredFields = ['rules', 'datetime', 'school', 'referee']
+  const requiredFields = ['rules', 'datetime', 'location', 'referee']
   try {
     let newContract = new Contract({
       rules: contract.rules,
       datetime: (Date.parse(contract.datetime)) / 1000,
       weightClass: contract.weightClass,
       matchLength: contract.matchLength,
-      school: contract.school,
+      location: contract.location,
       playerComments: contract.playerComments,
       playerId,
       playerFirstName: contract.playerFirstName,
@@ -78,6 +78,26 @@ const registerContract = async (contract, playerId) => {
   }
 }
 
+const registerJsonContract = async (contract) => {
+  try {
+    let newContract = new Contract({
+      rules: contract.rules,
+      datetime: contract.datetime,
+      weightClass: contract.weightClass,
+      matchLength: contract.matchLength,
+      location: contract.location,
+      playerComments: contract.playerComments,
+      playerId: contract.playerId,
+      opponentId: contract.opponentId,
+      refereeFirstName: contract.refereeFirstName,
+      refereeLastName: contract.refereeLastName
+    })
+    return (await newContract.save())
+  } catch (e) {
+    return ({ status: 400, data: e })
+  }
+}
+
 const updateContract = async (contractId, updates) => {
   try {
     const updated = await Contract.findOneAndUpdate({ _id: contractId }, updates, { new: true })
@@ -90,6 +110,7 @@ const updateContract = async (contractId, updates) => {
 module.exports = {
   getContractByDate,
   registerContract,
+  registerJsonContract,
   getContractsByOpponentId,
   getContractsByPlayerId,
   getContractsByPlayerOrOpponentId,

@@ -1,8 +1,7 @@
 const PlayersData = require('../../data/PlayerData')
 
 const getPlayer = async (playerId) => {
-  const player = await PlayersData.getPlayerById(playerId)
-  return player
+  return await PlayersData.getPlayerById(playerId)
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
 const express = require('express')
 require('./db/mongoose')
-const playerJsonRouter = require('./routers/api/index')
+const apiJsonRouter = require('./routers/api/index')
 const playerRouter = require('./routers/player')
 const contractRouter = require('./routers/contract')
 const adminRouter = require('./routers/admin')
@@ -19,9 +19,9 @@ const layoutPath = path.join(__dirname, '../templates/layouts')
 
 const app = express()
 app.use(cors())
-const chatServer = require('http').Server(app);
+//const chatServer = require('http').Server(app);
 //chatServer.listen(3000)
-const io = require('socket.io')(chatServer);
+//const io = require('socket.io')(chatServer);
 
 // Passport Config
 require('./middleware/passport')(passport);
@@ -38,12 +38,12 @@ app.set('view engine', 'hbs')
 app.use(express.static('public'))
 app.set('views', viewsPath)
 
-io.on('connection', (socket) => {
-  socket.on('send-chat-message', message => {
-    //create message object here user and message
-    socket.broadcast.emit('chat-message', message)
-  })
-});
+// io.on('connection', (socket) => {
+//   socket.on('send-chat-message', message => {
+//     //create message object here user and message
+//     socket.broadcast.emit('chat-message', message)
+//   })
+// });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({
@@ -76,7 +76,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(playerJsonRouter)
+app.use(apiJsonRouter.playerApi)
+app.use(apiJsonRouter.contractApi)
 app.use(playerRouter)
 app.use(contractRouter)
 app.use(adminRouter)

@@ -23,13 +23,13 @@ const updatePlayer = async (playerId, updates) => {
 }
 
 const deletePlayerById = async (id) => {
-  try{
+  try {
     //delete pending contracts
     await ContractData.deleteUnresolvedContracts(id)
-    const player = await Player.findByIdAndDelete({_id: id})
+    const player = await Player.findByIdAndDelete({ _id: id })
     return ({ status: 200, data: player })
 
-  } catch(e) {
+  } catch (e) {
     return ({ status: 400, data: e })
   }
 }

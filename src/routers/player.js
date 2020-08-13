@@ -137,7 +137,6 @@ router.get('/update-player', async (req, res) => {
 router.post('/update-player', ensureAuthenticated, multipart({ uploadDir: path.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }), async (req, res) => {
     let playerId = req.user.id
     let updates = req.body
-    // console.log(updates)
     let avatar = req.files.avatar
     await PlayerService.updatePlayer(playerId, updates, avatar)
     req.flash('success_msg', 'Your profile has been updated')
