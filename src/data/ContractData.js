@@ -90,7 +90,9 @@ const registerJsonContract = async (contract) => {
       playerId: contract.playerId,
       opponentId: contract.opponentId,
       refereeFirstName: contract.refereeFirstName,
-      refereeLastName: contract.refereeLastName
+      refereeLastName: contract.refereeLastName,
+      playerRank: contract.playerRank,
+      opponentRank: contract.opponentRank
     })
     return (await newContract.save())
   } catch (e) {
