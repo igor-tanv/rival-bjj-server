@@ -12,6 +12,7 @@ const router = new express.Router()
 
 router.post('/api/contracts', async (req, res) => {
   const jsonContract = req.body
+  debugger
   const newContract = await ContractService.registerJsonContract(jsonContract)
   res.status(200).json({ newContract })
 })

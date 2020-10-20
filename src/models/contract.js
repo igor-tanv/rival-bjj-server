@@ -79,11 +79,7 @@ const contractSchema = new mongoose.Schema({
             default: 0
         }
     },
-    refereeFirstName: {
-        type: String,
-        required: true
-    },
-    refereeLastName: {
+    refereeName: {
         type: String,
         required: true
     },
