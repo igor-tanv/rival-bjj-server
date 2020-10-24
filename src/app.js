@@ -76,8 +76,10 @@ app.use(function (req, res, next) {
   next();
 });
 
+// flip the functionality - pass api to PlayerApi
 app.use(apiJsonRouter.playerApi)
 app.use(apiJsonRouter.contractApi)
+app.use(apiJsonRouter.sessionsApi)
 app.use(playerRouter)
 app.use(contractRouter)
 app.use(adminRouter)
