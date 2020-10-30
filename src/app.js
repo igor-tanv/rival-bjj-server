@@ -1,4 +1,5 @@
 const express = require('express')
+
 require('./db/mongoose')
 const apiJsonRouter = require('./routers/api/index')
 const playerRouter = require('./routers/player')
@@ -18,6 +19,7 @@ const partialsPath = path.join(__dirname, '../templates/partials')
 const layoutPath = path.join(__dirname, '../templates/layouts')
 
 const app = express()
+const router = express.Router()
 app.use(cors())
 //const chatServer = require('http').Server(app);
 //chatServer.listen(3000)
@@ -83,5 +85,6 @@ app.use(apiJsonRouter.sessionsApi)
 app.use(playerRouter)
 app.use(contractRouter)
 app.use(adminRouter)
+
 
 module.exports = app

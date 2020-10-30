@@ -17,7 +17,7 @@ router.post('/api/sessions', async (req, res, next) => {
   passport.authenticate("local", function (err, player, info) {
 
     if (err) { return next(err); }
-    if (!player) { res.status(401).json({ error: "Your email of password was icky" }) }
+    if (!player) { res.status(401).json({ error: "Incorrect email or password" }) }
     req.logIn(player, function (err) {
       if (err) { return next(err); }
 
@@ -33,7 +33,7 @@ router.post('/api/sessions', async (req, res, next) => {
 
 
 router.delete('/api/sessions', async (req, res) => {
-  // destroy jwt
+  req.logout()
   res.status(200).json({ jwt: null })
 })
 

@@ -21,6 +21,7 @@ const registerJsonContract = async (contract) => {
     gi: opponent.gi,
     nogi: opponent.nogi
   }
+  console.log("registerJsonContract", contract)
   return await ContractData.registerJsonContract(contract)
 
 }

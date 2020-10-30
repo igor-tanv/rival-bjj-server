@@ -45,7 +45,7 @@ const deleteUnresolvedContracts = async (Id) => {
   }
 }
 
-const registerContract = async (contract, playerId) => {
+const registerContract = async (contract) => {
   const requiredFields = ['rules', 'datetime', 'location', 'referee']
   try {
     let newContract = new Contract({
@@ -54,14 +54,9 @@ const registerContract = async (contract, playerId) => {
       weightClass: contract.weightClass,
       location: contract.location,
       playerComments: contract.playerComments,
-      playerId,
-      playerFirstName: contract.playerFirstName,
-      playerLastName: contract.playerLastName,
-      opponentFirstName: contract.opponentFirstName,
-      opponentLastName: contract.opponentLastName,
+      playerId: contract.playerId,
       opponentId: contract.opponentId,
-      refereeFirstName: contract.refereeFirstName,
-      refereeLastName: contract.refereeLastName
+      refereeName: contract.refereeName
     })
     let result = await newContract.save()
     return ({ status: 200, data: result })
@@ -70,9 +65,7 @@ const registerContract = async (contract, playerId) => {
       if (e.errors[field] != undefined) {
         return e.errors[field].path
       }
-    }).filter((path) => {
-      return path != undefined
-    })
+    }).filter((path) => path != undefined)
     return ({ status: 400, data: 'Missing fields: ' + errArray })
   }
 }
