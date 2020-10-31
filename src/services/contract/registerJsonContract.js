@@ -2,15 +2,16 @@ const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
 
 enumStatus = {
-  pending: 1,
-  accepted: 2,
-  declined: 3,
-  completed: 4,
-  cancelled: 5
+  Pending: 1,
+  Accepted: 2,
+  Declined: 3,
+  Completed: 4,
+  Cancelled: 5
 }
 
 const registerJsonContract = async (contract) => {
-  contract.staus = enumStatus.pending
+  contract.dateTime = (Date.parse(contract.dateTime)) / 1000
+  contract.staus = enumStatus.Pending
   const player = await PlayerData.getPlayerById(contract.playerId)
   const opponent = await PlayerData.getPlayerById(contract.opponentId)
   contract.playerRank = {
@@ -21,9 +22,7 @@ const registerJsonContract = async (contract) => {
     gi: opponent.gi,
     nogi: opponent.nogi
   }
-  console.log("registerJsonContract", contract)
   return await ContractData.registerJsonContract(contract)
-
 }
 
 module.exports = {

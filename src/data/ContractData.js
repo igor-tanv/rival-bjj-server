@@ -74,19 +74,19 @@ const registerJsonContract = async (contract) => {
   try {
     let newContract = new Contract({
       rules: contract.rules,
-      datetime: contract.datetime,
+      datetime: contract.dateTime,
       weightClass: contract.weightClass,
       location: contract.location,
       playerComments: contract.playerComments,
       playerId: contract.playerId,
       opponentId: contract.opponentId,
-      refereeFirstName: contract.refereeFirstName,
-      refereeLastName: contract.refereeLastName,
+      refereeName: contract.refereeName,
       playerRank: contract.playerRank,
       opponentRank: contract.opponentRank
     })
     return (await newContract.save())
   } catch (e) {
+    console.log(e)
     return ({ status: 400, data: e })
   }
 }

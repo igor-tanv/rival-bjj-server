@@ -28,7 +28,7 @@ const registerContract = async (contract, playerId) => {
   if ((matchDate - timestamp) > twoMonths) {
     return ({ status: 400, data: 'Cannot set a match more than 2 months out' })
   }
-  contract.staus = enumStatus.pending
+  contract.staus = enumStatus.Pending
   return await ContractData.registerContract(contract, playerId)
 }
 
