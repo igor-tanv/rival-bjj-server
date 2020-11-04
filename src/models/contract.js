@@ -42,7 +42,7 @@ const contractSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    playerComments: {
+    ruleExceptions: {
         type: String,
         maxlength: 200
     },
@@ -86,6 +86,23 @@ const contractSchema = new mongoose.Schema({
     refereeComments: {
         type: String,
         max: 500
+    },
+    acceptedAt: {
+        type: Date,
+        default: null,
+    },
+    declinedAt: {
+        type: Date,
+        default: null,
+    },
+    cancelledAt: {
+        type: Date,
+        default: null,
+    },
+    cancelledBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Player',
+        default: null
     }
 },
     {

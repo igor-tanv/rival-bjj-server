@@ -32,7 +32,7 @@ router.get('/api/players/:id', async (req, res) => {
   })
 })
 
-router.post('/api/player', async (req, res) => {
+router.post('/api/players', async (req, res) => {
   const registerData = await PlayerService.registerPlayerJson(req.body)
   if (registerData.status != 200) return res.status(400).json({ error: registerData.data })
   let player = registerData.data
@@ -43,7 +43,7 @@ router.post('/api/player', async (req, res) => {
   })
 })
 
-router.patch('/api/player', multipart({ uploadDir: paths.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }),
+router.patch('/api/players', multipart({ uploadDir: paths.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }),
   async (req, res) => {
     let playerId = req.user.id
     let updates = req.body
@@ -52,7 +52,7 @@ router.patch('/api/player', multipart({ uploadDir: paths.PUBLIC.AVATAR_PICTURES,
     res.status(200).json({ success: 'Your profile has been updated', player: updates })
   })
 
-router.delete('/api/player/:id', async (req, res) => {
+router.delete('/api/players/:id', async (req, res) => {
   try {
     let player = await PlayerService.deletePlayerById(req.params.id)
     fs.unlink(paths.PUBLIC.AVATAR_PICTURES + '/' + player.data.avatar, function (err) {

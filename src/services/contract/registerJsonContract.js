@@ -10,7 +10,8 @@ enumStatus = {
 }
 
 const registerJsonContract = async (contract) => {
-  contract.dateTime = (Date.parse(contract.dateTime)) / 1000
+  contract.dateTime = Math.round(Date.parse(contract.dateTime) / 1000)
+  console.log(contract.dateTime)
   contract.staus = enumStatus.Pending
   const player = await PlayerData.getPlayerById(contract.playerId)
   const opponent = await PlayerData.getPlayerById(contract.opponentId)

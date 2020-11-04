@@ -14,10 +14,9 @@ const playerSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    birthDate: {
-        type: String,
-        required: true,
-        trim: true
+    birthYear: {
+        type: Number,
+        required: true
     },
     email: {
         type: String,
@@ -83,6 +82,10 @@ const playerSchema = new mongoose.Schema({
     avatar: {
         type: String,
         required: true
+    },
+    deletedAt: {
+        type: Date,
+        default: null,
     }
 }, {
     timestamps: true
