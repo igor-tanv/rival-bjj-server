@@ -10,6 +10,11 @@ const ContractService = require('../../services/contract/index')
 
 const router = new express.Router()
 
+router.get('/api/contracts', async (req, res) => {
+  const contracts = await ContractService.search(req.query)
+  res.status(200).json({ contracts: contracts })
+})
+
 router.post('/api/contracts', async (req, res) => {
   const jsonContract = req.body
   const newContract = await ContractService.registerJsonContract(jsonContract)

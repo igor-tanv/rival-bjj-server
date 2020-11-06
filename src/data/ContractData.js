@@ -70,26 +70,7 @@ const registerContract = async (contract) => {
   }
 }
 
-const registerJsonContract = async (contract) => {
-  try {
-    let newContract = new Contract({
-      rules: contract.rules,
-      datetime: contract.dateTime,
-      weightClass: contract.weightClass,
-      location: contract.location,
-      ruleExceptions: contract.ruleExceptions,
-      playerId: contract.playerId,
-      opponentId: contract.opponentId,
-      refereeName: contract.refereeName,
-      playerRank: contract.playerRank,
-      opponentRank: contract.opponentRank
-    })
-    return (await newContract.save())
-  } catch (e) {
-    console.log(e)
-    return ({ status: 400, data: e })
-  }
-}
+
 
 const updateContract = async (contractId, updates) => {
   try {
@@ -103,7 +84,6 @@ const updateContract = async (contractId, updates) => {
 module.exports = {
   getContractByDate,
   registerContract,
-  registerJsonContract,
   getContractsByOpponentId,
   getContractsByPlayerId,
   getContractsByPlayerOrOpponentId,
