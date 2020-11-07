@@ -6,7 +6,7 @@ const contractSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  datetime: {
+  startsAt: {
     type: Number,
     required: true
   },

@@ -5,7 +5,6 @@ const updateContract = require('./updateContract')
 const getContractByDate = require('./getContractByDate')
 const getMatchHistory = require('./getMatchHistory')
 
-const json = require('./json')
 
 
 module.exports = {
@@ -15,5 +14,5 @@ module.exports = {
   updateContract: updateContract.updateContract,
   getContractByDate: getContractByDate.getContractByDate,
   getMatchHistory: getMatchHistory.getMatchHistory,
-  json: json
+  ...require('./json')
 }
