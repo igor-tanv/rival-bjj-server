@@ -12,10 +12,10 @@ const create = async (data) => {
     ...data,
     dateTime: Math.round(Date.parse(data.dateTime) / 1000),
     playerFirstName: player.firstName,
-    playerRank: { gi: player.gi, nogi: player.nogi },
-    opponentRank: { gi: opponent.gi, nogi: opponent.nogi },
+    playerLastName: player.lastName,
+    opponentFirstName: opponent.firstName,
+    opponentLastName: opponent.lastName,
   })
-
   return await contract.save()
 }
 

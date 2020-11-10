@@ -2,7 +2,7 @@ const { Timestamp } = require('mongodb');
 const mongoose = require('mongoose')
 
 const contractSchema = new mongoose.Schema({
-  rules: {
+  type: {
     type: String,
     required: true,
   },
@@ -33,48 +33,28 @@ const contractSchema = new mongoose.Schema({
   },
   playerFirstName: {
     type: String,
-    required: false
+    required: true
   },
   playerLastName: {
     type: String,
-    required: false
+    required: true
   },
   ruleExceptions: {
     type: String,
     maxlength: 200
   },
-  playerRank: {
-    gi: {
-      type: Number,
-      default: 0
-    },
-    nogi: {
-      type: Number,
-      default: 0
-    }
-  },
   opponentLastName: {
     type: String,
-    required: false
+    required: true
   },
   opponentFirstName: {
     type: String,
-    required: false
+    required: true
   },
   opponentId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Player'
-  },
-  opponentRank: {
-    gi: {
-      type: Number,
-      default: 0
-    },
-    nogi: {
-      type: Number,
-      default: 0
-    }
   },
   refereeName: {
     type: String,

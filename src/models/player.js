@@ -80,8 +80,7 @@ const playerSchema = new mongoose.Schema({
         default: 0
     },
     avatar: {
-        type: String,
-        required: true
+        type: String
     },
     deletedAt: {
         type: Date,
