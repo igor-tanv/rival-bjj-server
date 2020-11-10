@@ -9,8 +9,6 @@ methodValues = {
     disqualification: 1,
     forfeit: 1,
     injury: 1,
-    points: 0.85,
-    advantage: 0.75,
     draw: 0.5
 }
 
@@ -23,13 +21,13 @@ const updatePlayerById = async (contractId, matchData) => {
         return ({ status: 200, data: 'Match has been cancelled' })
     } else if (status == 'completed') {
         let completed = contractServices.enumStatus[status]
-        await ContractData.updateContract(contractId, { 'status': completed, 'winner': winner, 'method': method})
+        await ContractData.updateContract(contractId, { 'status': completed, 'winner': winner, 'method': method })
     }
 
     //updating ratings based on player feedback. If rating not provided, default to 5
     //consolidate into one db call
-    await AdminData.updatePlayerById(redId, {$inc: { sumRating: redRating } })
-    await AdminData.updatePlayerById(blueId, {$inc: { sumRating: blueRating} })
+    await AdminData.updatePlayerById(redId, { $inc: { sumRating: redRating } })
+    await AdminData.updatePlayerById(blueId, { $inc: { sumRating: blueRating } })
 
     let contract, red, blue, pairs, assignK, redK, blueK, rank, winProbRed, winProbBlue, newRankRed, newRankBlue
 
