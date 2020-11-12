@@ -1,8 +1,12 @@
 const Contract = require('../../models/contract')
 const PlayerData = require('../../data/PlayerData')
 
+const find = async (id) => {
+  return await Contract.find({ _id: id })
+}
+
 const getAllByPlayerId = async (playerId) => {
-  return await Contract.find({ playerId: playerId })
+  return await Contract.find({ $or: [{ 'playerId': playerId }, { 'opponentId': playerId }] })
 }
 
 const create = async (data) => {

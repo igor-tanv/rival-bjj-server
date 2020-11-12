@@ -1,5 +1,6 @@
 const { Timestamp } = require('mongodb');
 const mongoose = require('mongoose')
+const opts = { timestamps: true, toJSON: { virtuals: true, } };
 
 const contractSchema = new mongoose.Schema({
   type: {
@@ -86,9 +87,8 @@ const contractSchema = new mongoose.Schema({
     default: null
   }
 },
-  {
-    timestamps: true
-  })
+  opts
+)
 
 contractSchema.virtual('status').get(function () {
   if (this.completedAt) return "completed"
