@@ -8,6 +8,7 @@ const { ensureAuthenticated } = require('../../middleware/auth')
 const PlayerService = require('../../services/player/index')
 const ContractService = require('../../services/contract/index')
 
+
 const router = new express.Router()
 
 

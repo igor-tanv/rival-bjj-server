@@ -5,6 +5,7 @@ const sharp = require('sharp')
 const PlayersData = require('../../data/PlayerData')
 const Player = require('../../models/player')
 const e = require('express')
+const { sendWelcomeEmail, sendAdminEmail } = require('../../emails/account')
 
 const registerPlayer = async (registration, avatar) => {
   try {
@@ -23,18 +24,15 @@ const registerPlayer = async (registration, avatar) => {
 
 const registerPlayerJson = async (registration) => {
   try {
-    let player = new Player(registration)
-    if (registration.avatar) {
-      const avatar = new Buffer.from(registration.avatar, 'base64')
-      const avatarFileName = player.email.replace(/@/g, "-").replace(/\./g, "-") + ".png"
-      sharp(avatar).resize({ width: 250, height: 250 }).toBuffer()
-        .then(data => fs.writeFileSync(path.join(paths.PUBLIC.AVATAR_PICTURES, avatarFileName), data)).catch((e) => console.log('error', e))
-      player.avatar = avatarFileName
-    }
-    const newPlayer = await PlayersData.registerPlayer(player)
-    return ({ status: 200, data: newPlayer })
+    const confirmationCode = require('crypto').randomBytes(3).toString("hex");
+    let player = new Player({ ...registration, confirmationCode })
+    await player.save()
+
+    await sendWelcomeEmail(player)
+    return ({ status: 200, data: player })
   }
   catch (err) {
+    await sendWelcomeEmail(player)
     return ({ status: 400, data: err })
   }
 }

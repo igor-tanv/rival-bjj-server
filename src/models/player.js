@@ -85,6 +85,13 @@ const playerSchema = new mongoose.Schema({
     deletedAt: {
         type: Date,
         default: null,
+    },
+    confirmedAt: {
+        type: Date,
+        default: null,
+    },
+    confirmationCode: {
+        type: String
     }
 }, {
     timestamps: true

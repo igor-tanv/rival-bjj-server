@@ -5,7 +5,7 @@ const multipart = require('connect-multiparty')
 const fs = require('fs')
 
 const { ensureAuthenticated } = require('../middleware/auth')
-const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
+const { sendWelcomeEmail } = require('../emails/account')
 const PlayerService = require('../services/player/index')
 const ContractService = require('../services/contract/index')
 const ChatService = require('../services/chat/index')
