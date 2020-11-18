@@ -19,6 +19,7 @@ const partialsPath = path.join(__dirname, '../templates/partials')
 const layoutPath = path.join(__dirname, '../templates/layouts')
 
 const app = express()
+require('./routers/api/chat')(app)
 const router = express.Router()
 app.use(cors())
 //const chatServer = require('http').Server(app);

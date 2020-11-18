@@ -12,7 +12,7 @@ const router = new express.Router()
 
 
 router.get('/api/players', async (req, res) => {
-  let players = (await PlayerService.getPlayers()).filter(p => p.confirmedAt != null)
+  let players = (await PlayerService.getPlayers())//.filter(p => p.confirmedAt != null)
   res.status(200).json({ players })
 })
 
