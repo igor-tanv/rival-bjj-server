@@ -13,8 +13,8 @@ const registerPlayerJson = async (registration) => {
     return ({ status: 200, data: player })
   }
   catch (err) {
-    await sendAdminEmail(player)
-    return ({ status: 400, data: err })
+    //await sendAdminEmail(player)
+    return ({ status: 500, data: err })
   }
 }
 

@@ -8,12 +8,11 @@ const { ensureAuthenticated } = require('../../middleware/auth')
 const PlayerService = require('../../services/player/index')
 const ContractService = require('../../services/contract/index')
 
-
 const router = new express.Router()
 
 
 router.get('/api/players', async (req, res) => {
-  let players = await PlayerService.getPlayers()
+  let players = (await PlayerService.getPlayers()).filter(p => p.confirmedAt != null)
   res.status(200).json({ players })
 })
 
@@ -34,14 +33,10 @@ router.get('/api/players/:id', async (req, res) => {
 })
 
 router.post('/api/players', async (req, res) => {
-  const registerData = await PlayerService.registerPlayerJson(req.body)
-  if (registerData.status != 200) return res.status(400).json({ error: registerData.data })
-  let player = registerData.data
-  //factor out this code and the same in the post login
-  req.logIn(player, function (err) {
-    if (err) return next(err)
-    return res.status(200).json({ player })
-  })
+  const response = await PlayerService.registerPlayerJson(req.body)
+  if (response.status != 200) return res.status(500).json({ ...response.data })
+
+  res.status(200).json({})
 })
 
 router.patch('/api/players', multipart({ uploadDir: paths.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }),
