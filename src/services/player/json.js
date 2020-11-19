@@ -3,7 +3,7 @@ const Player = require('../../models/player')
 const { sendWelcomeEmail, sendAdminEmail } = require('../../emails/account')
 
 
-const registerPlayerJson = async (registration) => {
+const create = async (registration) => {
   try {
     const confirmationCode = require('crypto').randomBytes(3).toString("hex");
     let player = new Player({ ...registration, confirmationCode })
@@ -19,5 +19,6 @@ const registerPlayerJson = async (registration) => {
 }
 
 module.exports = {
-  registerPlayerJson
+  create
+
 }

@@ -80,6 +80,7 @@ app.use(function (req, res, next) {
 });
 
 // flip the functionality - pass api to PlayerApi
+app.use(apiJsonRouter.confirmationApi)
 app.use(apiJsonRouter.playerApi)
 app.use(apiJsonRouter.contractApi)
 app.use(apiJsonRouter.sessionsApi)

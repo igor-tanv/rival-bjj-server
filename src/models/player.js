@@ -24,22 +24,11 @@ const playerSchema = new mongoose.Schema({
     required: true,
     trim: true,
     lowercase: true,
-    validate(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error('Email is invalid')
-      }
-    }
   },
   password: {
     type: String,
     required: true,
-    minlength: 7,
     trim: true,
-    validate(value) {
-      if (value.toLowerCase().includes('password')) {
-        throw new Error('Password cannot contain "password"')
-      }
-    }
   },
   weightClass: {
     type: String,
@@ -115,6 +104,16 @@ playerSchema.methods.toJSON = function () {
 
   return playerObject
 }
+
+playerSchema.statics.confirm = async (confirmationCode) => {
+  console.dir(confirmationCode)
+  const player = await Player.findOne({ confirmationCode })
+  if (!player) return false
+  player.confirmedAt = Date.now()
+  await player.save()
+  return true
+}
+
 
 playerSchema.statics.findByCredentials = async (email, password) => {
   const player = await Player.findOne({ email })

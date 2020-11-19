@@ -33,7 +33,7 @@ router.get('/api/players/:id', async (req, res) => {
 })
 
 router.post('/api/players', async (req, res) => {
-  const response = await PlayerService.registerPlayerJson(req.body)
+  const response = await PlayerService.create(req.body)
   if (response.status != 200) return res.status(500).json({ ...response.data })
 
   res.status(200).json({})
