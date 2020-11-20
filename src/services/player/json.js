@@ -2,7 +2,6 @@
 const Player = require('../../models/player')
 const { sendWelcomeEmail, sendAdminEmail } = require('../../emails/account')
 
-
 const create = async (registration) => {
   try {
     const confirmationCode = require('crypto').randomBytes(3).toString("hex");
@@ -17,6 +16,7 @@ const create = async (registration) => {
     return ({ status: 500, data: err })
   }
 }
+
 
 module.exports = {
   create

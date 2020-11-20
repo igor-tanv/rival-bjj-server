@@ -39,14 +39,14 @@ router.post('/api/players', async (req, res) => {
   res.status(200).json({})
 })
 
-router.patch('/api/players', multipart({ uploadDir: paths.PUBLIC.AVATAR_PICTURES, maxFieldsSize: 10 * 1024 * 1024 }),
-  async (req, res) => {
-    let playerId = req.user.id
-    let updates = req.body
-    let newavatar = req.files.avatar
-    await PlayerService.updatePlayer(playerId, updates, newavatar)
-    res.status(200).json({ success: 'Your profile has been updated', player: updates })
-  })
+router.patch('/api/players/:id', async (req, res) => {
+  let playerId = req.params.id
+  let updates = req.body
+
+  await PlayerService.updatePlayer(playerId, updates)
+  res.status(200).json({ success: 'Your profile has been updated' })
+})
+
 
 router.delete('/api/players/:id', async (req, res) => {
   try {
