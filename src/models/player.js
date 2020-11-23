@@ -88,10 +88,15 @@ const playerSchema = new mongoose.Schema({
 
 playerSchema.plugin(require('mongoose-beautiful-unique-validation'));
 
-playerSchema.virtual('contract', {
+playerSchema.virtual('contracts', {
   ref: 'Contract',
   localField: '_id',
   foreignField: 'playerId'
+})
+
+playerSchema.virtual("qualityRating").get(() => {
+  const score = ((this.sumRating / (this.wins + this.losses + this.draws)) * 10) / 10
+  return score || 0
 })
 
 playerSchema.methods.toJSON = function () {
@@ -100,7 +105,6 @@ playerSchema.methods.toJSON = function () {
 
   delete playerObject.password
   delete playerObject.tokens
-  delete playerObject.avatar
 
   return playerObject
 }
@@ -113,7 +117,6 @@ playerSchema.statics.confirm = async (confirmationCode) => {
   await player.save()
   return true
 }
-
 
 playerSchema.statics.findByCredentials = async (email, password) => {
   const player = await Player.findOne({ email })

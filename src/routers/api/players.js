@@ -16,17 +16,15 @@ router.get('/api/players', async (req, res) => {
 })
 
 router.get('/api/players/:id', async (req, res) => {
-  const player = req.params.id ? await PlayerService.getPlayer(req.params.id) : await PlayerService.getPlayer(req.user.id)
-  let contracts = await Promise.all(await ContractService.getMatchHistory(player.id))
-  //isNan ensures a rating of 0 does not return Nan
-  player.qualityRating = isNaN(((player.sumRating / (player.wins + player.losses + player.draws)) * 10) / 10)
-    ? 0 : ((player.sumRating / (player.wins + player.losses + player.draws)) * 10) / 10
-  contracts.sort((a, b) => b.datetime - a.datetime)
+  const player = await PlayerService.getPlayer(req.params.id)
+
   res.status(200).json({
     player: {
       ...player._doc,
       qualityRating: player.qualityRating,
-      contracts
+      contracts: player.contracts
+        ? player.contracts.sort((a, b) => b.datetime - a.datetime)
+        : []
     }
   })
 })
@@ -38,21 +36,10 @@ router.post('/api/players', async (req, res) => {
   res.status(200).json({})
 })
 
-router.post('/api/players/delete', async (req, res) => {
-  const { playerId } = req.body
-  const response = await PlayerService.deletePlayer(playerId)
-  if (response.status != 200) return res.status(500).json({ ...response.data })
-  res.status(200).json({})
-})
-
 router.patch('/api/players/:id', async (req, res) => {
-  let playerId = req.params.id
-  let updates = req.body
-
-  await PlayerService.updatePlayer(playerId, updates)
+  await PlayerService.updatePlayer(req.params.id, req.body)
   res.status(200).json({ success: 'Your profile has been updated' })
 })
-
 
 router.delete('/api/players/:id', async (req, res) => {
   try {

@@ -18,6 +18,19 @@ const create = async (registration) => {
   }
 }
 
+const update = async (id, attrs) => {
+  try {
+    // array updateable values (whitelisted attrs)
+    // subtract the update attrs from the  whitelisted attrs
+    // call update to mongo with only the key/values from the whitelisted attrs
+    return ({ status: 200, data: player })
+  }
+  catch (err) {
+    //await sendAdminEmail(player)
+    return ({ status: 500, data: err })
+  }
+}
+
 const deletePlayer = async (playerId) => {
 
   try {
