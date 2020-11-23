@@ -11,7 +11,7 @@ module.exports = function (app) {
 
       switch (data.type) {
         case 'connect': {
-          //console.log('Connecting ' + data.user);
+          console.log('Connecting ' + data.user);
           clients.push({
             socket,
             ...data,
