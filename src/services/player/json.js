@@ -1,6 +1,7 @@
 
 const Player = require('../../models/player')
 const { sendWelcomeEmail, sendAdminEmail } = require('../../emails/account')
+const ContractService = require('../contract')
 
 const create = async (registration) => {
   try {
@@ -17,8 +18,20 @@ const create = async (registration) => {
   }
 }
 
+const deletePlayer = async (playerId) => {
+
+  try {
+    const player = await Player.findOneAndUpdate({ _id: playerId }, { deletedAt: new Date() }, { new: true })
+    // cancel all pending contracts for that player
+    return ({ status: 200, data: player })
+  }
+  catch (err) {
+    return ({ status: 500, data: err })
+  }
+}
+
 
 module.exports = {
-  create
-
+  create,
+  deletePlayer
 }

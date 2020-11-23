@@ -18,10 +18,14 @@ router.post('/api/sessions', async (req, res, next) => {
 
     if (err) { return next(err); }
     if (!player) { res.status(401).json({ error: "Incorrect email or password" }) }
-    // if (!player.confirmedAt) {
-    //   res.status(200).json({ error: `Please check your email (${player.email}) and click the link we sent you` })
-    //   return
-    // }
+    if (!player.confirmedAt) {
+      res.status(200).json({ error: `Please check your email (${player.email}) and click the link we sent you` })
+      return
+    }
+    if (player.deletedAt) {
+      res.status(200).json({ error: `Your profile has been deleted. Contact the admin if you wish to restore it.` })
+      return
+    }
     req.logIn(player, function (err) {
       if (err) { return next(err); }
 

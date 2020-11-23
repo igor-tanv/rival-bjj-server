@@ -10,9 +10,8 @@ const ContractService = require('../../services/contract/index')
 
 const router = new express.Router()
 
-
 router.get('/api/players', async (req, res) => {
-  let players = (await PlayerService.getPlayers()).filter(p => p.confirmedAt != null)
+  let players = (await PlayerService.getPlayers()).filter(p => p.confirmedAt != null && p.deletedAt === null)
   res.status(200).json({ players })
 })
 
@@ -36,6 +35,13 @@ router.post('/api/players', async (req, res) => {
   const response = await PlayerService.create(req.body)
   if (response.status != 200) return res.status(500).json({ ...response.data })
 
+  res.status(200).json({})
+})
+
+router.post('/api/players/delete', async (req, res) => {
+  const { playerId } = req.body
+  const response = await PlayerService.deletePlayer(playerId)
+  if (response.status != 200) return res.status(500).json({ ...response.data })
   res.status(200).json({})
 })
 

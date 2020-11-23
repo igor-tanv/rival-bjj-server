@@ -9,6 +9,11 @@ const getAllByPlayerId = async (playerId) => {
   return await Contract.find({ $or: [{ 'playerId': playerId }, { 'opponentId': playerId }] })
 }
 
+const cancelAllPendingByPlayerId = async (playerId) => {
+  const playerContracts = await Contract.find({ $or: [{ 'playerId': playerId }, { 'opponentId': playerId }] })
+  return
+}
+
 const create = async (data) => {
   const player = await PlayerData.getPlayerById(data.playerId)
   const opponent = await PlayerData.getPlayerById(data.opponentId)
