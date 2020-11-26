@@ -17,24 +17,27 @@ router.get('/api/players', async (req, res) => {
 
 router.get('/api/players/:id', async (req, res) => {
   const player = await PlayerService.getPlayer(req.params.id)
+  const contracts = await ContractService.getAllContractsByPlayerId(req.params.id)
+  console.log(contracts)
 
   res.status(200).json({
     player: {
       ...player._doc,
       qualityRating: player.qualityRating,
-      contracts: player.contracts
-        ? player.contracts.sort((a, b) => b.datetime - a.datetime)
+      contracts: contracts
+        ? contracts.sort((a, b) => b.datetime - a.datetime)
         : []
     }
   })
 })
 
 router.post('/api/players', async (req, res) => {
-  const response = await PlayerService.create(req.body)
+  const response = await PlayerService.registerPlayer(req.body)
+  console.log(36, response)
   if (response.status != 200) return res.status(500).json({ ...response.data })
-
   res.status(200).json({})
 })
+
 
 router.patch('/api/players/:id', async (req, res) => {
   await PlayerService.updatePlayer(req.params.id, req.body)

@@ -5,9 +5,9 @@ const find = async (id) => {
   return await Contract.find({ _id: id })
 }
 
-const getAllByPlayerId = async (playerId) => {
-  return await Contract.find({ $or: [{ 'playerId': playerId }, { 'opponentId': playerId }] })
-}
+// const getAllByPlayerId = async (playerId) => {
+//   return await Contract.find({ $or: [{ 'playerId': playerId }, { 'opponentId': playerId }] })
+// }
 
 const cancelAllPendingByPlayerId = async (playerId) => {
   const playerContracts = await Contract.find({ $or: [{ 'playerId': playerId }, { 'opponentId': playerId }] })
@@ -29,6 +29,6 @@ const create = async (data) => {
 }
 
 module.exports = {
-  getAllByPlayerId,
+  //getAllByPlayerId,
   create,
 }

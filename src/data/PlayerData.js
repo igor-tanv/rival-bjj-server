@@ -14,8 +14,10 @@ const getAllPlayers = async () => {
   })
 }
 
-const registerPlayer = async (newPlayer) => {
-  return await newPlayer.save()
+const registerPlayer = async (registration, confirmationCode) => {
+  const player = new Player({ ...registration, confirmationCode })
+  await player.save()
+  return player
 }
 
 const updatePlayer = async (playerId, updates) => {
