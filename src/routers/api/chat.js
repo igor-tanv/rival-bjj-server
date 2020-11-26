@@ -7,7 +7,6 @@ module.exports = function (app) {
   wss.on('connection', function connection(socket) {
     socket.on('message', function incoming(message) {
       const data = JSON.parse(message);
-      console.log(10, data);
 
       switch (data.type) {
         case 'connect': {

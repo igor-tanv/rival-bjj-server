@@ -18,7 +18,6 @@ router.get('/api/players', async (req, res) => {
 router.get('/api/players/:id', async (req, res) => {
   const player = await PlayerService.getPlayer(req.params.id)
   const contracts = await ContractService.getAllContractsByPlayerId(req.params.id)
-  console.log(contracts)
 
   res.status(200).json({
     player: {
@@ -32,9 +31,8 @@ router.get('/api/players/:id', async (req, res) => {
 })
 
 router.post('/api/players', async (req, res) => {
-  const response = await PlayerService.registerPlayer(req.body)
-  console.log(36, response)
-  if (response.status != 200) return res.status(500).json({ ...response.data })
+  const newPlayer = await PlayerService.registerPlayer(req.body)
+  if (newPlayer.status != 200) return res.status(500).json({ ...newPlayer.data })
   res.status(200).json({})
 })
 
