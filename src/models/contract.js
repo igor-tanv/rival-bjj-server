@@ -1,5 +1,6 @@
 const { Timestamp } = require('mongodb');
 const mongoose = require('mongoose')
+
 const opts = { timestamps: true, toJSON: { virtuals: true, } };
 
 const contractSchema = new mongoose.Schema({
@@ -19,15 +20,20 @@ const contractSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  winner: {
+  result: {
     type: String,
-    default: null
+    enum: ['win', 'lose', 'draw']
   },
   weightClass: {
     type: String,
     required: true
   },
   playerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Player'
+  },
+  opponentId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Player'
@@ -51,11 +57,6 @@ const contractSchema = new mongoose.Schema({
   opponentFirstName: {
     type: String,
     required: true
-  },
-  opponentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'Player'
   },
   refereeName: {
     type: String,
@@ -97,6 +98,8 @@ contractSchema.virtual('status').get(function () {
   if (this.acceptedAt) return "accepted"
   return "sent"
 });
+
+
 
 const Contract = mongoose.model('Contract', contractSchema)
 
