@@ -1,5 +1,3 @@
-const { getPlayer } = require('./getPlayer')
-const PlayersData = require('../../data/PlayerData');
 const PlayerData = require('../../data/PlayerData');
 
 const updatePlayer = async (playerId, updates) => {
@@ -22,5 +20,5 @@ const updatePlayer = async (playerId, updates) => {
 }
 
 module.exports = {
-  updatePlayer,
+  updatePlayer
 }

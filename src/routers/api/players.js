@@ -36,19 +36,15 @@ router.post('/api/players', async (req, res) => {
   res.status(200).json({})
 })
 
-
 router.patch('/api/players/:id', async (req, res) => {
   await PlayerService.updatePlayer(req.params.id, req.body)
-  res.status(200).json({ success: 'Your profile has been updated' })
+  res.status(200).json({})
 })
 
 router.delete('/api/players/:id', async (req, res) => {
   try {
     let player = await PlayerService.deletePlayerById(req.params.id)
-    fs.unlink(paths.PUBLIC.AVATAR_PICTURES + '/' + player.data.avatar, function (err) {
-      if (err) throw err
-    })
-    if (player.status === 200) res.status(200).json({ success_msg: 'Your account has been deleted' })
+    if (player.status === 200) res.status(200).json({})
   } catch (e) {
     res.status(400).json({ error: 'Error while deleting profile' })
   }
