@@ -11,7 +11,7 @@ const ContractService = require('../../services/contract/index')
 const router = new express.Router()
 
 router.get('/api/players', async (req, res) => {
-  let players = (await PlayerService.getPlayers()).filter(p => p.confirmedAt != null && p.deletedAt === null)
+  let players = (await PlayerService.getPlayers())
   res.status(200).json({ players })
 })
 
@@ -37,7 +37,8 @@ router.post('/api/players', async (req, res) => {
 })
 
 router.patch('/api/players/:id', async (req, res) => {
-  await PlayerService.updatePlayer(req.params.id, req.body)
+  const player = await PlayerService.updatePlayer(req.params.id, req.body)
+  if (player.status != 200) return res.status(500).json({ ...newPlayer.data })
   res.status(200).json({})
 })
 
@@ -46,7 +47,7 @@ router.delete('/api/players/:id', async (req, res) => {
     let player = await PlayerService.deletePlayerById(req.params.id)
     if (player.status === 200) res.status(200).json({})
   } catch (e) {
-    res.status(400).json({ error: 'Error while deleting profile' })
+    res.status(500).json({ error: 'Error while deleting profile' })
   }
 })
 
