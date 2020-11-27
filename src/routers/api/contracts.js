@@ -21,11 +21,7 @@ router.post('/api/contracts', async (req, res) => {
 
 router.post('/api/contracts/:id/accept', async (req, res) => {
   try {
-    const contract = await Contract.findOneAndUpdate(
-      { _id: req.params.id },
-      { acceptedAt: new Date() },
-      { new: true })
-
+    const contract = await ContractService.acceptContract(req.params.id)
     res.status(201).json({ contract })
   } catch (error) {
     res.status(500).json({ error })
@@ -34,11 +30,7 @@ router.post('/api/contracts/:id/accept', async (req, res) => {
 
 router.post('/api/contracts/:id/decline', async (req, res) => {
   try {
-    const contract = await Contract.findOneAndUpdate(
-      { _id: req.params.id },
-      { declinedAt: new Date() },
-      { new: true })
-
+    const contract = await ContractService.declineContract(req.params.id)
     res.status(201).json({ contract })
   } catch (error) {
     res.status(500).json({ error })
@@ -47,11 +39,7 @@ router.post('/api/contracts/:id/decline', async (req, res) => {
 
 router.post('/api/contracts/:id/cancel', async (req, res) => {
   try {
-    const contract = await Contract.findOneAndUpdate(
-      { _id: req.params.id },
-      { cancelledAt: new Date() },
-      { cancelledBy: req.body.PlayerId },
-      { new: true })
+    const contract = await ContractService.cancelContract(req.params.id, req.body.playerId)
     res.status(201).json({ contract })
   } catch (error) {
     res.status(500).json({ error })

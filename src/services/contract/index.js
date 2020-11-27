@@ -9,7 +9,9 @@ module.exports = {
   getContractByContractId: getContractByContractId.getContractByContractId,
   getAllContractsByPlayerId: getAllContractsByPlayerId.getAllContractsByPlayerId,
   registerContract: registerContract.registerContract,
-  updateContract: updateContract.updateContract,
+  acceptContract: updateContract.acceptContract,
+  declineContract: updateContract.declineContract,
+  cancelContract: updateContract.cancelContract,
   getContractByDate: getContractByDate.getContractByDate,
   getMatchHistory: getMatchHistory.getMatchHistory
   //...require('./json')

@@ -50,6 +50,21 @@ const registerContract = async (data) => {
   return await contract.save()
 }
 
+const acceptContract = async (contractId) => {
+  return await Contract.findOneAndUpdate({ _id: contractId }, { acceptedAt: new Date() }, { new: true })
+}
+
+const declineContract = async (contractId) => {
+  return await Contract.findOneAndUpdate({ _id: contractId }, { declinedAt: new Date() }, { new: true })
+}
+
+const cancelContract = async (contractId, cancelledBy) => {
+  return await Contract.findOneAndUpdate(
+    { _id: contractId },
+    { cancelledAt: new Date(), cancelledBy },
+    { new: true })
+}
+
 
 const updateContract = async (contractId, updates) => {
   try {
@@ -69,5 +84,8 @@ module.exports = {
   deleteContractsByPlayerOrOpponentId,
   getContractByContractId,
   updateContract,
-  deleteUnresolvedContracts
+  deleteUnresolvedContracts,
+  acceptContract,
+  declineContract,
+  cancelContract
 }
