@@ -1,10 +1,5 @@
 
 const express = require('express')
-const paths = require('../../paths')
-const multipart = require('connect-multiparty')
-const fs = require('fs')
-
-const { ensureAuthenticated } = require('../../middleware/auth')
 const PlayerService = require('../../services/player/index')
 const ContractService = require('../../services/contract/index')
 

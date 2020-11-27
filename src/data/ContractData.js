@@ -45,31 +45,10 @@ const deleteUnresolvedContracts = async (Id) => {
   }
 }
 
-const registerContract = async (contract) => {
-  const requiredFields = ['rules', 'datetime', 'location', 'referee']
-  try {
-    let newContract = new Contract({
-      rules: contract.rules,
-      datetime: (Date.parse(contract.datetime)) / 1000,
-      weightClass: contract.weightClass,
-      location: contract.location,
-      ruleExceptions: contract.ruleExceptions,
-      playerId: contract.playerId,
-      opponentId: contract.opponentId,
-      refereeName: contract.refereeName
-    })
-    let result = await newContract.save()
-    return ({ status: 200, data: result })
-  } catch (e) {
-    let errArray = requiredFields.map((field) => {
-      if (e.errors[field] != undefined) {
-        return e.errors[field].path
-      }
-    }).filter((path) => path != undefined)
-    return ({ status: 400, data: 'Missing fields: ' + errArray })
-  }
+const registerContract = async (data) => {
+  const contract = new Contract({ ...data })
+  return await contract.save()
 }
-
 
 
 const updateContract = async (contractId, updates) => {

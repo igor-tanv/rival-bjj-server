@@ -1,38 +1,20 @@
 const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
 
-enumStatus = {
-  pending: 1,
-  accepted: 2,
-  declined: 3,
-  completed: 4,
-  cancelled: 5
-}
+const registerContract = async (contract) => {
 
-const registerContract = async (contract, playerId) => {
-  let date = new Date();
-  let timestamp = Math.round((date.getTime()) / 1000)
-  let matchDate = (Date.parse(contract.datetime)) / 1000
-  let twoMonths = 5184000
-  let opponent = await PlayerData.getPlayerById(contract.opponentId)
-  let player = await PlayerData.getPlayerById(playerId)
-  contract['playerFirstName'] = player.firstName
-  contract['playerLastName'] = player.lastName
-  contract['opponentFirstName'] = opponent.firstName
-  contract['opponentLastName'] = opponent.lastName
+  const player = await PlayerData.getPlayerById(contract.playerId)
+  const opponent = await PlayerData.getPlayerById(contract.opponentId)
 
-  if (timestamp > matchDate) {
-    return ({ status: 400, data: 'Date of Match cannot be in the past' })
-  }
+  contract.playerFirstName = player.firstName
+  contract.playerLastName = player.lastName
+  contract.opponentFirstName = opponent.firstName
+  contract.opponentLastName = opponent.lastName
 
-  if ((matchDate - timestamp) > twoMonths) {
-    return ({ status: 400, data: 'Cannot set a match more than 2 months out' })
-  }
-  contract.staus = enumStatus.Pending
-  return await ContractData.registerContract(contract, playerId)
+  return await ContractData.registerContract(contract)
+
 }
 
 module.exports = {
-  registerContract,
-  enumStatus
+  registerContract
 }

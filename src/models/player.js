@@ -110,7 +110,6 @@ playerSchema.methods.toJSON = function () {
 }
 
 playerSchema.statics.confirm = async (confirmationCode) => {
-  console.dir(confirmationCode)
   const player = await Player.findOne({ confirmationCode })
   if (!player) return false
   player.confirmedAt = Date.now()
