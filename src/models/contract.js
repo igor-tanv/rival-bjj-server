@@ -22,8 +22,7 @@ const contractSchema = new mongoose.Schema({
   },
   result: {
     type: String,
-    enum: ['win', 'lose', 'draw', 'pending'],
-    default: 'pending'
+    enum: ['win', 'lose', 'draw']
   },
   weightClass: {
     type: String,

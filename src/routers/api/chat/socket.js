@@ -1,5 +1,6 @@
 module.exports = function (app) {
   const WebSocket = require('ws');
+  const Chat = require('../../../models/chat');
   const clients = [];
 
   const wss = new WebSocket.Server({ port: 3002 });
@@ -7,10 +8,8 @@ module.exports = function (app) {
   wss.on('connection', function connection(socket) {
     socket.on('message', function incoming(message) {
       const data = JSON.parse(message);
-
       switch (data.type) {
         case 'connect': {
-          console.log('Connecting ' + data.user);
           clients.push({
             socket,
             ...data,
@@ -20,10 +19,19 @@ module.exports = function (app) {
         }
 
         case 'say': {
+          const { sender, recipient, text } = data;
+          Chat.create({
+            recipient,
+            sender,
+            text,
+          });
+
+          console.log(29, clients)
           clients
             .filter((c) => {
               return (
-                c.user === data.recipient || c.user === data.sender
+                c.playerId === data.recipient ||
+                c.playerId === data.sender
               );
             })
             .forEach((client) =>
@@ -40,9 +48,9 @@ module.exports = function (app) {
     });
 
     socket.on('close', function close() {
-      const client = clients.find((c) => c.user === socket.user);
+      const client = clients.find((c) => c.playerId === socket.playerId);
       if (!client) return;
-      console.log('Closing ' + client.user);
+      console.log('Closing ' + client);
       clients.splice(clients.indexOf(client), 1);
     });
   });
