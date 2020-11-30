@@ -1,6 +1,4 @@
-const Contract = require('../models/contract')
 const Player = require('../models/player')
-const ContractData = require('./ContractData')
 
 
 const getPlayerById = async (playerId) => {

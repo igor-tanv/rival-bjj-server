@@ -11,18 +11,13 @@ router.get('/api/players', async (req, res) => {
 })
 
 router.get('/api/players/:id', async (req, res) => {
-  const player = await PlayerService.getPlayer(req.params.id)
-  const contracts = await ContractService.getAllContractsByPlayerId(req.params.id)
+  try {
+    const player = await PlayerService.getPlayer(req.params.id)
+    res.status(200).json({ player })
+  } catch (e) {
+    res.status(500).json({ error: 'Server error while getting player profile' })
+  }
 
-  res.status(200).json({
-    player: {
-      ...player._doc,
-      qualityRating: player.qualityRating,
-      contracts: contracts
-        ? contracts.sort((a, b) => b.datetime - a.datetime)
-        : []
-    }
-  })
 })
 
 router.post('/api/players', async (req, res) => {
