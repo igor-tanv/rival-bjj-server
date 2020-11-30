@@ -29,6 +29,14 @@ const contractSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  playerQualityRating: {
+    type: Number,
+    default: 0
+  },
+  opponentQualityRating: {
+    type: Number,
+    default: 0
+  },
   playerId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
