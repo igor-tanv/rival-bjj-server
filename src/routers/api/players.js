@@ -35,6 +35,7 @@ router.patch('/api/players/:id', async (req, res) => {
 router.delete('/api/players/:id', async (req, res) => {
   try {
     let player = await PlayerService.deletePlayerById(req.params.id)
+    await ContractService.cancelAllPendingContracts(req.params.id)
     if (player.status === 200) res.status(200).json({})
   } catch (e) {
     res.status(500).json({ error: 'Error while deleting profile' })

@@ -12,6 +12,7 @@ module.exports = {
   acceptContract: updateContract.acceptContract,
   declineContract: updateContract.declineContract,
   cancelContract: updateContract.cancelContract,
+  cancelAllPendingContracts: updateContract.cancelAllPendingContracts,
   getContractByDate: getContractByDate.getContractByDate,
   getMatchHistory: getMatchHistory.getMatchHistory
   //...require('./json')
