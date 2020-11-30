@@ -1,9 +1,9 @@
 const PlayerData = require('../../data/PlayerData')
 const ContractData = require('../../data/ContractData')
 
-const getPlayer = async (playerId) => {
-  let player = await PlayerData.getPlayerById(playerId)
-  let contracts = await ContractData.getContractsByPlayerOrOpponentId(playerId)
+
+const addContractsRecordQualityratingToPlayer = async (player) => {
+  let contracts = await ContractData.getContractsByPlayerOrOpponentId(player.id)
   player = {
     ...player._doc,
     qualityRating: player.qualityRating,
@@ -17,6 +17,12 @@ const getPlayer = async (playerId) => {
   return player
 }
 
+const getPlayer = async (playerId) => {
+  let player = await PlayerData.getPlayerById(playerId)
+  return await addContractsRecordQualityratingToPlayer(player)
+}
+
 module.exports = {
-  getPlayer
+  getPlayer,
+  addContractsRecordQualityratingToPlayer
 }

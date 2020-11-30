@@ -6,7 +6,7 @@ const ContractService = require('../../services/contract/index')
 const router = new express.Router()
 
 router.get('/api/players', async (req, res) => {
-  let players = (await PlayerService.getPlayers())
+  let players = await PlayerService.getPlayers()
   res.status(200).json({ players })
 })
 
