@@ -24,8 +24,6 @@ const updatePlayer = async (playerId, updates) => {
 
 const deletePlayerById = async (id) => {
   try {
-    //delete pending contracts
-    // await ContractData.deleteUnresolvedContracts(id)
     const player = await Player.findOneAndUpdate({ _id: id }, { deletedAt: new Date() }, { new: true })
     return ({ status: 200, data: player })
 

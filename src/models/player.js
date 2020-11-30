@@ -65,6 +65,10 @@ const playerSchema = new mongoose.Schema({
   },
   confirmationCode: {
     type: String
+  },
+  community: {
+    type: String,
+    required: true
   }
 }, {
   timestamps: true
