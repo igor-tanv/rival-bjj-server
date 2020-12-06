@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const Contract = require('./contract')
 
 const playerSchema = new mongoose.Schema({
   firstName: {
@@ -107,35 +105,26 @@ playerSchema.statics.confirm = async (confirmationCode) => {
 
 playerSchema.statics.findByCredentials = async (email, password) => {
   const player = await Player.findOne({ email })
-
-  if (!player) {
-    throw new Error('Unable to find player')
-  }
-
+  if (!player) throw new Error('Unable to find player')
   const isMatch = await bcrypt.compare(password, player.password)
-
-  if (!isMatch) {
-    throw new Error('Unable to login')
-  }
-
+  if (!isMatch) throw new Error('Unable to login')
   return player
 }
+
+playerSchema.pre('save', async function (next) {
+  const player = this
+  setTimeout(async function () {
+    const document = await Player.findById(player.id)
+    if (!document.confirmedAt) await document.remove()
+    return
+  }, 3600000);
+  next();
+})
 
 // Hash the plain text password before saving
 playerSchema.pre('save', async function (next) {
   const player = this
-
-  if (player.isModified('password')) {
-    player.password = await bcrypt.hash(player.password, 8)
-  }
-
-  next()
-})
-
-// Delete player contracts when player is removed
-playerSchema.pre('remove', async function (next) {
-  const player = this
-  await Contract.deleteMany({ owner: player._id })
+  if (player.isModified('password')) player.password = await bcrypt.hash(player.password, 8)
   next()
 })
 
