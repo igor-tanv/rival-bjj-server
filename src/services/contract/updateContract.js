@@ -1,7 +1,12 @@
 const ContractData = require('../../data/ContractData')
+const PlayerData = require('../../data/PlayerData')
+const { sendAcceptContractEmail } = require('../../emails/account')
 
 const acceptContract = async (contractId) => {
-  return await ContractData.acceptContract(contractId)
+  const contract = await ContractData.acceptContract(contractId)
+  const player = await PlayerData.getPlayerById(contract.playerId)
+  await sendAcceptContractEmail(player, contract)
+  return contract
 }
 
 const declineContract = async (contractId) => {

@@ -1,5 +1,5 @@
 const PlayerData = require('../../data/PlayerData')
-const { sendWelcomeEmail, sendAdminEmail } = require('../../emails/account')
+const { sendWelcomeEmail } = require('../../emails/account')
 
 const registerPlayer = async (registration) => {
   try {
