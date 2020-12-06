@@ -19,6 +19,14 @@ const sendWelcomeEmail = async (player) => {
     }
 }
 
+const sendPasswordResetEmail = async (player) => {
+    try {
+        email(player.email, `Password reset for: ${player.firstName}`, `Click on this link to reset your password:`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const sendAdminEmail = async (player, data) => {
     try {
         email(process.env.FROM_EMAIL, `Registration Error for ${player.email}`, JSON.stringify(data))
@@ -30,5 +38,6 @@ const sendAdminEmail = async (player, data) => {
 
 module.exports = {
     sendWelcomeEmail,
-    sendAdminEmail
+    sendAdminEmail,
+    sendPasswordResetEmail
 }

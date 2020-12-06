@@ -3,6 +3,7 @@ const { getPlayer } = require('./getPlayer')
 const { registerPlayer } = require('./registerPlayer')
 const { deletePlayerById } = require('./deletePlayerById')
 const { updatePlayer } = require('./updatePlayer')
+const { sendResetEmailToPlayer } = require('./sendResetEmailToPlayer')
 
 module.exports = {
   getPlayers,
@@ -10,5 +11,6 @@ module.exports = {
   registerPlayer,
   deletePlayerById,
   updatePlayer,
+  sendResetEmailToPlayer,
   ...require('./json')
 }

@@ -2,15 +2,24 @@ const express = require('express')
 const router = new express.Router()
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const PlayerService = require('../../services/player/index')
 
 router.post('/api/sessions/verify', async (req, res, next) => {
   try {
-    const data = jwt.verify(req.body.jwt, process.env.JWT_SECRET);
+    jwt.verify(req.body.jwt, process.env.JWT_SECRET);
     res.status(200).json({})
   } catch (error) {
     res.status(401).json({ error: error })
   }
+})
 
+router.post('/api/sessions/reset', async (req, res, next) => {
+  try {
+    const player = await PlayerService.sendResetEmailToPlayer(req.body)
+    if (!player) { res.status(401).json({ error: "No account associated with that email" }) }
+  } catch (error) {
+    res.status(401).json({ error: error })
+  }
 })
 
 router.post('/api/sessions', async (req, res, next) => {

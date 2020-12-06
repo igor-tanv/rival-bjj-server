@@ -5,6 +5,10 @@ const getPlayerById = async (playerId) => {
   return await Player.findById(playerId)
 }
 
+const getPlayerByEmail = async (email) => {
+  return await Player.findOne(email)
+}
+
 const getAllPlayers = async () => {
   return Player.find(function (err, players) {
     if (err) return err
@@ -37,6 +41,7 @@ module.exports = {
   registerPlayer,
   getPlayerById,
   deletePlayerById,
-  updatePlayer
+  updatePlayer,
+  getPlayerByEmail
 }
 
