@@ -1,6 +1,5 @@
 const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
-const weightClass = require('../../helpers/weight')
 const dateTimeHelper = require('../../helpers/datetime')
 
 
@@ -12,11 +11,11 @@ const getMatchHistory = async (playerId) => {
     return (contract.status == 2 || contract.status == 4)
   })
   //create match history object
-  contracts = contracts.map( async (contract) => {
+  contracts = contracts.map(async (contract) => {
     let opponentId = [contract.playerId, contract.opponentId].filter((id) => id != playerId)
     let opponent = await PlayerData.getPlayerById(opponentId)
     //if opponent has deleted his profile get name from contract
-    if(!opponent){
+    if (!opponent) {
       if (contract.playerId == playerId) {
         opponent = {
           firstName: contract.opponentFirstName,
@@ -29,11 +28,11 @@ const getMatchHistory = async (playerId) => {
         }
       }
     }
-    if(!contract.winner) contract.result = 'Pending'
+    if (!contract.winner) contract.result = 'Pending'
     else if (contract.winner) {
-      if(contract.winner == playerId) contract.result = 'Win'
-      else if(contract.winner != contract.playerId && contract.winner != contract.opponentId ) contract.result = 'Draw'
-      else {contract.result = 'Loss'}
+      if (contract.winner == playerId) contract.result = 'Win'
+      else if (contract.winner != contract.playerId && contract.winner != contract.opponentId) contract.result = 'Draw'
+      else { contract.result = 'Loss' }
     }
     //datetime property is not displayed but used for sorting match history in GET player profile route
     return {

@@ -35,9 +35,25 @@ const sendAcceptContractEmail = async (player, contract) => {
     }
 }
 
+const sendDeclineContractEmail = async (player, contract) => {
+    try {
+        email(player.email, `Your match has been declined`, `${contract.opponentFirstName} ${contract.opponentLastName} has declined your match. Go to your Profile, My Contracts, Declined to see the full details`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const sendIssueContractEmail = async (opponent, contract) => {
     try {
-        email(opponent.email, `You've been challenged you to a match!`, `${contract.playerFirstName} ${contract.playerLastName} has challenged you to a match. To see the match contract go to your Profile, My Contracts, Received to see the full details. You can either accept or decline the match`)
+        email(opponent.email, `You've been challenged you to a match!`, `${contract.playerFirstName} ${contract.playerLastName} has challenged you to a match. Go to your Profile, My Contracts, Received to see the full details. You can either accept or decline the match`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const sendCancelContractEmail = async (player, cancelledBy) => {
+    try {
+        email(player.email, `Your match has been cancelled`, `${cancelledBy.firstName} ${cancelledBy.LastName} has cancelled your upcoming match. Go to your Profile, My Contracts, Cancelled to see the full details`)
     } catch (error) {
         console.log(error)
     }
@@ -57,6 +73,8 @@ module.exports = {
     sendAdminEmail,
     sendPasswordResetEmail,
     sendAcceptContractEmail,
-    sendIssueContractEmail
+    sendIssueContractEmail,
+    sendDeclineContractEmail,
+    sendCancelContractEmail
 
 }
