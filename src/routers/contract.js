@@ -21,7 +21,7 @@ router.post('/challenge', ensureAuthenticated, async (req, res) => {
     let opponentId = req.body.opponentId
     let contract = req.body
     let playerId = req.user.id
-    let newContract = await ContractService.registerContract(contract, playerId)
+    let newContract = await ContractService.createContract(contract, playerId)
     if (newContract.status != 200) {
         req.flash('error', newContract.data)
         return res.redirect('/challenge/' + opponentId)

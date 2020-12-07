@@ -2,7 +2,7 @@ const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
 const { sendIssueContractEmail } = require('../../emails/account')
 
-const registerContract = async (contractDetails) => {
+const createContract = async (contractDetails) => {
 
   const player = await PlayerData.getPlayerById(contractDetails.playerId)
   const opponent = await PlayerData.getPlayerById(contractDetails.opponentId)
@@ -12,11 +12,11 @@ const registerContract = async (contractDetails) => {
   contractDetails.opponentFirstName = opponent.firstName
   contractDetails.opponentLastName = opponent.lastName
 
-  const contract = await ContractData.registerContract(contractDetails)
+  const contract = await ContractData.createContract(contractDetails)
   sendIssueContractEmail(opponent, contract)
   return contract
 }
 
 module.exports = {
-  registerContract
+  createContract
 }

@@ -12,7 +12,7 @@ router.get('/api/contracts', async (req, res) => {
 
 router.post('/api/contracts', async (req, res) => {
   try {
-    const contract = await ContractService.registerContract(req.body)
+    const contract = await ContractService.createContract(req.body)
     res.status(201).json({ contract })
   } catch (error) {
     res.status(500).json({ error })

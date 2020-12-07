@@ -1,6 +1,6 @@
 const getContractByContractId = require('./getContractByContractId')
 const getAllContractsByPlayerId = require('./getAllContractsByPlayerId')
-const registerContract = require('./registerContract')
+const createContract = require('./createContract')
 const updateContract = require('./updateContract')
 const getContractByDate = require('./getContractByDate')
 const getMatchHistory = require('./getMatchHistory')
@@ -8,7 +8,7 @@ const getMatchHistory = require('./getMatchHistory')
 module.exports = {
   getContractByContractId: getContractByContractId.getContractByContractId,
   getAllContractsByPlayerId: getAllContractsByPlayerId.getAllContractsByPlayerId,
-  registerContract: registerContract.registerContract,
+  createContract: createContract.createContract,
   acceptContract: updateContract.acceptContract,
   declineContract: updateContract.declineContract,
   cancelContract: updateContract.cancelContract,

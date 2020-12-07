@@ -25,7 +25,7 @@ const getContractsByPlayerOrOpponentId = async (Id) => {
   return await Contract.find({ $or: [{ playerId: Id }, { opponentId: Id }] })
 }
 
-const registerContract = async (data) => {
+const createContract = async (data) => {
   const contract = new Contract({ ...data })
   return await contract.save()
 }
@@ -64,7 +64,7 @@ const updateContract = async (contractId, updates) => {
 
 module.exports = {
   getContractByDate,
-  registerContract,
+  createContract,
   getContractsByOpponentId,
   getContractsByPlayerId,
   cancelAllPendingContracts,

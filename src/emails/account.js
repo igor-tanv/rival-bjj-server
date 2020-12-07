@@ -53,7 +53,7 @@ const sendIssueContractEmail = async (opponent, contract) => {
 
 const sendCancelContractEmail = async (player, cancelledBy) => {
     try {
-        email(player.email, `Your match has been cancelled`, `${cancelledBy.firstName} ${cancelledBy.LastName} has cancelled your upcoming match. Go to your Profile, My Contracts, Cancelled to see the full details`)
+        email(player.email, `Your match has been cancelled`, `${cancelledBy.firstName} ${cancelledBy.lastName} has cancelled your upcoming match. Go to your Profile, My Contracts, Cancelled to see the full details`)
     } catch (error) {
         console.log(error)
     }

@@ -1,7 +1,7 @@
 const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
 const AdminData = require('../../data/AdminData')
-const contractServices = require('../contract/registerContract')
+const contractServices = require('../contract/createContract')
 
 
 methodValues = {
