@@ -5,7 +5,6 @@ const addContractsRecordQualityratingToPlayer = async (player) => {
   let contracts = await ContractData.getContractsByPlayerOrOpponentId(player.id)
   let sumRating = []
   contracts.forEach((c) => {
-    console.log(c.playerId.toString() === player.id.toString() && c.playerQualityRating != 0, 0)
     if (c.playerId.toString() === player.id.toString() && c.playerQualityRating != 0) sumRating.push(c.playerQualityRating)
     if (c.opponentId.toString() === player.id.toString() && c.playerQualityRating != 0) sumRating.push(c.opponentQualityRating)
   })

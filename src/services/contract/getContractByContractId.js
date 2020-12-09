@@ -1,7 +1,5 @@
 const ContractData = require('../../data/ContractData')
 const PlayerData = require('../../data/PlayerData')
-const weightHelper = require('../../helpers/weight')
-const dateTimeHelper = require('../../helpers/datetime')
 
 const getContractByContractId = async (contractId) => {
   let contract = await ContractData.getContractByContractId(contractId)
