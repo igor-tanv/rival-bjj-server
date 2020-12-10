@@ -4,6 +4,7 @@ const passport = require('passport');
 const session = require('express-session');
 const cors = require('cors')
 
+require('./cron')
 require('./db/mongoose')
 const apiJsonRouter = require('./routers/api/index')
 

@@ -111,15 +111,6 @@ playerSchema.statics.findByCredentials = async (email, password) => {
   return player
 }
 
-playerSchema.pre('save', async function (next) {
-  const player = this
-  setTimeout(async function () {
-    const document = await Player.findById(player.id)
-    if (!document.confirmedAt) await document.remove()
-    return
-  }, 3600000);
-  next();
-})
 
 // Hash the plain text password before saving
 playerSchema.pre('save', async function (next) {
