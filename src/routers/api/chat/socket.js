@@ -28,7 +28,7 @@ module.exports = function (app) {
             text,
           });
 
-          console.log(29, clients)
+
           clients
             .filter((c) => {
               return (
@@ -54,7 +54,6 @@ module.exports = function (app) {
     socket.on('close', function close() {
       const client = clients.find((c) => c.socket === socket);
       if (!client) return;
-      console.log('Closing', client);
       clients.splice(clients.indexOf(client), 1);
     });
   });
