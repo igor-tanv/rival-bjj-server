@@ -5,6 +5,8 @@ module.exports = function (app) {
 
   const wss = new WebSocket.Server({ port: 3002 });
 
+  wss.on('error', e => console.error(e))
+
   wss.on('connection', function connection(socket) {
     socket.on('message', function incoming(message) {
       const data = JSON.parse(message);
@@ -26,11 +28,16 @@ module.exports = function (app) {
             text,
           });
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d34faa24729821a80a99abf5a2ff756bde573b99
           clients
             .filter((c) => {
               return c.socket.readyState === WebSocket.OPEN && (
                 c.playerId === data.recipient ||
-                c.playerId === data.sender
+                c.playerId === data.senderA ||
+                c.socket.readyState !== c.socket.CLOSED
               );
             })
             .forEach((client) =>
@@ -46,10 +53,10 @@ module.exports = function (app) {
       }
     });
 
+
     socket.on('close', function close() {
-      const client = clients.find((c) => c.playerId === socket.playerId);
+      const client = clients.find((c) => c.socket === socket);
       if (!client) return;
-      console.log('Closing ' + client);
       clients.splice(clients.indexOf(client), 1);
     });
   });
