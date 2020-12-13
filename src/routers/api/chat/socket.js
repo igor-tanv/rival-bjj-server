@@ -28,10 +28,6 @@ module.exports = function (app) {
             text,
           });
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d34faa24729821a80a99abf5a2ff756bde573b99
           clients
             .filter((c) => {
               return c.socket.readyState === WebSocket.OPEN && (
