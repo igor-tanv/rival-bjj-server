@@ -5,7 +5,7 @@ module.exports = function (app) {
 
   const wss = new WebSocket.Server({ port: 3002 });
 
-  wss.on('error', e => console.error(e))
+  // wss.on('error', e => console.error(e))
 
   wss.on('connection', function connection(socket) {
     socket.on('message', function incoming(message) {
@@ -30,7 +30,7 @@ module.exports = function (app) {
 
           clients
             .filter((c) => {
-              return c.socket.readyState === WebSocket.OPEN && (
+              return (
                 c.playerId === data.recipient ||
                 c.playerId === data.senderA ||
                 c.socket.readyState !== c.socket.CLOSED
