@@ -26,10 +26,9 @@ module.exports = function (app) {
             text,
           });
 
-          console.log(29, clients)
           clients
             .filter((c) => {
-              return (
+              return c.socket.readyState === WebSocket.OPEN && (
                 c.playerId === data.recipient ||
                 c.playerId === data.sender
               );
