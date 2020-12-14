@@ -36,13 +36,6 @@ const deletePlayerById = async (id) => {
   }
 }
 
-// api.domain.com/
-// domain.com --> client
-
-// Using a script:
-//  build (client) -- mv - server --> domain.com
-
-
 
 const cleanupUnconfirmedPlayers = async () => {
   const INACTIVE_TIME = 24 * 60 * 60 * 1000
