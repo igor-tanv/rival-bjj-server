@@ -36,13 +36,14 @@ const deletePlayerById = async (id) => {
   }
 }
 
+
 const cleanupUnconfirmedPlayers = async () => {
   const INACTIVE_TIME = 24 * 60 * 60 * 1000
-  const olderThanDate = new Date(Date.now() - INACTIVE_TIME)
+  const olderThanDate = Date(Date.now() - INACTIVE_TIME)
 
   return await Player.deleteMany({
     confirmedAt: null,
-    createdAt: { $lt: Date(olderThanDate) }
+    createdAt: { $lt: olderThanDate }
   })
 }
 
