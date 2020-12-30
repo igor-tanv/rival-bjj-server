@@ -9,6 +9,10 @@ require('./db/mongoose')
 const apiJsonRouter = require('./routers/api/index')
 
 const app = express()
+
+const httpServer = require('http').createServer(app);
+app.httpServer = httpServer
+
 app.use(cors())
 require('./routers/api/chat/index')(app)
 
