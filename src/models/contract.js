@@ -14,8 +14,7 @@ const contractSchema = new mongoose.Schema({
   },
   location: {
     type: String,
-    required: true,
-    maxlength: 30
+    required: true
   },
   method: {
     type: String,
