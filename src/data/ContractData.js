@@ -22,7 +22,7 @@ const getContractsByOpponentId = async (opponentId) => {
 }
 
 const getContractsByPlayerOrOpponentId = async (Id) => {
-  return await Contract.find({ $or: [{ playerId: Id }, { opponentId: Id }] })
+  return await Contract.find({ $or: [{ playerId: Id }, { opponentId: Id }] }).sort({ startsAt: 'desc' })
 }
 
 const createContract = async (data) => {
