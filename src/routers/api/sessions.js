@@ -24,7 +24,6 @@ router.post('/api/sessions/reset', async (req, res, next) => {
 
 router.post('/api/sessions', async (req, res, next) => {
   passport.authenticate("local", function (err, player, info) {
-
     if (err) { return next(err); }
     if (!player) {
       res.status(401).json({ error: "Incorrect email or password" })

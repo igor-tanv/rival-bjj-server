@@ -30,7 +30,6 @@ module.exports = function (app) {
             text,
           });
 
-
           clients
             .filter((c) => {
               return (
