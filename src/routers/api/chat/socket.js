@@ -3,7 +3,9 @@ module.exports = function (app) {
   const Chat = require('../../../models/chat');
   const clients = [];
 
-  const wss = new WebSocket.Server({ port: process.env.WEBSOCKET_PORT });
+  const wss = new WebSocket.Server({
+    server: app.httpServer
+  });
 
   wss.on('error', e => console.error(e))
 
