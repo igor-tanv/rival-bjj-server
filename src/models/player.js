@@ -94,13 +94,7 @@ playerSchema.virtual('contracts', {
   foreignField: 'playerId'
 })
 
-playerSchema.virtual("qualityRating").get(function () {
-  const score = ((this.sumRating / (this.wins + this.losses + this.draws)) * 10) / 10
-  return score || 0
-})
-
 playerSchema.virtual("isAdmin").get(function () {
-  console.log(this.role)
   return this.role === ROLES.ADMIN
 })
 
@@ -110,6 +104,7 @@ playerSchema.methods.toJSON = function () {
 
   delete playerObject.password
   delete playerObject.tokens
+  delete playerObject.role
 
   return playerObject
 }

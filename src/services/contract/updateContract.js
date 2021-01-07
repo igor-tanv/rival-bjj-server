@@ -17,7 +17,6 @@ const declineContract = async (contractId) => {
 }
 
 const cancelContract = async (contractId, cancelledBy) => {
-  // console.log(player.id === cancelledBy, 21)
   const contract = await ContractData.cancelContract(contractId, cancelledBy)
   const player = await PlayerData.getPlayerById(contract.playerId)
   const opponent = await PlayerData.getPlayerById(contract.opponentId)

@@ -2,8 +2,7 @@ const Player = require('../models/player')
 
 
 const getPlayerById = async (playerId) => {
-  const player = (await Player.findById(playerId)).toJSON()
-  return player
+  return (await Player.findById(playerId)).toJSON()
 }
 
 const getPlayerByEmail = async (email) => {

@@ -14,5 +14,4 @@ process.once("database:ready", async () => {
   })
   console.log("Done.", res)
   mongoose.disconnect()
-  //process.exit(0)
 })
