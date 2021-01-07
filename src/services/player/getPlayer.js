@@ -9,7 +9,7 @@ const addContractsRecordQualityratingToPlayer = async (player) => {
     if (c.opponentId.toString() === player.id.toString() && c.playerQualityRating != 0) sumRating.push(c.opponentQualityRating)
   })
   player = {
-    ...player._doc,
+    ...player,
     qualityRating: sumRating.length ? Math.round(sumRating.reduce((a, b) => a + b, 0) / sumRating.length) : 0,
     wins: contracts.filter((c) => (c.playerId.toString() === player.id.toString() && c.result === 'win')).length,
     losses: contracts.filter((c) => (c.opponentId.toString() === player.id.toString() && c.result === 'win')).length,
