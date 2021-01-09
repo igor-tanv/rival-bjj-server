@@ -1,8 +1,5 @@
 const Contract = require('../models/contract')
 
-const getContractByDate = async (date) => {
-  return await Contract.find({ 'datetime': date })
-}
 
 const getContractByContractId = async (contractId) => {
   try {
@@ -62,8 +59,11 @@ const updateContract = async (contractId, updates) => {
   }
 }
 
+const getAllContractsByDate = async (date) => {
+  return await Contract.find({ 'startsAt': date })
+}
+
 module.exports = {
-  getContractByDate,
   createContract,
   getContractsByOpponentId,
   getContractsByPlayerId,
@@ -73,5 +73,6 @@ module.exports = {
   updateContract,
   acceptContract,
   declineContract,
-  cancelContract
+  cancelContract,
+  getAllContractsByDate
 }

@@ -1,12 +1,16 @@
 
 const express = require('express')
 const ContractService = require('../../services/contract')
-const Contract = require('../../models/contract')
 
 const router = new express.Router()
 
 router.get('/api/contracts', async (req, res) => {
   const contracts = await ContractService.getAllContractsByPlayerId(req.query.playerId)
+  res.status(200).json({ contracts })
+})
+
+router.get('/api/contracts/:date', async (req, res) => {
+  const contracts = await ContractService.getAllContractsByDate(req.params.date)
   res.status(200).json({ contracts })
 })
 
