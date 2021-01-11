@@ -33,5 +33,6 @@ app.use(apiJsonRouter.confirmationApi)
 app.use(apiJsonRouter.playerApi)
 app.use(apiJsonRouter.contractApi)
 app.use(apiJsonRouter.sessionsApi)
+app.use(apiJsonRouter.adminApi)
 
 module.exports = app

@@ -1,6 +1,6 @@
 
 const express = require('express')
-const ContractService = require('../../services/contract')
+const AdminService = require('../../services/admin')
 
 const router = new express.Router()
 
@@ -9,10 +9,6 @@ router.get('/api/contracts', async (req, res) => {
   res.status(200).json({ contracts })
 })
 
-router.get('/api/contracts/:date', async (req, res) => {
-  const contracts = await ContractService.getAllContractsByDate(req.params.date)
-  res.status(200).json({ contracts })
-})
 
 router.post('/api/contracts', async (req, res) => {
   try {

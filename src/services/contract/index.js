@@ -3,7 +3,7 @@ const getAllContractsByPlayerId = require('./getAllContractsByPlayerId')
 const createContract = require('./createContract')
 const updateContract = require('./updateContract')
 const getMatchHistory = require('./getMatchHistory')
-const getAllContractsByDate = require('./getAllContractsByDate')
+
 
 module.exports = {
   getContractByContractId: getContractByContractId.getContractByContractId,
@@ -14,5 +14,5 @@ module.exports = {
   cancelContract: updateContract.cancelContract,
   cancelAllPendingContracts: updateContract.cancelAllPendingContracts,
   getMatchHistory: getMatchHistory.getMatchHistory,
-  getAllContractsByDate: getAllContractsByDate.getAllContractsByDate
+
 }
