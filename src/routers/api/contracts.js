@@ -1,7 +1,5 @@
 
 const express = require('express')
-const AdminService = require('../../services/admin')
-
 const router = new express.Router()
 
 router.get('/api/contracts', async (req, res) => {
