@@ -14,5 +14,4 @@ module.exports = {
   cancelContract: updateContract.cancelContract,
   cancelAllPendingContracts: updateContract.cancelAllPendingContracts,
   getMatchHistory: getMatchHistory.getMatchHistory,
-
 }

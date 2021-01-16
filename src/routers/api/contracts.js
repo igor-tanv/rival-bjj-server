@@ -1,6 +1,7 @@
 
 const express = require('express')
 const router = new express.Router()
+const ContractService = require('../../services/contract')
 
 router.get('/api/contracts', async (req, res) => {
   const contracts = await ContractService.getAllContractsByPlayerId(req.query.playerId)
