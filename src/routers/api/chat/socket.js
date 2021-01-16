@@ -33,8 +33,8 @@ module.exports = function (app) {
           clients
             .filter((c) => {
               return (
-                c.playerId === data.recipient ||
-                c.playerId === data.senderA ||
+                (c.playerId === data.recipient ||
+                c.playerId === data.sender) &&
                 c.socket.readyState !== c.socket.CLOSED
               );
             })
