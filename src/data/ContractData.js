@@ -11,11 +11,11 @@ const getContractByContractId = async (contractId) => {
 }
 
 const getContractsByPlayerId = async (playerId) => {
-  return await Contract.find({ 'player_id': playerId })
+  return await Contract.find({ playerId })
 }
 
 const getContractsByOpponentId = async (opponentId) => {
-  return await Contract.find({ 'opponent_id': opponentId })
+  return await Contract.find({ opponent_id: opponentId })
 }
 
 const getContractsByPlayerOrOpponentId = async (Id) => {
@@ -28,24 +28,46 @@ const createContract = async (data) => {
 }
 
 const acceptContract = async (contractId) => {
-  return await Contract.findOneAndUpdate({ _id: contractId }, { acceptedAt: new Date() }, { new: true })
+  return await Contract.findOneAndUpdate(
+    { _id: contractId },
+    { acceptedAt: new Date() },
+    {
+      new: true
+    })
 }
 
 const declineContract = async (contractId) => {
-  return await Contract.findOneAndUpdate({ _id: contractId }, { declinedAt: new Date() }, { new: true })
+  return await Contract.findOneAndUpdate(
+    { _id: contractId },
+    {
+      declinedAt: new Date(),
+      result: matchResult.cancelled
+    },
+    { new: true })
 }
 
 const cancelContract = async (contractId, cancelledBy) => {
   return await Contract.findOneAndUpdate(
     { _id: contractId },
-    { cancelledAt: new Date(), cancelledBy },
+    {
+      cancelledAt: new Date(),
+      cancelledBy,
+      result: matchResult.cancelled
+    },
     { new: true })
 }
 
 const cancelAllPendingContracts = async (cancelledBy, pendingContractIds) => {
   return await Contract.updateMany(
     { _id: { $in: pendingContractIds } },
-    { $set: { cancelledAt: new Date(), cancelledBy } },
+    {
+      $set:
+      {
+        cancelledAt: new Date(),
+        cancelledBy,
+        result: matchResult.cancelled
+      }
+    },
     { multi: true }
   )
 }
@@ -70,7 +92,6 @@ module.exports = {
   cancelAllPendingContracts,
   getContractsByPlayerOrOpponentId,
   getContractByContractId,
-  updateContract,
   acceptContract,
   declineContract,
   cancelContract,
