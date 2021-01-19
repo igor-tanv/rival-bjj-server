@@ -53,7 +53,6 @@ const cancelAllPendingContracts = async (cancelledBy, pendingContractIds) => {
 const updateContract = async (contractId, updates) => {
   try {
     const updated = await Contract.findOneAndUpdate({ id: contractId }, updates, { new: true })
-    console.log(56, updated)
     return ({ status: 200, data: updated })
   } catch (e) {
     return ({ status: 400, data: e })
