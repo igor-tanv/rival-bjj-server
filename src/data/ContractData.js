@@ -95,5 +95,6 @@ module.exports = {
   acceptContract,
   declineContract,
   cancelContract,
-  getAllContractsByDate
+  getAllContractsByDate,
+  updateContract
 }

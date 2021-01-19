@@ -15,7 +15,6 @@ const methodValues = {
 
 const updateContractByContractId = async (contractId, contractData) => {
   const { winner, method, redRating, blueRating, refereeComments } = contractData
-  console.log(18, contractData)
 
   if (winner === '') return
 
@@ -40,7 +39,7 @@ const updateContractByContractId = async (contractId, contractData) => {
     completedAt: new Date()
   })
 
-  console.log(test)
+  console.log(42, test)
   return test
 
   //update player ranks
