@@ -1,5 +1,13 @@
 const Contract = require('../models/contract')
 
+const matchResult = {
+  win: 'win',
+  loss: 'loss',
+  draw: 'draw',
+  pending: 'pending',
+  cancelled: 'cancelled'
+}
+
 
 const getContractByContractId = async (contractId) => {
   try {
@@ -74,7 +82,7 @@ const cancelAllPendingContracts = async (cancelledBy, pendingContractIds) => {
 
 const updateContract = async (contractId, updates) => {
   try {
-    const updated = await Contract.findOneAndUpdate({ id: contractId }, updates, { new: true })
+    const updated = await Contract.findOneAndUpdate({ _id: contractId }, updates, { new: true })
     return ({ status: 200, data: updated })
   } catch (e) {
     return ({ status: 400, data: e })

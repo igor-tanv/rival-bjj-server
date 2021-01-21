@@ -19,7 +19,6 @@ const updateContractByContractId = async (contractId, contractData) => {
   if (winner === '') return
 
   // update contract
-
   if (winner === 'cancelled') {
     // update contract status to cancelled and return
     return await ContractData.cancelContract(contractId)
@@ -29,6 +28,17 @@ const updateContractByContractId = async (contractId, contractData) => {
   if (winner === 'red') result = 'win'
   if (winner === 'blue') result = 'loss'
   if (winner === 'draw') result = 'draw'
+
+  const obj = {
+    result,
+    playerQualityRating: parseInt(redRating),
+    opponentQualityRating: parseInt(blueRating),
+    method,
+    refereeComments,
+    completedAt: new Date()
+  }
+
+  console.log(obj, 42)
 
   const test = await ContractData.updateContract(contractId, {
     result,

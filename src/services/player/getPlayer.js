@@ -3,7 +3,6 @@ const ContractData = require('../../data/ContractData')
 
 
 function getFightRecord(player, contracts) {
-  console.log(6, contracts)
   return {
     wins: contracts.filter((c) => (c.playerId.toString() === player.id.toString() && c.result === 'win') || (c.opponentId.toString() === player.id.toString() && c.result === 'loss')).length,
     losses: contracts.filter((c) => (c.opponentId.toString() === player.id.toString() && c.result === 'win') || (c.playerId.toString() === player.id.toString() && c.result === 'loss')).length,
