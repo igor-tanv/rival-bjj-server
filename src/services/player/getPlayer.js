@@ -17,7 +17,7 @@ function getQualityRating(player, contracts) {
     if (c.opponentId.toString() === player.id.toString() && c.playerQualityRating != 0) sumRating.push(c.opponentQualityRating)
     return
   })
-  return { qualityRating: sumRating.length ? Math.round(sumRating.reduce((a, b) => a + b, 0) / sumRating.length) : 0 }
+  return { qualityRating: sumRating.length ? (sumRating.reduce((a, b) => a + b, 0)) / sumRating.length : 0 }
 }
 
 const addContractsRecordQualityratingToPlayer = async (player) => {
