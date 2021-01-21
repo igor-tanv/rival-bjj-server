@@ -8,9 +8,6 @@ const matchResult = {
   cancelled: 'cancelled'
 }
 
-const getContractByDate = async (date) => {
-  return await Contract.find({ datetime: date })
-}
 
 const getContractByContractId = async (contractId) => {
   try {
@@ -83,8 +80,20 @@ const cancelAllPendingContracts = async (cancelledBy, pendingContractIds) => {
   )
 }
 
+const updateContract = async (contractId, updates) => {
+  try {
+    const updated = await Contract.findOneAndUpdate({ _id: contractId }, updates, { new: true })
+    return ({ status: 200, data: updated })
+  } catch (e) {
+    return ({ status: 400, data: e })
+  }
+}
+
+const getAllContractsByDate = async (date) => {
+  return await Contract.find({ 'startsAt': date })
+}
+
 module.exports = {
-  getContractByDate,
   createContract,
   getContractsByOpponentId,
   getContractsByPlayerId,
@@ -93,5 +102,7 @@ module.exports = {
   getContractByContractId,
   acceptContract,
   declineContract,
-  cancelContract
+  cancelContract,
+  getAllContractsByDate,
+  updateContract
 }

@@ -13,6 +13,7 @@ router.get('/api/contracts', async (req, res) => {
   }
 })
 
+
 router.post('/api/contracts', async (req, res) => {
   try {
     const contract = await ContractService.createContract(req.body)

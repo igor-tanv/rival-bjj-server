@@ -9,11 +9,12 @@ methodValues = {
     disqualification: 1,
     forfeit: 1,
     injury: 1,
+    points: 0.75,
     draw: 0.5
 }
 
 const updatePlayerById = async (contractId, matchData) => {
-    const { redId, blueId, winner, method, status, redRating, blueRating } = matchData
+    const { redId, blueId, winner, method, redRating, blueRating } = matchData
 
     if (status == 'cancelled') {
         let cancelled = contractServices.enumStatus[status]

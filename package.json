@@ -8,7 +8,9 @@
     "dev": "env-cmd -f ./config/dev.env nodemon -r esm src/index.js",
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand",
     "lint:ejs": "ejslint src/templates/views/login",
-    "debug": "env-cmd -f ./config/dev.env node --inspect-brk  src/index.js"
+    "debug": "env-cmd -f ./config/dev.env node --inspect-brk  src/index.js",
+    "migration": "env-cmd -f ./config/prod.env node migrations/index.js",
+    "dev-migration": "env-cmd -f ./config/dev.env node migrations/index.js"
   },
   "jest": {
     "testEnvironment": "node"

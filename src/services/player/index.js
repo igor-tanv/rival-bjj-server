@@ -11,6 +11,5 @@ module.exports = {
   registerPlayer,
   deletePlayerById,
   updatePlayer,
-  sendResetEmailToPlayer,
-  ...require('./json')
+  sendResetEmailToPlayer
 }

@@ -22,7 +22,7 @@ const contractSchema = new mongoose.Schema({
   },
   result: {
     type: String,
-    enum: ['win', 'lose', 'draw', 'pending'],
+    enum: ['win', 'lose', 'draw', 'pending', 'cancelled'],
     default: 'pending'
   },
   weightClass: {
@@ -101,8 +101,8 @@ const contractSchema = new mongoose.Schema({
 )
 
 contractSchema.virtual('status').get(function () {
-  if (this.completedAt) return "completed"
   if (this.cancelledAt) return "cancelled"
+  if (this.completedAt) return "completed"
   if (this.declinedAt) return "declined"
   if (this.acceptedAt) return "accepted"
   return "sent"

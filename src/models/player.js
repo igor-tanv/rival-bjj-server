@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
+const ROLES = {
+  PLAYER: 1,
+  ADMIN: 2
+}
+
 const playerSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -67,9 +72,18 @@ const playerSchema = new mongoose.Schema({
   community: {
     type: String,
     required: true
+  },
+  role: {
+    type: Number,
+    required: true,
+    default: ROLES.PLAYER
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: {
+    virtuals: true
+  },
+  toObject: { virtuals: true }
 })
 
 playerSchema.plugin(require('mongoose-beautiful-unique-validation'));
@@ -80,9 +94,8 @@ playerSchema.virtual('contracts', {
   foreignField: 'playerId'
 })
 
-playerSchema.virtual("qualityRating").get(() => {
-  const score = ((this.sumRating / (this.wins + this.losses + this.draws)) * 10) / 10
-  return score || 0
+playerSchema.virtual("isAdmin").get(function () {
+  return this.role === ROLES.ADMIN
 })
 
 playerSchema.methods.toJSON = function () {
@@ -91,6 +104,7 @@ playerSchema.methods.toJSON = function () {
 
   delete playerObject.password
   delete playerObject.tokens
+  delete playerObject.role
 
   return playerObject
 }
@@ -120,5 +134,7 @@ playerSchema.pre('save', async function (next) {
 })
 
 const Player = mongoose.model('Player', playerSchema)
+
+Player.ROLES = ROLES
 
 module.exports = Player
