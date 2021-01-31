@@ -2,7 +2,7 @@ const PlayerData = require('../../data/PlayerData');
 
 const updatePlayer = async (playerId, updates) => {
   try {
-    const allowedUpdates = ['firstName', 'lastName', 'birthYear', 'weightClass', 'school', 'gender', 'avatar']
+    const allowedUpdates = ['firstName', 'lastName', 'birthYear', 'weightClass', 'school', 'gender', 'avatar', 'email']
 
     const filteredUpdates = Object.keys(updates)
       .filter(key => allowedUpdates.includes(key))
