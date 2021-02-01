@@ -6,6 +6,7 @@ const getAllContractsByPlayerId = async (id) => {
     const playerData = await PlayerData.getPlayerById(id);
     const result = await Promise.all(contracts.map(async contract => {
       const c = contract.toObject({ getters: true });
+      c.startsAt *= 1000
       if (c.playerId.toString() === id) {
         c.playerGiRank = playerData.gi;
         c.playerNoGiRank = playerData.nogi;
