@@ -30,7 +30,10 @@ const addContractsRecordQualityratingToPlayer = async (player) => {
     wins,
     losses,
     draws,
-    contracts: contracts ? contracts.sort((a, b) => b.datetime - a.datetime) : []
+    contracts: contracts ? contracts.sort((a, b) => b.startsAt - a.startsAt).map((c) => {
+      c.startsAt *= 1000
+      return c
+    }) : []
   }
   return player
 }
