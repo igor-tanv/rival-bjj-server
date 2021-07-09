@@ -9,16 +9,16 @@ router.post('/api/sessions/verify', async (req, res, next) => {
     jwt.verify(req.body.jwt, process.env.JWT_SECRET);
     res.status(200).json({})
   } catch (error) {
-    res.status(401).json({ error: error })
+    res.status(401).json({ error })
   }
 })
 
 router.post('/api/sessions/reset', async (req, res, next) => {
   try {
-    const player = await PlayerService.sendResetEmailToPlayer(req.body)
+    const player = await PlayerService.resetPlayerPassword(req.body)
     if (!player) { res.status(401).json({ error: "No account associated with that email" }) }
   } catch (error) {
-    res.status(401).json({ error: error })
+    res.status(401).json({ error })
   }
 })
 

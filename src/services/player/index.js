@@ -3,7 +3,7 @@ const { getPlayer } = require('./getPlayer')
 const { registerPlayer } = require('./registerPlayer')
 const { deletePlayerById } = require('./deletePlayerById')
 const { updatePlayer } = require('./updatePlayer')
-const { sendResetEmailToPlayer } = require('./sendResetEmailToPlayer')
+const { resetPlayerPassword } = require('./resetPlayerPassword')
 
 module.exports = {
   getPlayers,
@@ -11,5 +11,5 @@ module.exports = {
   registerPlayer,
   deletePlayerById,
   updatePlayer,
-  sendResetEmailToPlayer
+  resetPlayerPassword
 }
