@@ -6,7 +6,7 @@ const updatePassword = async (password, id) => {
   let player = await PlayerData.getPlayerById(id)
   if (!player) return null
   const newPassword = await bcrypt.hash(password, 8)
-  await PlayerData.updatePlayer(id, { password: newPassword })
+  return await PlayerData.updatePlayer(id, { password: newPassword })
 }
 
 module.exports = {
