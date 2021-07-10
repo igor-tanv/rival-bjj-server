@@ -15,8 +15,20 @@ router.post('/api/sessions/verify', async (req, res, next) => {
 
 router.post('/api/sessions/reset', async (req, res, next) => {
   try {
-    const player = await PlayerService.resetPlayerPassword(req.body)
+    const player = await PlayerService.sendPasswordEmail(req.body)
     if (!player) { res.status(401).json({ error: "No account associated with that email" }) }
+    res.status(200).json({})
+  } catch (error) {
+    res.status(401).json({ error })
+  }
+})
+
+router.post('/api/sessions/reset/newPassword', async (req, res, next) => {
+  const { password, id, token } = req.body
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+    await PlayerService.updatePassword(password, id)
+    res.status(200).json({})
   } catch (error) {
     res.status(401).json({ error })
   }
