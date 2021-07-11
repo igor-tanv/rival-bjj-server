@@ -28,7 +28,6 @@ router.post('/api/sessions/reset/newPassword', async (req, res, next) => {
   try {
     jwt.verify(token, process.env.JWT_SECRET);
     const player = await PlayerService.updatePassword(password, id)
-    //TODO merge this with the other req.logIn in route: api/sessions
     req.logIn(player, function (err) {
       if (err) { return next(err); }
       const newToken = jwt.sign({
