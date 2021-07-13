@@ -9,16 +9,36 @@ router.post('/api/sessions/verify', async (req, res, next) => {
     jwt.verify(req.body.jwt, process.env.JWT_SECRET);
     res.status(200).json({})
   } catch (error) {
-    res.status(401).json({ error: error })
+    res.status(401).json({ error })
   }
 })
 
 router.post('/api/sessions/reset', async (req, res, next) => {
   try {
-    const player = await PlayerService.sendResetEmailToPlayer(req.body)
-    if (!player) { res.status(401).json({ error: "No account associated with that email" }) }
+    const player = await PlayerService.sendPasswordEmail(req.body)
+    if (!player) { return res.status(401).json({ error: "No account associated with that email" }) }
+    res.status(200).json({})
   } catch (error) {
-    res.status(401).json({ error: error })
+    res.status(401).json({ error })
+  }
+})
+
+router.post('/api/sessions/reset/newPassword', async (req, res, next) => {
+  const { password, id, token } = req.body
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+    const player = await PlayerService.updatePassword(password, id)
+    req.logIn(player, function (err) {
+      if (err) { return next(err); }
+      const newToken = jwt.sign({
+        id: player._id,
+        email: player.email
+      }, process.env.JWT_SECRET, { expiresIn: '1800s' })
+
+      res.status(200).json({ jwt: newToken, id: player._id })
+    })
+  } catch (error) {
+    res.status(401).json({ error })
   }
 })
 

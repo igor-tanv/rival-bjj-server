@@ -19,9 +19,9 @@ const sendWelcomeEmail = async (player) => {
     }
 }
 
-const sendPasswordResetEmail = async (player) => {
+const sendPasswordResetEmail = async (player, token) => {
     try {
-        email(player.email, `Password reset for: ${player.firstName}`, `Click on this link to reset your password:`)
+        email(player.email, `Password reset for: ${player.firstName}`, `Click on this link to reset your password:${host}/password/reset?token=${token}&id=${player.id}`)
     } catch (error) {
         console.log(error)
     }

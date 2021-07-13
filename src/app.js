@@ -28,7 +28,6 @@ app.use(session({ secret: 'secret', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// flip the functionality - pass api to PlayerApi
 app.use(apiJsonRouter.confirmationApi)
 app.use(apiJsonRouter.playerApi)
 app.use(apiJsonRouter.contractApi)
