@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Maps container port 3000 to host port 3000
+    volumes:
+      - .:/app # Mounts local files for live updates (optional for development)
+      - /app/node_modules # Ensures node_modules integrity in the container
+    environment:
+      NODE_ENV: development # Environment variable
+    depends_on:
+      - mongo
+    command: npm run dev # For development. Use `npm start` for production.
+
+  mongo:
+    image: mongo:5
+    container_name: mongo
+    ports:
+      - "27017:27017" # MongoDB default port
+    volumes:
+      - mongo-data:/data/db # Persist MongoDB data
+
+volumes:
+  mongo-data:
